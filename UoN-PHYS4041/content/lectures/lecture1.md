@@ -1,7 +1,7 @@
 (sec-qubit)=
 # Quantum mechanics of a qubit
 
-In this section we will set up the basics of quantum mechanics necessary for understanding how to use a quantum computer. This will hopefully be a recap of concepts you have already learnt, but may use unfamiliar notation. The best reference for this course is the book by Nielson and Chaung [@nielsen_chuang_2010]. This is the standard text book in quantum computing and includes introductory chapters on linear algebra and quantum mechanics. It goes far beyond what we will cover and chapter 2 is the most relevant for us.
+In this section we will set up the basics of quantum mechanics necessary for understanding how to use a quantum computer. This will hopefully be a recap of concepts you have already learnt, but may use unfamiliar notation. The best reference for this course is the book by Nielson and Chaung {cite}`nielsen_chuang_2010`. This is the standard text book in quantum computing and includes introductory chapters on linear algebra and quantum mechanics. It goes far beyond what we will cover and chapter 2 is the most relevant for us.
 
 If you have already taken a course on quantum mechanics you may be familiar with the wave mechanics of a single particle, e.g., solving the Schrödinger equation for a particle in a box. This involves differentiable complex wave functions and the solution to a partial differential equation. In the course we will instead be interested in the quantum mechanics of qubits. This will be described by finite complex vectors that represent the quantum many-body state of the qubits and unitary matrices that represent the relevant operators.
 
@@ -61,3 +61,8 @@ We can then write a given state in any basis depending on which is most convenie
 $$
     |\psi \rangle = \alpha |0\rangle + \beta |1\rangle = \frac{\alpha + \beta}{\sqrt{2}} |+\rangle + \frac{\alpha - \beta}{\sqrt{2}}|-\rangle \equiv \left( \begin{matrix}\alpha\\ \beta \end{matrix} \right).
 $$
+
+
+## References
+```{bibliography}
+```
