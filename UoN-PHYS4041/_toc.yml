@@ -7,7 +7,8 @@ parts:
 - caption: Course Outline
   chapters:
   - file: content/outline/courseStructure
-- caption: Course Content
+- caption: Lectures
   numbered: true
   chapters:
   - file: content/lectures/lecture1
+  - file: content/lectures/lecture2

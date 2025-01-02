@@ -28,6 +28,16 @@ repository:
 # Add GitHub buttons to your book
 # See https://jupyterbook.org/customize/config.html#add-a-link-to-your-repository
 html:
-  use_issues_button: true
-  use_repository_button: true
+  #use_issues_button: true
+  #use_repository_button: true
+
+sphinx:
+  extra_extensions:
+#    - sphinx-subfigure
+  config:
+#    supported_image_types:
+#      - image/pdf
+#      - image/png
+#      - image/jpg
+#      - image/jpeg
 
