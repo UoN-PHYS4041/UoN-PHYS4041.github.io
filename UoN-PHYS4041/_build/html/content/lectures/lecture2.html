@@ -410,12 +410,12 @@
 <section id="measuring-multiple-qubits">
 <h2><span class="section-number">2.3. </span>Measuring multiple qubits<a class="headerlink" href="#measuring-multiple-qubits" title="Link to this heading">#</a></h2>
 <p>Measuring multiple qubits is similar to the single qubit case: when we measure the system of many qubits we will find it in one of the computational basis states. The probability of being in each of the basis states is given by the probability amplitude squared, e.g., <span class="math notranslate nohighlight">\(p(|010\rangle) = |\psi_{010}|^2\)</span>.</p>
-<p>\begin{figure}[t!]
-\centering
-\includegraphics[width=.95\textwidth]{images/Measurement2qubitSchematic.pdf}
-\caption{Schematic of measurement of two qubits in quantum mechanics. As with a single qubit, measuring the system causes it to collapse into one of the basis states with probabilities determined by the absolute square of the coefficients.}
-\label{fig: measurement 2 qubit}
-\end{figure}</p>
+<figure class="align-center" id="fig-measurement-2-qubit">
+<a class="reference internal image-reference" href="../../_images/Measurement2qubitSchematic.pdf"><img alt="../../_images/Measurement2qubitSchematic.pdf" src="../../_images/Measurement2qubitSchematic.pdf" style="width: 85%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 2.1 </span><span class="caption-text">Schematic of measurement of two qubits in quantum mechanics. As with a single qubit, measuring the system causes it to collapse into one of the basis states with probabilities determined by the absolute square of the coefficients.</span><a class="headerlink" href="#fig-measurement-2-qubit" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
 <p>There are cases when we might want to use multiple qubits to do a computation but not measure all of them. In this case, the probability is simply the sum of all the probabilities that have that outcome for the measured qubits. For example, consider three qubits, but we only measure the first qubit. The probabilities of measuring the two states of that qubit are</p>
 <div class="math notranslate nohighlight" id="equation-eq-reduced-measurement">
 <span class="eqno">(2.1)<a class="headerlink" href="#equation-eq-reduced-measurement" title="Link to this equation">#</a></span>\[\begin{split}
@@ -532,7 +532,7 @@
 <figure class="align-center" id="fig-bell-state-qiskit-circuit">
 <a class="reference internal image-reference" href="../../_images/pennylane_BellCircuit.png"><img alt="../../_images/pennylane_BellCircuit.png" src="../../_images/pennylane_BellCircuit.png" style="width: 90%;" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 2.1 </span><span class="caption-text">(a) Quantum circuit diagram drawn by pennylane. (b) Histogram of the measurement outcomes for the quantum circuit. On the x-axis are the different basis states that were measured. The y-axis shows the inferred probability of measuring each of the basis states.</span><a class="headerlink" href="#fig-bell-state-qiskit-circuit" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 2.2 </span><span class="caption-text">(a) Quantum circuit diagram drawn by pennylane. (b) Histogram of the measurement outcomes for the quantum circuit. On the x-axis are the different basis states that were measured. The y-axis shows the inferred probability of measuring each of the basis states.</span><a class="headerlink" href="#fig-bell-state-qiskit-circuit" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>After this setup we will next build the quantum circuit</p>
@@ -550,7 +550,7 @@
 <span class="n">qml</span><span class="o">.</span><span class="n">draw_mpl</span><span class="p">(</span><span class="n">circuit</span><span class="p">)()</span>  <span class="c1"># plot the circuit diagram</span>
 </pre></div>
 </div>
-<p>This produces the image shown in <a class="reference internal" href="#fig-bell-state-qiskit-circuit"><span class="std std-numref">Fig. 2.1</span></a>(a), which is indeed the circuit we want to run.</p>
+<p>This produces the image shown in <a class="reference internal" href="#fig-bell-state-qiskit-circuit"><span class="std std-numref">Fig. 2.2</span></a>(a), which is indeed the circuit we want to run.</p>
 <p>We are now in the position to run the circuit, which is done with one line:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">counts</span> <span class="o">=</span> <span class="n">circuit</span><span class="p">(</span><span class="n">shots</span><span class="o">=</span><span class="mi">8192</span><span class="p">)</span>  <span class="c1"># run circuit with 8192 shots</span>
 <span class="nb">print</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
@@ -575,11 +575,11 @@
 <span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>This produces the plot shown in <a class="reference internal" href="#fig-bell-state-qiskit-circuit"><span class="std std-numref">Fig. 2.1</span></a>(b). Note that we do not get perfect 50% probability because we only measured 8192 times. As we increase the number of shots, the probabilities will approach 50%.</p>
+<p>This produces the plot shown in <a class="reference internal" href="#fig-bell-state-qiskit-circuit"><span class="std std-numref">Fig. 2.2</span></a>(b). Note that we do not get perfect 50% probability because we only measured 8192 times. As we increase the number of shots, the probabilities will approach 50%.</p>
 <figure class="align-center" id="fig-bell-state-real">
 <a class="reference internal image-reference" href="../../_images/BellState_IBM.pdf"><img alt="../../_images/BellState_IBM.pdf" src="../../_images/BellState_IBM.pdf" style="width: 60%;" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 2.2 </span><span class="caption-text">Histogram of the measurement outcomes for the quantum circuit run on the IBM quantum computer. On the x-axis are the different basis states that were measured. The y-axis shows the inferred probability of measuring each of the basis states.</span><a class="headerlink" href="#fig-bell-state-real" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 2.3 </span><span class="caption-text">Histogram of the measurement outcomes for the quantum circuit run on the IBM quantum computer. On the x-axis are the different basis states that were measured. The y-axis shows the inferred probability of measuring each of the basis states.</span><a class="headerlink" href="#fig-bell-state-real" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>We can also run our quantum circuit on a real quantum computer provided by IBM. To do this, we first need to set up an IBM quantum experience account and to save our account in python using qiskit. See <a class="reference external" href="https://auth.quantum-computing.ibm.com">https://auth.quantum-computing.ibm.com</a> for more details on how to sign up and how to save your account in python using a token. You will then need to install the pennylane package for interacting with qiskit, which will allow us to use IBM’s devices. To install qiskit and the pennylane add-on we can use pip</p>
@@ -594,7 +594,7 @@
 </pre></div>
 </div>
 <p>The first line loads the necessary functions from qiskit. The second line loads your IBMQ credentials that you have already saved in python by following the instructions on the IBMQ website. The third line loads the IBM device codenamed <code class="docutils literal notranslate"><span class="pre">ibmq_manila</span></code>. This device refers to a real quantum computer hosted by IBM, of which there are several. Using the online interface you can see which quantum computers are available to you and how many jobs have been submitted and are currently in the queue. You may want to use a device that is less busy. Note you will also want to change the name of the pdf that you save to file when running on the real device.</p>
-<p>Running the code again with those changes runs your code on the quantum computer, which will take significantly longer than the simulator. This is because the data has to be communicated with the IBM server, placed in a queue to run on the device, and then finally run. When plotting the histogram of the measurements, you find something closer to <a class="reference internal" href="#fig-bell-state-real"><span class="std std-numref">Fig. 2.2</span></a>. Not only are the values further away from 50% but we also have non-zero probabilities for the states 01, 10. This is because the current devices are not yet perfect and suffer from a significant amount of noise that affects the measurement results. Regardless, we have run our first circuit on a quantum computer and realised an entangled quantum state.</p>
+<p>Running the code again with those changes runs your code on the quantum computer, which will take significantly longer than the simulator. This is because the data has to be communicated with the IBM server, placed in a queue to run on the device, and then finally run. When plotting the histogram of the measurements, you find something closer to <a class="reference internal" href="#fig-bell-state-real"><span class="std std-numref">Fig. 2.3</span></a>. Not only are the values further away from 50% but we also have non-zero probabilities for the states 01, 10. This is because the current devices are not yet perfect and suffer from a significant amount of noise that affects the measurement results. Regardless, we have run our first circuit on a quantum computer and realised an entangled quantum state.</p>
 </section>
 <hr class="docutils" />
 <section id="references">

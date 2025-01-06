@@ -98,12 +98,15 @@ where $A$ is a $m\times n$ matrix, and $B$ is a $r \times s$ matrix.
 
 Measuring multiple qubits is similar to the single qubit case: when we measure the system of many qubits we will find it in one of the computational basis states. The probability of being in each of the basis states is given by the probability amplitude squared, e.g., $p(|010\rangle) = |\psi_{010}|^2$. 
 
-\begin{figure}[t!]
-    \centering
-    \includegraphics[width=.95\textwidth]{images/Measurement2qubitSchematic.pdf}
-    \caption{Schematic of measurement of two qubits in quantum mechanics. As with a single qubit, measuring the system causes it to collapse into one of the basis states with probabilities determined by the absolute square of the coefficients.}
-    \label{fig: measurement 2 qubit}
-\end{figure}
+```{figure} ../images/Measurement2qubitSchematic.pdf
+---
+name: fig:measurement_2_qubit
+width: 85%
+align: center
+---
+
+Schematic of measurement of two qubits in quantum mechanics. As with a single qubit, measuring the system causes it to collapse into one of the basis states with probabilities determined by the absolute square of the coefficients.
+``` 
 
 There are cases when we might want to use multiple qubits to do a computation but not measure all of them. In this case, the probability is simply the sum of all the probabilities that have that outcome for the measured qubits. For example, consider three qubits, but we only measure the first qubit. The probabilities of measuring the two states of that qubit are
 
