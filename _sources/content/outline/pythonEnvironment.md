@@ -10,7 +10,7 @@ Conda is a package manager that can be used to install python and other packages
 
 ## Creating a Conda environment
 
-To create a new Conda environment, with all the packages you will need for this course, you can use the following yaml file. {download}`../downloads/environment.yml`. You can download this file and save it to your computer. The contents of this file are as follows.
+To create a new Conda environment, with all the packages you will need for this course, you can use [this yaml file](../downloads/environment.yml). You can download this file and save it to your computer. The contents of this file are as follows.
 
 ```yaml
 # File name: environment.yml
