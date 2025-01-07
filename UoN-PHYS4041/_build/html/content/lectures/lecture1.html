@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>1. Quantum mechanics of a qubit &#8212; My sample book</title>
+    <title>1. Quantum mechanics of a qubit &#8212; Introduction to Practical Quantum Computing - University of Nottingham (PHYS4041)</title>
   
   
   
@@ -66,7 +66,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="2. Multiple qubits, entanglement, and IBMQ" href="lecture2.html" />
-    <link rel="prev" title="Course Structure" href="../outline/courseStructure.html" />
+    <link rel="prev" title="Setup Python and Pennylane" href="../outline/pythonEnvironment.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -148,8 +148,8 @@
       
     
     
-    <img src="../../_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
-    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="My sample book - Home"/>
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Introduction to Practical Quantum Computing - University of Nottingham (PHYS4041) - Home"/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="Introduction to Practical Quantum Computing - University of Nottingham (PHYS4041) - Home"/>
   
   
 </a></div>
@@ -166,13 +166,14 @@
         <ul class="nav bd-sidenav bd-sidenav__home-link">
             <li class="toctree-l1">
                 <a class="reference internal" href="../../intro.html">
-                    Welcome to your Jupyter Book
+                    Introduction to Practical Quantum Computing - University of Nottingham (PHYS4041)
                 </a>
             </li>
         </ul>
-        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Course Outline</span></p>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Information about the course</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../outline/courseStructure.html">Course Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../outline/pythonEnvironment.html">Setup Python and Pennylane</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Lectures</span></p>
 <ul class="current nav bd-sidenav">
@@ -337,7 +338,7 @@
                   
   <section class="tex2jax_ignore mathjax_ignore" id="quantum-mechanics-of-a-qubit">
 <span id="sec-qubit"></span><h1><span class="section-number">1. </span>Quantum mechanics of a qubit<a class="headerlink" href="#quantum-mechanics-of-a-qubit" title="Link to this heading">#</a></h1>
-<p>In this section we will set up the basics of quantum mechanics necessary for understanding how to use a quantum computer. This will hopefully be a recap of concepts you have already learnt, but may use unfamiliar notation. The best reference for this course is the book by Nielson and Chaung <span id="id1">[<a class="reference internal" href="#id7" title="Michael A. Nielsen and Isaac L. Chuang. Quantum Computation and Quantum Information: 10th Anniversary Edition. Cambridge University Press, 2010. doi:10.1017/CBO9780511976667.">NC10</a>]</span>. This is the standard text book in quantum computing and includes introductory chapters on linear algebra and quantum mechanics. It goes far beyond what we will cover and chapter 2 is the most relevant for us.</p>
+<p>In this section we will set up the basics of quantum mechanics necessary for understanding how to use a quantum computer. This will hopefully be a recap of concepts you have already learnt, but may use unfamiliar notation. The best reference for this course is the book by Nielson and Chaung <span id="id1">[<a class="reference internal" href="lecture2.html#id8" title="Michael A. Nielsen and Isaac L. Chuang. Quantum Computation and Quantum Information: 10th Anniversary Edition. Cambridge University Press, 2010. doi:10.1017/CBO9780511976667.">NC10</a>]</span>. This is the standard text book in quantum computing and includes introductory chapters on linear algebra and quantum mechanics. It goes far beyond what we will cover and chapter 2 is the most relevant for us.</p>
 <p>If you have already taken a course on quantum mechanics you may be familiar with the wave mechanics of a single particle, e.g., solving the Schrödinger equation for a particle in a box. This involves differentiable complex wave functions and the solution to a partial differential equation. In the course we will instead be interested in the quantum mechanics of qubits. This will be described by finite complex vectors that represent the quantum many-body state of the qubits and unitary matrices that represent the relevant operators.</p>
 <section id="quantum-states-of-a-qubit">
 <h2><span class="section-number">1.1. </span>Quantum states of a qubit<a class="headerlink" href="#quantum-states-of-a-qubit" title="Link to this heading">#</a></h2>
@@ -464,7 +465,7 @@ R_Z(\theta) = \exp\left\{-i\frac{\theta}{2} Z\right\} = \cos \frac{\theta}{2} 1 
 <span class="eqno">(1.1)<a class="headerlink" href="#equation-eq-general-rotation" title="Link to this equation">#</a></span>\[
 U = e^{i\alpha} R_Z(\beta) R_Y(\gamma) R_Z(\delta).
 \]</div>
-<p>Here we chose <span class="math notranslate nohighlight">\(Z\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> rotation but we could have equivalently chosen any pair of <span class="math notranslate nohighlight">\(\{X, Y, Z\}\)</span>, see <span id="id2">[<a class="reference internal" href="#id7" title="Michael A. Nielsen and Isaac L. Chuang. Quantum Computation and Quantum Information: 10th Anniversary Edition. Cambridge University Press, 2010. doi:10.1017/CBO9780511976667.">NC10</a>]</span> for a proof. This combination of rotations generates an arbitrary unitary matrix in <span class="math notranslate nohighlight">\(SU(2)\)</span>, and the added phase promotes this to <span class="math notranslate nohighlight">\(U(2)\)</span>. When dealing with a single qubit, this phase can again be ignored since it is not measurable.</p>
+<p>Here we chose <span class="math notranslate nohighlight">\(Z\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> rotation but we could have equivalently chosen any pair of <span class="math notranslate nohighlight">\(\{X, Y, Z\}\)</span>, see <span id="id2">[<a class="reference internal" href="lecture2.html#id8" title="Michael A. Nielsen and Isaac L. Chuang. Quantum Computation and Quantum Information: 10th Anniversary Edition. Cambridge University Press, 2010. doi:10.1017/CBO9780511976667.">NC10</a>]</span> for a proof. This combination of rotations generates an arbitrary unitary matrix in <span class="math notranslate nohighlight">\(SU(2)\)</span>, and the added phase promotes this to <span class="math notranslate nohighlight">\(U(2)\)</span>. When dealing with a single qubit, this phase can again be ignored since it is not measurable.</p>
 <div class="admonition-exercises-1-2 admonition">
 <p class="admonition-title">Exercises 1.2</p>
 <p><strong>1.</strong> Show that <span class="math notranslate nohighlight">\(HZH = X\)</span> and <span class="math notranslate nohighlight">\(SHZHS^\dagger = Y\)</span>.</p>
@@ -613,12 +614,12 @@ measuring</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="../outline/courseStructure.html"
+       href="../outline/pythonEnvironment.html"
        title="previous page">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title">Course Structure</p>
+        <p class="prev-next-title">Setup Python and Pennylane</p>
       </div>
     </a>
     <a class="right-next"
@@ -667,7 +668,7 @@ measuring</p>
   <div class="footer-item">
     
 <p class="component-author">
-By The Jupyter Book Community
+By Dr Adam Gammon-Smith
 </p>
 
   </div>

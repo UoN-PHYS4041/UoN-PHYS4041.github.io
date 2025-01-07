@@ -1,0 +1,16 @@
+name: phys4041
+channels:
+  - conda-forge
+  - defaults
+dependencies:
+  - python=3.10
+  - pip
+  - numpy
+  - ipykernel
+  - matplotlib
+  - pennylane
+  - pip:
+    - qiskit
+    - qiskit-ibm-runtime
+    - qiskit[visulization]
+    - pennylane-qiskit

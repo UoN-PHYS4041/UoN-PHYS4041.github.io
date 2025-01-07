@@ -1,11 +1,18 @@
-# Welcome to your Jupyter Book
+# Introduction to Practical Quantum Computing - University of Nottingham (PHYS4041)
 
-This is a small sample book to give you a feel for how book content is
-structured.
-It shows off a few of the major file types, as well as some sample content.
-It does not go in-depth into any particular topic - check out [the Jupyter Book documentation](https://jupyterbook.org) for more information.
+Welcome to the Introduction to Practical Quantum Computing course at the University of Nottingham. This postgraduate course is designed to give a general introduction to quantum computing, with an emphasis on being able to run quantum circuits on existing and near-term quantum computers.
 
-Check out the content pages bundled with this sample book to see more.
+The course is aimed at students on the MSc Machine Learning in Science programme at the University of Nottingham for which it is PHYS4041. Students taking this module are expected to have a limited level of prior programming experience in python, and a basic understanding of linear algebra. No prior knowledge of quantum mechanics will be assumed.
+
+## Joining the course
+
+MSc students should enrol via the University of Nottingham [module enrolment form](https://www.nottingham.ac.uk/studentservices/services/module-enrolment.aspx), after discussing their options with their tutor.
+
+
+## Lecturer contact
+
+This course is taught by [Dr. Adam Gammon-Smith](https://adamsmith-physics.github.io). If you have any questions about the course, please [email the convenor](mailto:adam.gammon-smith@nottingham.ac.uk)
+
 
 ```{tableofcontents}
 ```
