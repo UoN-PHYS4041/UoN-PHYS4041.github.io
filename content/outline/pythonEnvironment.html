@@ -63,7 +63,6 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'content/outline/pythonEnvironment';</script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="1. Quantum mechanics of a qubit" href="../lectures/lecture1.html" />
     <link rel="prev" title="Course Structure" href="courseStructure.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -172,11 +171,6 @@
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="courseStructure.html">Course Structure</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Setup Python and Pennylane</a></li>
-</ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Lectures</span></p>
-<ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../lectures/lecture1.html">1. Quantum mechanics of a qubit</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../lectures/lecture2.html">2. Multiple qubits, entanglement, and IBMQ</a></li>
 </ul>
 
     </div>
@@ -319,6 +313,8 @@
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-conda">Installing Conda</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-conda-environment">Creating a Conda environment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-ibm-account">Setting up IBM account</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-a-real-ibm-quantum-computer">Using a real IBM quantum computer</a></li>
 </ul>
             </nav>
         </div>
@@ -359,6 +355,59 @@
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">qiskit[visulization]</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pennylane-qiskit</span>
 </pre></div>
+</div>
+<p>To create the conda environment, open a terminal in the directory where you saved the <code class="docutils literal notranslate"><span class="pre">environment.yml</span></code> file. Then run the following command.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>env<span class="w"> </span>create<span class="w"> </span>-f<span class="w"> </span>environment.yml
+</pre></div>
+</div>
+<p>This will create a new conda environment called <code class="docutils literal notranslate"><span class="pre">phys4041</span></code> with all the packages you will need for this course. You can activate the environment by running the following command.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>activate<span class="w"> </span>phys4041
+</pre></div>
+</div>
+<p>This environment can also be used for running Jupyter notebooks.</p>
+</section>
+<section id="setting-up-ibm-account">
+<h2>Setting up IBM account<a class="headerlink" href="#setting-up-ibm-account" title="Link to this heading">#</a></h2>
+<p>In this course we will be writing code that could be run on the IBM quantum computers. We will be mostly using simulators that run on your personal computer. There will be no requirement to run on the actual devices. However, if you would like to run on the IBM quantum computers, we need to do a bit of setup.</p>
+<p>First, you need to set up an account on the IBM Quantum Experience. You can do this by going to the <a class="reference external" href="https://quantum-computing.ibm.com/">IBM Quantum Experience website</a>. You will need to create an account, and then you will be able to access the quantum computers and simulators. This free account will give a very limited amount of runtime on the quantum computers (10 minutes per month), so use this sparingly.</p>
+<p>Once you have an IBM quantum account, we need to save your credentials on your computer so that Pennylane can access the IBM quantum computers. This is done via a personal access token, as can be seen in <a class="reference internal" href="#fig-ibmquantum"><span class="std std-numref">Fig. 1</span></a>. You can save this token to your computer by running the following python code.</p>
+<figure class="align-center" id="fig-ibmquantum">
+<a class="reference internal image-reference" href="../../_images/IBMQuantumInitialization.png"><img alt="../../_images/IBMQuantumInitialization.png" src="../../_images/IBMQuantumInitialization.png" style="width: 75%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 1 </span><span class="caption-text">IBM Quantum Experience website. At the top of the page is your personal access token, along with python code to save it to your computer.</span><a class="headerlink" href="#fig-ibmquantum" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>You can save this token to your computer by running the following python code.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit_ibm_runtime</span> <span class="kn">import</span> <span class="n">QiskitRuntimeService</span>
+
+<span class="n">QiskitRuntimeService</span><span class="o">.</span><span class="n">save_account</span><span class="p">(</span>  
+    <span class="n">channel</span><span class="o">=</span><span class="s1">&#39;ibm_quantum&#39;</span><span class="p">,</span> 
+    <span class="n">instance</span><span class="o">=</span><span class="s1">&#39;ibm-q/open/main&#39;</span><span class="p">,</span> 
+    <span class="n">token</span><span class="o">=</span><span class="s1">&#39;###########&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where you need to inlcude your personal token. You will only need to do this once, and then Pennylane will be able to access the IBM quantum computers.</p>
+</section>
+<section id="using-a-real-ibm-quantum-computer">
+<h2>Using a real IBM quantum computer<a class="headerlink" href="#using-a-real-ibm-quantum-computer" title="Link to this heading">#</a></h2>
+<p>In order to use a real IBM quantum device, we need to setup up a <code class="docutils literal notranslate"><span class="pre">backend</span></code> and a <code class="docutils literal notranslate"><span class="pre">device</span></code> in Pennylane. This is done by running the following code.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit_ibm_runtime</span> <span class="kn">import</span> <span class="n">QiskitRuntimeService</span>
+
+<span class="n">service</span> <span class="o">=</span> <span class="n">QiskitRuntimeService</span><span class="p">(</span><span class="n">channel</span><span class="o">=</span><span class="s2">&quot;ibm_quantum&quot;</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="s2">&quot;ibm-q/open/main&quot;</span><span class="p">)</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">backend</span><span class="p">(</span><span class="s2">&quot;ibm_brisbane&quot;</span><span class="p">)</span>
+
+<span class="n">dev</span> <span class="o">=</span> <span class="n">qml</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;qiskit.remote&#39;</span><span class="p">,</span> <span class="n">wires</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will use your previously saved access token to access the IBM servers. <code class="docutils literal notranslate"><span class="pre">ibm_brisbane</span></code> is one of the IBM quantum computers. You should use the <a class="reference external" href="https://quantum-computing.ibm.com/">IBM Quantum Experience website</a> to find out which devices you currently have access to, and how busy they currently are.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>In this course, there is no requirement to use the real quantum computers, particularly because this tends to be a very slow process (minutes to hours) as you are sharing the quantum computer with many other users. Instead we will mostly use the simulators that run on your personal computer. For this you can set up the <code class="docutils literal notranslate"><span class="pre">device</span></code> as follows</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pennylane</span> <span class="k">as</span> <span class="nn">qml</span>
+<span class="n">dev</span> <span class="o">=</span> <span class="n">qml</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;default.qubit&quot;</span><span class="p">,</span> <span class="n">wires</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Even if you want to run on a real device, use this simulated device first to test your code, as it will be much faster. You can then simply change your device and leave the rest of your code the same to run on the real device.</p>
 </div>
 </section>
 </section>
@@ -402,15 +451,6 @@
         <p class="prev-next-title">Course Structure</p>
       </div>
     </a>
-    <a class="right-next"
-       href="../lectures/lecture1.html"
-       title="next page">
-      <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title"><span class="section-number">1. </span>Quantum mechanics of a qubit</p>
-      </div>
-      <i class="fa-solid fa-angle-right"></i>
-    </a>
 </div>
                 </footer>
               
@@ -430,6 +470,8 @@
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-conda">Installing Conda</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-conda-environment">Creating a Conda environment</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-ibm-account">Setting up IBM account</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-a-real-ibm-quantum-computer">Using a real IBM quantum computer</a></li>
 </ul>
   </nav></div>
 
