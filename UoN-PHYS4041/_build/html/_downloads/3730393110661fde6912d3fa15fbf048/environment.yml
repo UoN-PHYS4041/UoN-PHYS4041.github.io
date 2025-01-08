@@ -14,3 +14,5 @@ dependencies:
     - qiskit-ibm-runtime
     - qiskit[visulization]
     - pennylane-qiskit
+    - tensorflow==2.14.0
+    - silence_tensorflow

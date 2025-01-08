@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -505,7 +505,7 @@
 \end{split}\]</div>
 <p>These states form an alternative orthonormal basis for the vector space of two qubits. These states are all “maximally entangled”. There is no basis in which we can measure a single qubit and get a certain answer. In fact, measuring in any basis we find that we have 50% probability of measuring one of the qubits in either of its two states. However, once we measure one of the qubits, the state of the other qubit is certain.</p>
 <div class="admonition-exercises-2-2 admonition">
-<p class="admonition-title">Exercises 2.2}</p>
+<p class="admonition-title">Exercises 2.2</p>
 <p><strong>1.</strong> Modify the Bell State circuit in the following way:</p>
 <figure class="align-center">
 <a class="reference internal image-reference" href="../../_images/GHZCircuit.png"><img alt="../../_images/GHZCircuit.png" src="../../_images/GHZCircuit.png" style="width: 30%;" /></a>
@@ -515,7 +515,7 @@
 </section>
 <section id="using-pennylane-and-ibmq">
 <h2><span class="section-number">2.6. </span>Using pennylane and IBMQ<a class="headerlink" href="#using-pennylane-and-ibmq" title="Link to this heading">#</a></h2>
-<p>We are now in a position to simulate our first quantum circuit and to also run it on a real quantum computer. To do so we will be using a python package called pennylane <span id="id2">[<a class="reference internal" href="#id10" title="Pennylane: automatic differentiation of hybrid quantum-classical computations. 2018. doi:https://doi.org/10.48550/arXiv.1811.04968.">pen18</a>]</span>. We will then run our code on one of IBM’s quantum computers, for which there is free access through IBM’s quantum experience and qiskit <span id="id3">[<a class="reference internal" href="#id9" title="Qiskit: an open-source framework for quantum computing. 2021. doi:10.5281/zenodo.2573505.">Qis21</a>]</span>, which we can connect to pennylane. In this section we will go through how to use pennylane to program and run the Bell state circuit we discussed in the previous section.</p>
+<p>We are now in a position to simulate our first quantum circuit and to also run it on a real quantum computer. To do so we will be using a python package called <a class="reference external" href="https://pennylane.ai">pennylane</a> <span id="id2">[<a class="reference internal" href="#id10" title="Pennylane: automatic differentiation of hybrid quantum-classical computations. 2018. doi:https://doi.org/10.48550/arXiv.1811.04968.">pen18</a>]</span>. We will then run our code on one of IBM’s quantum computers, for which there is free access through IBM’s quantum experience and <a class="reference external" href="https://www.ibm.com/quantum/qiskit">qiskit</a> <span id="id3">[<a class="reference internal" href="#id9" title="Qiskit: an open-source framework for quantum computing. 2021. doi:10.5281/zenodo.2573505.">Qis21</a>]</span>, which we can connect to pennylane. In this section we will go through how to use pennylane to program and run the Bell state circuit we discussed in the previous section.</p>
 <p>To start, let us install pennylane using your favourite python installation or virtual environment. This is most easily done using pip:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span> <span class="o">&gt;&gt;</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">pennylane</span> <span class="o">--</span><span class="n">upgrade</span>
 </pre></div>
@@ -589,13 +589,37 @@
 </pre></div>
 </div>
 <p>Once this is set up, all you need to do is replace line 2 with the following</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit</span> <span class="kn">import</span> <span class="n">IBMQ</span>
-<span class="n">IBMQ</span><span class="o">.</span><span class="n">load_account</span><span class="p">()</span>
-<span class="n">dev</span> <span class="o">=</span> <span class="n">qml</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;qiskit.ibmq&#39;</span><span class="p">,</span> <span class="n">wires</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="mi">8192</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="s1">&#39;ibmq_manila&#39;</span><span class="p">)</span>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit_ibm_runtime</span> <span class="kn">import</span> <span class="n">QiskitRuntimeService</span>
+
+<span class="n">service</span> <span class="o">=</span> <span class="n">QiskitRuntimeService</span><span class="p">(</span><span class="n">channel</span><span class="o">=</span><span class="s2">&quot;ibm_quantum&quot;</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="s2">&quot;ibm-q/open/main&quot;</span><span class="p">)</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">backend</span><span class="p">(</span><span class="s2">&quot;ibm_brisbane&quot;</span><span class="p">)</span>
+
+<span class="n">dev</span> <span class="o">=</span> <span class="n">qml</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;qiskit.remote&#39;</span><span class="p">,</span> <span class="n">wires</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The first line loads the necessary functions from qiskit. The second line loads your IBMQ credentials that you have already saved in python by following the instructions on the IBMQ website. The third line loads the IBM device codenamed <code class="docutils literal notranslate"><span class="pre">ibmq_manila</span></code>. This device refers to a real quantum computer hosted by IBM, of which there are several. Using the online interface you can see which quantum computers are available to you and how many jobs have been submitted and are currently in the queue. You may want to use a device that is less busy. Note you will also want to change the name of the pdf that you save to file when running on the real device.</p>
+<p>The first line loads the necessary functions from qiskit. The second line loads your IBMQ credentials that you have already saved in python by following the instructions on the IBMQ website. The third line loads the IBM device codenamed <code class="docutils literal notranslate"><span class="pre">ibmq_brisbane</span></code>. This device refers to a real quantum computer hosted by IBM, of which there are several. Using the online interface you can see which quantum computers are available to you and how many jobs have been submitted and are currently in the queue. You may want to use a device that is less busy. Note you will also want to change the name of the pdf that you save to file when running on the real device.</p>
 <p>Running the code again with those changes runs your code on the quantum computer, which will take significantly longer than the simulator. This is because the data has to be communicated with the IBM server, placed in a queue to run on the device, and then finally run. When plotting the histogram of the measurements, you find something closer to <a class="reference internal" href="#fig-bell-state-real"><span class="std std-numref">Fig. 2.3</span></a>. Not only are the values further away from 50% but we also have non-zero probabilities for the states 01, 10. This is because the current devices are not yet perfect and suffer from a significant amount of noise that affects the measurement results. Regardless, we have run our first circuit on a quantum computer and realised an entangled quantum state.</p>
+<div class="admonition-exercises-2-3 admonition">
+<p class="admonition-title">Exercises 2.3</p>
+<p><strong>1.</strong> Modify the BellState example code to implement the following circuit</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../../_images/GHZCodeExercise.png"><img alt="../../_images/GHZCodeExercise.png" src="../../_images/GHZCodeExercise.png" style="width: 40%;" /></a>
+</figure>
+<p>This is the GHZ circuit from Exercises 2.2 but including measurements. Check that the probabilities obtained in the simulator (and on a real device) match the expected values for this state.</p>
+</div>
+<div class="admonition-code-download admonition">
+<p class="admonition-title">Code Download</p>
+<p>Here are links to download Jupyter notebooks for the code from this lecture:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../downloads/BellState-simulator.html"><span class="std std-doc">BellState-simulator</span></a> - running the Bell state circuit on a simulator.</p></li>
+<li><p><a class="reference internal" href="#../downloads/BellState-IBMQ.ipynb"><span class="xref myst">BellState-IBMQ</span></a> - running the Bell state circuit on a real IBM quantum computer.</p></li>
+</ul>
+<p>Here is the notebook to setup and save your IBM credentials:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../downloads/IBM_setup.html"><span class="std std-doc">IBM_setup</span></a> - setting up and saving your IBM credentials.</p></li>
+</ul>
+<p>You can also use this <a class="reference download internal" download="" href="../../_downloads/3730393110661fde6912d3fa15fbf048/environment.yml"><span class="xref download myst">environment yaml file</span></a> to setup a conda environment to run these notebooks, and all the code in this course.</p>
+</div>
 </section>
 <hr class="docutils" />
 <section id="references">
