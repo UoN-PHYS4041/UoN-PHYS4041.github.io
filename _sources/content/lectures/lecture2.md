@@ -229,7 +229,7 @@ These states form an alternative orthonormal basis for the vector space of two q
 
 
 
-````{admonition} Exercises 2.2}
+````{admonition} Exercises 2.2
 
 **1.** Modify the Bell State circuit in the following way:
 
@@ -252,7 +252,7 @@ Write down the three-qubit state this quantum circuit diagram represents. This s
 
 ## Using pennylane and IBMQ
 
-We are now in a position to simulate our first quantum circuit and to also run it on a real quantum computer. To do so we will be using a python package called pennylane {cite}`pennylane`. We will then run our code on one of IBM's quantum computers, for which there is free access through IBM's quantum experience and qiskit {cite}`Qiskit`, which we can connect to pennylane. In this section we will go through how to use pennylane to program and run the Bell state circuit we discussed in the previous section.
+We are now in a position to simulate our first quantum circuit and to also run it on a real quantum computer. To do so we will be using a python package called [pennylane](https://pennylane.ai) {cite}`pennylane`. We will then run our code on one of IBM's quantum computers, for which there is free access through IBM's quantum experience and [qiskit](https://www.ibm.com/quantum/qiskit) {cite}`Qiskit`, which we can connect to pennylane. In this section we will go through how to use pennylane to program and run the Bell state circuit we discussed in the previous section.
 
 To start, let us install pennylane using your favourite python installation or virtual environment. This is most easily done using pip:
 
@@ -361,14 +361,48 @@ We can also run our quantum circuit on a real quantum computer provided by IBM. 
 
 Once this is set up, all you need to do is replace line 2 with the following
 ```{code} python
-from qiskit import IBMQ
-IBMQ.load_account()
-dev = qml.device('qiskit.ibmq', wires=2, shots=8192, backend='ibmq_manila')
+from qiskit_ibm_runtime import QiskitRuntimeService
+
+service = QiskitRuntimeService(channel="ibm_quantum", instance="ibm-q/open/main")
+backend = service.backend("ibm_brisbane")
+
+dev = qml.device('qiskit.remote', wires=2, backend=backend)
 ```
 
-The first line loads the necessary functions from qiskit. The second line loads your IBMQ credentials that you have already saved in python by following the instructions on the IBMQ website. The third line loads the IBM device codenamed `ibmq_manila`. This device refers to a real quantum computer hosted by IBM, of which there are several. Using the online interface you can see which quantum computers are available to you and how many jobs have been submitted and are currently in the queue. You may want to use a device that is less busy. Note you will also want to change the name of the pdf that you save to file when running on the real device.
+The first line loads the necessary functions from qiskit. The second line loads your IBMQ credentials that you have already saved in python by following the instructions on the IBMQ website. The third line loads the IBM device codenamed `ibmq_brisbane`. This device refers to a real quantum computer hosted by IBM, of which there are several. Using the online interface you can see which quantum computers are available to you and how many jobs have been submitted and are currently in the queue. You may want to use a device that is less busy. Note you will also want to change the name of the pdf that you save to file when running on the real device.
 
 Running the code again with those changes runs your code on the quantum computer, which will take significantly longer than the simulator. This is because the data has to be communicated with the IBM server, placed in a queue to run on the device, and then finally run. When plotting the histogram of the measurements, you find something closer to {numref}`fig:bell_state_real`. Not only are the values further away from 50\% but we also have non-zero probabilities for the states 01, 10. This is because the current devices are not yet perfect and suffer from a significant amount of noise that affects the measurement results. Regardless, we have run our first circuit on a quantum computer and realised an entangled quantum state.
+
+````{admonition} Exercises 2.3
+
+**1.** Modify the BellState example code to implement the following circuit
+
+```{figure} ../images/GHZCodeExercise.png
+---
+width: 40%
+align: center
+---
+```
+
+This is the GHZ circuit from Exercises 2.2 but including measurements. Check that the probabilities obtained in the simulator (and on a real device) match the expected values for this state. 
+````
+
+
+
+````{admonition} Code Download
+
+Here are links to download Jupyter notebooks for the code from this lecture:
+
+* [BellState-simulator](../downloads/BellState-simulator.ipynb) - running the Bell state circuit on a simulator.
+* [BellState-IBMQ](../downloads/BellState-IBMQ.ipynb) - running the Bell state circuit on a real IBM quantum computer.
+
+Here is the notebook to setup and save your IBM credentials:
+
+* [IBM_setup](../downloads/IBM_setup.ipynb) - setting up and saving your IBM credentials.
+
+You can also use this [environment yaml file](../downloads/environment.yml) to setup a conda environment to run these notebooks, and all the code in this course.
+
+````
 
 
 
