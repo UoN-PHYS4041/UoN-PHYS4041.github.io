@@ -13,3 +13,4 @@ parts:
   chapters:
     - file: content/lectures/lecture1
     - file: content/lectures/lecture2
+    - file: content/lectures/lecture3

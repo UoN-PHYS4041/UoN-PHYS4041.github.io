@@ -1,3 +1,4 @@
+(sec-multi-qubit)=
 # Multiple qubits, entanglement, and IBMQ
 
 So far we have learnt the quantum mechanics necessary to describe, manipulate and measure a single qubit. However, a single qubit is not so much use. While it is possible to do interesting things with this single qubit, in the end this boils down to two dimensional vector and matrix multiplication, which our classical computers are incredibly efficient at doing. The real advantage of quantum computers comes when we have multiple qubits and generate quantum entanglement between them. In this section we will generalise our vector space to accommodate multiple qubits, we will introduce multi-qubit gates and measurements, and we will program our first quantum circuit with entanglement that can be run on IBM quantum computers.

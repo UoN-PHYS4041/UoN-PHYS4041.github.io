@@ -1,0 +1,604 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>3. Bloch sphere, tomography, and optimisation &#8212; Introduction to Practical Quantum Computing - University of Nottingham (PHYS4041)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'content/lectures/lecture3';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="prev" title="2. Multiple qubits, entanglement, and IBMQ" href="lecture2.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Introduction to Practical Quantum Computing - University of Nottingham (PHYS4041) - Home"/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="Introduction to Practical Quantum Computing - University of Nottingham (PHYS4041) - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Introduction to Practical Quantum Computing - University of Nottingham (PHYS4041)
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Information about the course</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../outline/courseStructure.html">Course Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../outline/pythonEnvironment.html">Setup Python and Pennylane</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Lectures</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="lecture1.html">1. Quantum mechanics of a qubit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lecture2.html">2. Multiple qubits, entanglement, and IBMQ</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">3. Bloch sphere, tomography, and optimisation</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/content/lectures/lecture3.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Bloch sphere, tomography, and optimisation</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#single-qubit-tomography">3.1. Single qubit tomography</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-bloch-sphere-revisited">3.2. The Bloch sphere revisited</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optimising-a-rotation-gate">3.3. Optimising a rotation gate</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="bloch-sphere-tomography-and-optimisation">
+<span id="sec-tomography"></span><h1><span class="section-number">3. </span>Bloch sphere, tomography, and optimisation<a class="headerlink" href="#bloch-sphere-tomography-and-optimisation" title="Link to this heading">#</a></h1>
+<p>The quantum state of many qubits quickly becomes very complicated. In order to understand the main concepts in the following lectures, let us revisit the simpler setting of a single qubit. In this lecture we will visualise the qubit’s state and the action of quantum gates using the Bloch sphere by introducing a method of measuring the full quantum state, called tomography. Finally, we will revisit the general rotation gate introduced in the first lecture and solve a simple optimisation problem to find the angles to rotate from the initial qubit state to the target qubit state, and visualise the optimisation process on the Bloch sphere.</p>
+<section id="single-qubit-tomography">
+<h2><span class="section-number">3.1. </span>Single qubit tomography<a class="headerlink" href="#single-qubit-tomography" title="Link to this heading">#</a></h2>
+<p>Given a general state of a qubit in the form</p>
+<div class="math notranslate nohighlight">
+\[
+|\psi\rangle = \alpha |0\rangle + \beta |1\rangle,
+\]</div>
+<p>we found in the first two lectures that measurement are determined by the probabilities <span class="math notranslate nohighlight">\(|\alpha|^2\)</span> and <span class="math notranslate nohighlight">\(|\beta|^2\)</span>. By repeating an experiment many times we can approximate these probabilities. However, <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span> are complex numbers, and so <span class="math notranslate nohighlight">\(|\alpha|^2\)</span> and <span class="math notranslate nohighlight">\(|\beta|^2\)</span> do not fully specify the state.</p>
+<p>When we measure, it is with respect to a particular basis. What if we measure the same state in another basis, such as the <span class="math notranslate nohighlight">\(x\)</span>-basis. This can be done by applying the Hadamard gate to the state and then measuring in standard <span class="math notranslate nohighlight">\(z\)</span>-basis. In that case, we have</p>
+<div class="math notranslate nohighlight">
+\[
+    H|\psi\rangle = \frac{1}{\sqrt{2}}(\alpha + \beta) |0\rangle + \frac{1}{\sqrt{2}}(\alpha - \beta) |1\rangle,
+\]</div>
+<p>and so the probabilities that determine the measurement outcomes are now <span class="math notranslate nohighlight">\(|\alpha \pm \beta|^2/2\)</span>. Therefore, if we repeat the experiment, in the <span class="math notranslate nohighlight">\(z\)</span>-basis and then the <span class="math notranslate nohighlight">\(x\)</span>-basis we have more information about <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span>.</p>
+<p>With these two bases, we still don’t have the full information about the state. To get the final information we also need to measure in the <span class="math notranslate nohighlight">\(y\)</span>-basis. This can be done by applying the <span class="math notranslate nohighlight">\(S^\dagger\)</span> gate and the Hadamard before measuring in the standard basis. That is</p>
+<div class="math notranslate nohighlight">
+\[
+    H S^\dagger|\psi\rangle = \frac{1}{\sqrt{2}}(\alpha -i \beta) |0\rangle + \frac{1}{\sqrt{2}}(\alpha +i \beta) |1\rangle,
+\]</div>
+<p>and the corresponding probabilities are <span class="math notranslate nohighlight">\(|\alpha \mp i\beta|^2/2\)</span>. We now have all the information needed to uniquely specify the complex numbers <span class="math notranslate nohighlight">\(\alpha\)</span> and <span class="math notranslate nohighlight">\(\beta\)</span>.</p>
+<p>By performing measurements in three different bases we have been able to extract enough information to fully specify the quantum state of the qubit. This process of measuring the full quantum state by using different measurement bases is called tomography (or full state tomography). This can be generalised to more than one qubit but we need an exponential number of experiments in the number of qubits. Therefore, on a practical level, we do not have access to the full quantum state, but only a limited number of expectation values.</p>
+<div class="admonition-exercises-3-1 admonition">
+<p class="admonition-title">Exercises 3.1</p>
+<p><strong>1.</strong> Given the state <span class="math notranslate nohighlight">\(|\psi\rangle = \alpha |0\rangle + \beta |1 \rangle\)</span>, show that</p>
+<div class="math notranslate nohighlight">
+\[
+    H|\psi\rangle = \frac{1}{\sqrt{2}}(\alpha + \beta) |0\rangle + \frac{1}{\sqrt{2}}(\alpha - \beta) |1\rangle,
+\]</div>
+<p>and that</p>
+<div class="math notranslate nohighlight">
+\[
+    H S^\dagger|\psi\rangle = \frac{1}{\sqrt{2}}(\alpha -i \beta) |0\rangle + \frac{1}{\sqrt{2}}(\alpha +i \beta) |1\rangle.
+\]</div>
+<p><strong>2.</strong> Show that <span class="math notranslate nohighlight">\(\langle \psi | X | \psi \rangle = \frac{1}{2}|\alpha + \beta|^2 - \frac{1}{2}|\alpha - \beta|^2\)</span>.</p>
+<p><strong>3.</strong> Show that <span class="math notranslate nohighlight">\(\langle \psi | Y | \psi \rangle = \frac{1}{2}|\alpha -i \beta|^2 - \frac{1}{2}|\alpha +i \beta|^2\)</span>.</p>
+</div>
+</section>
+<section id="the-bloch-sphere-revisited">
+<h2><span class="section-number">3.2. </span>The Bloch sphere revisited<a class="headerlink" href="#the-bloch-sphere-revisited" title="Link to this heading">#</a></h2>
+<p>Equipped with tomography as a method of finding the state of a qubit, let us revisit the parametrisation of the qubit state we considered in the first lecture:</p>
+<div class="math notranslate nohighlight">
+\[
+|\psi\rangle = \cos(\theta/2) |0\rangle + e^{i\phi} \sin(\theta/2) |1\rangle.
+\]</div>
+<p>If we measure in the <span class="math notranslate nohighlight">\(z\)</span>-basis then we get probabilities <span class="math notranslate nohighlight">\(\cos^2(\theta/2)\)</span> and <span class="math notranslate nohighlight">\(\sin^2(\theta/2)\)</span>. We therefore don’t have any information about <span class="math notranslate nohighlight">\(\phi\)</span>. Measuring the the <span class="math notranslate nohighlight">\(x\)</span>-basis we get <span class="math notranslate nohighlight">\((1 \pm \cos(\phi) \sin(\theta))/2\)</span>. However, since <span class="math notranslate nohighlight">\(\phi\in [0,2\pi)\)</span>, this still doesn’t uniquely give us <span class="math notranslate nohighlight">\(\phi\)</span>. For example, <span class="math notranslate nohighlight">\(\cos(\pi/4) = \cos(3\pi/4)\)</span>. Finally measuring in the <span class="math notranslate nohighlight">\(y\)</span>-basis we get <span class="math notranslate nohighlight">\((1 \pm \sin(\phi) \sin(\theta))/2\)</span>. If we know both <span class="math notranslate nohighlight">\(\cos(\phi)\)</span> and <span class="math notranslate nohighlight">\(\sin(\phi)\)</span> then we know <span class="math notranslate nohighlight">\(\phi\)</span> and have all of the information about the state.</p>
+<p>Previously we said that we can interpret the angles <span class="math notranslate nohighlight">\(\theta\)</span> and <span class="math notranslate nohighlight">\(\phi\)</span> as parametrising the surface of a unit sphere, but didn’t offer much motivation. Now we will show that this picture is indeed justified and useful. Let us now consider the values of the corresponding expectation values <span class="math notranslate nohighlight">\(\langle X \rangle\)</span>, <span class="math notranslate nohighlight">\(\langle Y \rangle\)</span>, <span class="math notranslate nohighlight">\(\langle Z \rangle\)</span>. Since we already have the probabilities in the corresponding bases we can compute these, but let’s also compute these directly:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+    \langle X \rangle = \langle \psi | X | \psi \rangle &amp;= \left(\cos(\theta/2) \langle 0| + e^{-i\phi} \sin(\theta/2) \langle 1|  \right) X \left(\cos(\theta/2) |0\rangle + e^{i\phi} \sin(\theta/2) |1\rangle  \right) \\
+    &amp;= \left(\cos(\theta/2) \langle 0| + e^{-i\phi} \sin(\theta/2) \langle 1|  \right) \left(\cos(\theta/2) |1\rangle + e^{i\phi} \sin(\theta/2) |0\rangle  \right) \\
+    &amp;= e^{i\phi} \cos(\theta/2)\sin(\theta/2) \langle 0 | 0 \rangle + e^{-i\phi} \cos(\theta/2)\sin(\theta/2)) \langle 1 | 1 \rangle \\
+    &amp; = \cos(\phi)\sin(\theta),
+\end{aligned}
+\end{split}\]</div>
+<p>where in the third line we used that <span class="math notranslate nohighlight">\(\langle 0 | 1 \rangle = \langle 1 | 0 \rangle = 0\)</span>. We can see that this agrees with the difference of probabilities <span class="math notranslate nohighlight">\((1 + \cos(\phi) \sin(\theta))/2 - (1 - \cos(\phi) \sin(\theta))/2 = \cos(\phi)\sin(\theta)\)</span>. Repeating with the other expectation values we can put them together in a column vector</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+    \left(\begin{matrix} \langle X \rangle \\
+                         \langle Y \rangle \\
+                         \langle Z \rangle 
+    \end{matrix}\right)
+    =
+    \left(\begin{matrix} \cos(\phi)\sin(\theta) \\
+                         \sin(\phi)\sin(\theta) \\
+                         \cos(\theta)
+    \end{matrix}\right).
+\end{split}\]</div>
+<p>This defines a three-dimensional vector, corresponding to the parametrisation of a unit sphere in 3D! This is exactly the Bloch sphere. The expectation values of the <span class="math notranslate nohighlight">\(X\)</span>, <span class="math notranslate nohighlight">\(Y\)</span> and <span class="math notranslate nohighlight">\(Z\)</span> operators corresponds to the three dimensional coordinates on the Bloch sphere.</p>
+<p>Let us now consider the effects of the Pauli rotation gates on this state. Starting with the <span class="math notranslate nohighlight">\(X\)</span> rotations <span class="math notranslate nohighlight">\(R_X(\lambda) = \cos \frac{\lambda}{2} 1 - i \sin \frac{\lambda}{2} X\)</span>. We can find its action on the 3D vector as follows</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+    \left(\begin{matrix} \langle \psi| R_X(-\lambda) X R_X(\lambda) |\psi \rangle \\
+                         \langle \psi| R_X(-\lambda) Y R_X(\lambda) |\psi \rangle \\
+                         \langle \psi| R_X(-\lambda) Z R_X(\lambda) |\psi \rangle 
+    \end{matrix}\right)
+    =
+    \left(\begin{matrix} \langle X \rangle \\
+                         \langle \cos(\lambda) Y - \sin(\lambda) Z  \rangle \\
+                         \langle \sin(\lambda) Y + \cos(\lambda) Z  \rangle 
+    \end{matrix}\right)
+    = \left(\begin{matrix} 1 &amp; 0 &amp; 0 \\
+                            0 &amp; \cos\lambda &amp; -\sin\lambda \\
+                            0 &amp; \sin\lambda &amp; \cos\lambda
+    \end{matrix}\right)
+    \left(\begin{matrix} \langle X \rangle \\
+                         \langle Y \rangle \\
+                         \langle Z \rangle 
+    \end{matrix}\right).
+\end{split}\]</div>
+<p>Here we used <span class="math notranslate nohighlight">\(XYZ=i1\)</span> and <span class="math notranslate nohighlight">\(X^2 = Y^2 = Z^2 = 1\)</span>.
+That is, the <span class="math notranslate nohighlight">\(R_X\)</span> rotation gate is equivalent to rotating the 3D Bloch vector around the <span class="math notranslate nohighlight">\(x\)</span>-axis. Repeating this, we find similar for the <span class="math notranslate nohighlight">\(y\)</span> and <span class="math notranslate nohighlight">\(z\)</span> rotations. In <a class="reference internal" href="#fig-bloch-rotations"><span class="std std-numref">Fig. 3.1</span></a> we show the simulated tomography of a qubit state after the applying the three rotation gates. We indeed find that the gates rotate the state on the Bloch sphere around the three axes. The code to perform tomography and plot the Bloch sphere is included in ``BlochSphere-tomography.ipynb”.</p>
+<figure class="align-center" id="fig-bloch-rotations">
+<a class="reference internal image-reference" href="../../_images/BlochSphereRotations.pdf"><img alt="../../_images/BlochSphereRotations.pdf" src="../../_images/BlochSphereRotations.pdf" style="width: 40%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 3.1 </span><span class="caption-text">Pauli rotation gates on the Bloch sphere. The qubit state is measured using tomography and plotted as a 3D Bloch vector. The different rotations are shown in different colours for a range of angles.</span><a class="headerlink" href="#fig-bloch-rotations" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<div class="admonition-exercises-3-2 admonition">
+<p class="admonition-title">Exercises 3.2</p>
+<p><strong>1.</strong> For <span class="math notranslate nohighlight">\(|\psi \rangle = \cos(\theta/2) |0\rangle + e^{i\phi} \sin(\theta/2) |1\rangle\)</span>, show that
+<span class="math notranslate nohighlight">\(\langle \psi | Y | \psi \rangle = \sin(\phi) \sin(\theta)\)</span>.</p>
+<p><strong>2.</strong> Show that <span class="math notranslate nohighlight">\(R_X(-\lambda) X R_X(\lambda) = X\)</span>.</p>
+<p><strong>3.</strong> Show that <span class="math notranslate nohighlight">\(R_X(-\lambda) Z R_X(\lambda) = \sin(\lambda) Y + \cos(\lambda) Z\)</span>.</p>
+</div>
+</section>
+<section id="optimising-a-rotation-gate">
+<h2><span class="section-number">3.3. </span>Optimising a rotation gate<a class="headerlink" href="#optimising-a-rotation-gate" title="Link to this heading">#</a></h2>
+<p>In <a class="reference internal" href="lecture1.html#sec-qubit"><span class="std std-numref">Section 1</span></a> we said that a general unitary gate can be expressed as the following product of Pauli-rotation gates:</p>
+<div class="math notranslate nohighlight" id="equation-eq-general-rotation-second">
+<span class="eqno">(3.1)<a class="headerlink" href="#equation-eq-general-rotation-second" title="Link to this equation">#</a></span>\[
+    U = R_Z(\phi_1) R_Y(\phi_2) R_Z(\phi_3),
+\]</div>
+<p>where here we have dropped the overall phase factor. However, it is not clear how the angles <span class="math notranslate nohighlight">\(\phi_i\)</span> translate into the final rotation. Put another way, if we wanted to achieve a particular unitary gate we would have to do some work to find the angles <span class="math notranslate nohighlight">\(\phi_i\)</span>. Using the analysis from the previous section we could solve this quite simply since it boils down to a <span class="math notranslate nohighlight">\(2\times 2\)</span> complex matrix equation (or <span class="math notranslate nohighlight">\(3\times 3\)</span> real matrix equation). Instead, we will now use this as a simple exercise in optimising quantum circuits, which will form the basis of the subsequent lectures.</p>
+<p>Consider the following setup:</p>
+<ul class="simple">
+<li><p>We prepare our qubit in some particular initial state. This can be done by applying <span class="math notranslate nohighlight">\(R_Z(\theta_1) R_Y(\theta_2)\)</span> to the initial <span class="math notranslate nohighlight">\(|0\rangle\)</span> state of the qubit. That is <span class="math notranslate nohighlight">\(|\psi_\text{initial} \rangle = R_Z(\theta_1) R_Y(\theta_2)|0\rangle\)</span>. For concreteness, let us take <span class="math notranslate nohighlight">\((\theta_1, \theta_2) = (0, 0.3\pi)\)</span>. Otherwise, we could start with random angles.</p></li>
+<li><p>Perform tomography on this state to get the corresponding 3D Bloch vector.</p></li>
+<li><p>Let use choose a target state <span class="math notranslate nohighlight">\(|\psi_\text{target}\rangle\)</span> in the form of a 3D Bloch vector. This can be done by randomly sampling elements of the 3D vector from normal distributions and then normalising the vector.</p></li>
+<li><p>Apply the rotation gate <a class="reference internal" href="#equation-eq-general-rotation-second">(3.1)</a> to our initial state. Start with <span class="math notranslate nohighlight">\((\phi_1, \phi_2, \phi_3) = (0,0,0)\)</span>.</p></li>
+</ul>
+<p>Our goal is now to optimise the angles so that we rotate our initial state to the target state. In quantum circuit notation, our circuit will look like the following
+\begin{equation}\label{eq: rotation optimisation}
+\pbox{\textwidth}{
+\begin{quantikz}[row sep={0.75cm,between origins}]
+\lstick{\ket{0}} &amp; \gate{R_Y(\theta_2)} &amp; \gate{R_Z(\theta_1)} &amp; \gate{R_Z(\phi_3)} &amp; \gate{R_Y(\phi_2)} &amp; \gate{R_Z(\phi_1)} &amp; \gate{A} &amp; \meter{}
+\end{quantikz}.}
+\end{equation}
+where <span class="math notranslate nohighlight">\(A \in \{\mathds{1}, H, HS^\dag\}\)</span> is the gate needed to change to each of the three bases.</p>
+<p>To perform the minimisation we need to define a <code class="docutils literal notranslate"><span class="pre">loss&quot;</span> <span class="pre">or</span> </code>objective” function. This can simply be the distance between the vectors
+\begin{equation}
+L(\vec{\phi}) = \sqrt{\sum_{P\in{X,Y,Z}} \big(\langle \psi_\text{target} |P | \psi_\text{target} \rangle - \langle \psi_\text{initial} |P | \psi_\text{initial} \rangle \big)^2}.
+\end{equation}
+The expectation values <span class="math notranslate nohighlight">\(\langle \psi_\text{target} |P | \psi_\text{target} \rangle\)</span> are specified by our 3D Bloch vector for the target state. To get <span class="math notranslate nohighlight">\(\langle \psi_\text{initial} |P | \psi_\text{initial} \rangle\)</span>, which implicitly depends on the angles <span class="math notranslate nohighlight">\(\phi_i\)</span>, we need to perform tomography. Finally, we need a way to update our angles in order to minimise this loss function. We can do this using gradient descent,
+\begin{equation}
+\phi_i \leftarrow \phi_i - \nabla L(\vec{\phi}).
+\end{equation}
+We then want to compute the gradient <span class="math notranslate nohighlight">\(\nabla L(\vec{\phi})\)</span>. There are multiple ways to do this (which we will revisit in Sec.~\ref{sec: gradient}), but the simplest would be the second-order finite difference approximation
+\begin{equation}
+[\nabla L(\vec{\phi})]_i \approx \frac{L(\vec{\phi}+c\vec{e}_i) - L(\vec{\phi}-c\vec{e}_i)}{2c},
+\end{equation}
+where <span class="math notranslate nohighlight">\(\vec{e}_i\)</span> is a unit vector with zeros except in the i<span class="math notranslate nohighlight">\(^\text{th}\)</span> entry. In other words, <span class="math notranslate nohighlight">\(\vec{e}_i\)</span> perturbs <span class="math notranslate nohighlight">\(\phi_i\)</span>. With this method, we are required to perform tomography on our state seven times for each iteration. We use this second-order approximation because it is more stable when we are close to the target. Repeating the gradient descent update several times we can optimise the angles and find the required rotation gate. This is shown in Fig.~\ref{eq: rotation optimisation}. Code performing the optimisation is provided in ``RotationOptimisation.ipynb”.</p>
+<p>\begin{figure}[t!]
+\centering
+\includegraphics[width=.48\textwidth]{images/OptimisationLoss.pdf}
+\includegraphics[width=.4\textwidth]{images/BlochSphereOptimisation.pdf}
+\caption{Optimisation of the qubit rotation gate. Given an initial and target qubit state we perform gradient descent to find the angles required to rotate between the two. (Left) The value of the loss function during the gradient descent. (Right) Bloch sphere plot of the initial and target states as well as the path taken by the gradient descent optimisation. Blue dots correspond to the rotated state for each iteration.}
+\label{fig: rotation optimisation}
+\end{figure}</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./content/lectures"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="lecture2.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">2. </span>Multiple qubits, entanglement, and IBMQ</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#single-qubit-tomography">3.1. Single qubit tomography</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-bloch-sphere-revisited">3.2. The Bloch sphere revisited</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optimising-a-rotation-gate">3.3. Optimising a rotation gate</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dr Adam Gammon-Smith
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
