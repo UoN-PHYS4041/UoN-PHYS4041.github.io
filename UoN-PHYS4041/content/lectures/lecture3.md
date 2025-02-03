@@ -113,7 +113,7 @@ $$
 $$
 
 Here we used $XYZ=i1$ and $X^2 = Y^2 = Z^2 = 1$.
-That is, the $R_X$ rotation gate is equivalent to rotating the 3D Bloch vector around the $x$-axis. Repeating this, we find similar for the $y$ and $z$ rotations. In {numref}`fig:bloch_rotations` we show the simulated tomography of a qubit state after the applying the three rotation gates. We indeed find that the gates rotate the state on the Bloch sphere around the three axes. The code to perform tomography and plot the Bloch sphere is included in ``BlochSphere-tomography.ipynb".
+That is, the $R_X$ rotation gate is equivalent to rotating the 3D Bloch vector around the $x$-axis. Repeating this, we find similar for the $y$ and $z$ rotations. In {numref}`fig:bloch_rotations` we show the simulated tomography of a qubit state after the applying the three rotation gates. We indeed find that the gates rotate the state on the Bloch sphere around the three axes. The code to perform tomography and plot the Bloch sphere is included in [BlochSphere-tomography.ipynb](../downloads/BlochSphere-tomography.ipynb).
 
 
 ```{figure} ../images/BlochSphereRotations.pdf
@@ -164,7 +164,7 @@ align: center
 ---
 
 ``` 
-where $A \in \{1, H, HS^\dag\}$ is the gate needed to change to each of the three bases.
+where $A \in \{1, H, HS^\dagger\}$ is the gate needed to change to each of the three bases.
 
 To perform the minimisation we need to define a ``loss`` or ``objective`` function. This can simply be the distance between the vectors
 
@@ -184,7 +184,7 @@ $$
     [\nabla L(\vec{\phi})]_i \approx \frac{L(\vec{\phi}+c\vec{e}_i) - L(\vec{\phi}-c\vec{e}_i)}{2c},
 $$
 
-where $\vec{e}_i$ is a unit vector with zeros except in the i$^\text{th}$ entry. In other words, $\vec{e}_i$ perturbs $\phi_i$. With this method, we are required to perform tomography on our state seven times for each iteration. We use this second-order approximation because it is more stable when we are close to the target. Repeating the gradient descent update several times we can optimise the angles and find the required rotation gate. This is shown in {numref}`fig:rotation_optimisation`. Code performing the optimisation is provided in ``RotationOptimisation.ipynb".
+where $\vec{e}_i$ is a unit vector with zeros except in the i$^\text{th}$ entry. In other words, $\vec{e}_i$ perturbs $\phi_i$. With this method, we are required to perform tomography on our state seven times for each iteration. We use this second-order approximation because it is more stable when we are close to the target. Repeating the gradient descent update several times we can optimise the angles and find the required rotation gate. This is shown in {numref}`fig:rotation_optimisation`. Code performing the optimisation is provided in [RotationOptimisation.ipynb](../downloads/RotationOptimisation.ipynb).
 
 
 ```{figure} ../images/RotationOptimisationExample.png
@@ -199,15 +199,15 @@ Optimisation of the qubit rotation gate. Given an initial and target qubit state
 
 ````{admonition} Exercises 3.3
 
-**1.** (Code) Modify "RotationOptimisation.ipynb" so that the initial vector on the Bloch sphere is random.
+**1.** (Code) Modify [RotationOptimisation.ipynb](../downloads/RotationOptimisation.ipynb) so that the initial vector on the Bloch sphere is random.
 
-**2.** (Code) Modify "RotationOptimisation.ipynb" so that the Bloch sphere rotation that we are otimising is instead
+**2.** (Code) Modify [RotationOptimisation.ipynb](../downloads/RotationOptimisation.ipynb) so that the Bloch sphere rotation that we are otimising is instead
 $$
     U = R_X(\phi_1) R_Y(\phi_2) R_X(\phi_3).
 $$
 Does the optimisation still work?
 
-**3.** (Code) Modify "RotationOptimisation.ipynb" so that the Loss function is
+**3.** (Code) Modify [RotationOptimisation.ipynb](../downloads/RotationOptimisation.ipynb) so that the Loss function is
 $$
     L(\vec{\phi}) = \sum_{P\in\{X,Y,Z\}} \big(\langle \psi_\text{target} |P | \psi_\text{target} \rangle - \langle \psi_\text{initial} |P | \psi_\text{initial} \rangle \big)^2,
 $$
@@ -215,3 +215,23 @@ that is, without the square root. Does the optimisation still work?
 
 
 ````
+
+
+````{admonition} Code downloads
+
+[BlochSphere-tomography.ipynb](../downloads/BlochSphere-tomography.ipynb) - Jupyter notebook for the tomography of a qubit state and plotting on the Bloch sphere.
+
+[BlochSphere-tomography-IBM.ipynb](../downloads/BlochSphere-tomography-IBM.ipynb) - Jupyter notebook for the tomography of a qubit state and plotting on the Bloch sphere, which can be run on a real IBM device.
+
+[RotationOptimisation.ipynb](../downloads/RotationOptimisation.ipynb) - Jupyter notebook with code for optimising a rotation gate.
+
+````
+
+
+
+---
+
+## References
+```{bibliography}
+:filter: docname in docnames
+```
