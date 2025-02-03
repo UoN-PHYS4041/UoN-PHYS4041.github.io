@@ -153,35 +153,65 @@ Consider the following setup:
 - We prepare our qubit in some particular initial state. This can be done by applying $R_Z(\theta_1) R_Y(\theta_2)$ to the initial $|0\rangle$ state of the qubit. That is $|\psi_\text{initial} \rangle = R_Z(\theta_1) R_Y(\theta_2)|0\rangle$. For concreteness, let us take $(\theta_1, \theta_2) = (0, 0.3\pi)$. Otherwise, we could start with random angles.
 - Perform tomography on this state to get the corresponding 3D Bloch vector.
 - Let use choose a target state $|\psi_\text{target}\rangle$ in the form of a 3D Bloch vector. This can be done by randomly sampling elements of the 3D vector from normal distributions and then normalising the vector.
-- Apply the rotation gate {eq}`eq-general_rotation_second` to our initial state. Start with $(\phi_1, \phi_2, \phi_3) = (0,0,0)$.
+- Apply the rotation gate Eq.{eq}`eq-general_rotation_second` to our initial state. Start with $(\phi_1, \phi_2, \phi_3) = (0,0,0)$.
 
 Our goal is now to optimise the angles so that we rotate our initial state to the target state. In quantum circuit notation, our circuit will look like the following
-\begin{equation}\label{eq: rotation optimisation}
-    \pbox{\textwidth}{
-    \begin{quantikz}[row sep={0.75cm,between origins}]
-    \lstick{\ket{0}} & \gate{R_Y(\theta_2)} & \gate{R_Z(\theta_1)} & \gate{R_Z(\phi_3)} & \gate{R_Y(\phi_2)} & \gate{R_Z(\phi_1)} & \gate{A} & \meter{}
-    \end{quantikz}.}
-\end{equation}
-where $A \in \{\mathds{1}, H, HS^\dag\}$ is the gate needed to change to each of the three bases.
+```{figure} ../images/RotationOptimisation.png
+---
+name: fig:bloch_rotations
+width: 95%
+align: center
+---
 
-To perform the minimisation we need to define a ``loss" or ``objective" function. This can simply be the distance between the vectors
-\begin{equation}
+``` 
+where $A \in \{1, H, HS^\dag\}$ is the gate needed to change to each of the three bases.
+
+To perform the minimisation we need to define a ``loss`` or ``objective`` function. This can simply be the distance between the vectors
+
+$$
     L(\vec{\phi}) = \sqrt{\sum_{P\in\{X,Y,Z\}} \big(\langle \psi_\text{target} |P | \psi_\text{target} \rangle - \langle \psi_\text{initial} |P | \psi_\text{initial} \rangle \big)^2}.
-\end{equation}
-The expectation values $\langle \psi_\text{target} |P | \psi_\text{target} \rangle$ are specified by our 3D Bloch vector for the target state. To get $\langle \psi_\text{initial} |P | \psi_\text{initial} \rangle$, which implicitly depends on the angles $\phi_i$, we need to perform tomography. Finally, we need a way to update our angles in order to minimise this loss function. We can do this using gradient descent, 
-\begin{equation}
-    \phi_i \leftarrow \phi_i - \nabla L(\vec{\phi}).
-\end{equation}
-We then want to compute the gradient $\nabla L(\vec{\phi})$. There are multiple ways to do this (which we will revisit in Sec.~\ref{sec: gradient}), but the simplest would be the second-order finite difference approximation
-\begin{equation}
-    [\nabla L(\vec{\phi})]_i \approx \frac{L(\vec{\phi}+c\vec{e}_i) - L(\vec{\phi}-c\vec{e}_i)}{2c},
-\end{equation}
-where $\vec{e}_i$ is a unit vector with zeros except in the i$^\text{th}$ entry. In other words, $\vec{e}_i$ perturbs $\phi_i$. With this method, we are required to perform tomography on our state seven times for each iteration. We use this second-order approximation because it is more stable when we are close to the target. Repeating the gradient descent update several times we can optimise the angles and find the required rotation gate. This is shown in Fig.~\ref{eq: rotation optimisation}. Code performing the optimisation is provided in ``RotationOptimisation.ipynb".
+$$
 
-\begin{figure}[t!]
-    \centering
-    \includegraphics[width=.48\textwidth]{images/OptimisationLoss.pdf}
-    \includegraphics[width=.4\textwidth]{images/BlochSphereOptimisation.pdf}
-    \caption{Optimisation of the qubit rotation gate. Given an initial and target qubit state we perform gradient descent to find the angles required to rotate between the two. (Left) The value of the loss function during the gradient descent. (Right) Bloch sphere plot of the initial and target states as well as the path taken by the gradient descent optimisation. Blue dots correspond to the rotated state for each iteration.}
-    \label{fig: rotation optimisation}
-\end{figure}
+The expectation values $\langle \psi_\text{target} |P | \psi_\text{target} \rangle$ are specified by our 3D Bloch vector for the target state. To get $\langle \psi_\text{initial} |P | \psi_\text{initial} \rangle$, which implicitly depends on the angles $\phi_i$, we need to perform tomography. Finally, we need a way to update our angles in order to minimise this loss function. We can do this using gradient descent, 
+
+$$
+    \phi_i \leftarrow \phi_i - \nabla L(\vec{\phi}).
+$$
+
+We then want to compute the gradient $\nabla L(\vec{\phi})$. There are multiple ways to do this (which we will revisit in later in the course), but the simplest would be the second-order finite difference approximation
+
+$$
+    [\nabla L(\vec{\phi})]_i \approx \frac{L(\vec{\phi}+c\vec{e}_i) - L(\vec{\phi}-c\vec{e}_i)}{2c},
+$$
+
+where $\vec{e}_i$ is a unit vector with zeros except in the i$^\text{th}$ entry. In other words, $\vec{e}_i$ perturbs $\phi_i$. With this method, we are required to perform tomography on our state seven times for each iteration. We use this second-order approximation because it is more stable when we are close to the target. Repeating the gradient descent update several times we can optimise the angles and find the required rotation gate. This is shown in {numref}`fig:rotation_optimisation`. Code performing the optimisation is provided in ``RotationOptimisation.ipynb".
+
+
+```{figure} ../images/RotationOptimisationExample.png
+---
+name: fig:rotation_optimisation
+width: 95%
+align: center
+---
+
+Optimisation of the qubit rotation gate. Given an initial and target qubit state we perform gradient descent to find the angles required to rotate between the two. (Left) The value of the loss function during the gradient descent. (Right) Bloch sphere plot of the initial and target states as well as the path taken by the gradient descent optimisation. Blue dots correspond to the rotated state for each iteration.
+``` 
+
+````{admonition} Exercises 3.3
+
+**1.** (Code) Modify "RotationOptimisation.ipynb" so that the initial vector on the Bloch sphere is random.
+
+**2.** (Code) Modify "RotationOptimisation.ipynb" so that the Bloch sphere rotation that we are otimising is instead
+$$
+    U = R_X(\phi_1) R_Y(\phi_2) R_X(\phi_3).
+$$
+Does the optimisation still work?
+
+**3.** (Code) Modify "RotationOptimisation.ipynb" so that the Loss function is
+$$
+    L(\vec{\phi}) = \sum_{P\in\{X,Y,Z\}} \big(\langle \psi_\text{target} |P | \psi_\text{target} \rangle - \langle \psi_\text{initial} |P | \psi_\text{initial} \rangle \big)^2,
+$$
+that is, without the square root. Does the optimisation still work?
+
+
+````
