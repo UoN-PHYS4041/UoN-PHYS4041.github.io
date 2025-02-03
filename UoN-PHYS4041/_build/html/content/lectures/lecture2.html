@@ -1,0 +1,774 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>2. Multiple qubits, entanglement, and IBMQ &#8212; Introduction to Practical Quantum Computing - University of Nottingham (PHYS4041)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'content/lectures/lecture2';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="3. Bloch sphere, tomography, and optimisation" href="lecture3.html" />
+    <link rel="prev" title="1. Quantum mechanics of a qubit" href="lecture1.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Introduction to Practical Quantum Computing - University of Nottingham (PHYS4041) - Home"/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="Introduction to Practical Quantum Computing - University of Nottingham (PHYS4041) - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Introduction to Practical Quantum Computing - University of Nottingham (PHYS4041)
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Information about the course</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../outline/courseStructure.html">Course Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../outline/pythonEnvironment.html">Setup Python and Pennylane</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Lectures</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="lecture1.html">1. Quantum mechanics of a qubit</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">2. Multiple qubits, entanglement, and IBMQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lecture3.html">3. Bloch sphere, tomography, and optimisation</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/content/lectures/lecture2.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Multiple qubits, entanglement, and IBMQ</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quantum-states-of-multiple-qubits">2.1. Quantum states of multiple qubits</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kronecker-product-operators">2.2. Kronecker product operators</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#measuring-multiple-qubits">2.3. Measuring multiple qubits</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#entangling-gates-cnot">2.4. Entangling gates (CNOT)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#my-first-circuit-bell-states">2.5. My first circuit (Bell states)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-pennylane-and-ibmq">2.6. Using pennylane and IBMQ</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">2.7. References</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="multiple-qubits-entanglement-and-ibmq">
+<span id="sec-multi-qubit"></span><h1><span class="section-number">2. </span>Multiple qubits, entanglement, and IBMQ<a class="headerlink" href="#multiple-qubits-entanglement-and-ibmq" title="Link to this heading">#</a></h1>
+<p>So far we have learnt the quantum mechanics necessary to describe, manipulate and measure a single qubit. However, a single qubit is not so much use. While it is possible to do interesting things with this single qubit, in the end this boils down to two dimensional vector and matrix multiplication, which our classical computers are incredibly efficient at doing. The real advantage of quantum computers comes when we have multiple qubits and generate quantum entanglement between them. In this section we will generalise our vector space to accommodate multiple qubits, we will introduce multi-qubit gates and measurements, and we will program our first quantum circuit with entanglement that can be run on IBM quantum computers.</p>
+<section id="quantum-states-of-multiple-qubits">
+<h2><span class="section-number">2.1. </span>Quantum states of multiple qubits<a class="headerlink" href="#quantum-states-of-multiple-qubits" title="Link to this heading">#</a></h2>
+<p>When we introduce multiple qubits, the quantum states live in a space that is the tensor product of the individual qubit spaces.</p>
+<p>For example, for <em>two qubits</em> the relevant vector space is <span class="math notranslate nohighlight">\(\mathbb{C}^4 = \mathbb{C}^2 \otimes \mathbb{C}^2\)</span>, and the computational basis is</p>
+<div class="math notranslate nohighlight">
+\[
+    \{|00\rangle, |01\rangle, |10\rangle, |11\rangle \} = \{|0\rangle\otimes |0\rangle, |0\rangle\otimes |1\rangle, |1\rangle\otimes |0\rangle, |1\rangle\otimes |1\rangle \}.
+\]</div>
+<p>A general state can be written as</p>
+<div class="math notranslate nohighlight">
+\[
+    |\psi\rangle = \psi_{00} |00\rangle + \psi_{01} |01 \rangle + \psi_{10} |10\rangle + \psi_{11} |11\rangle,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(|\psi_{00}|^2 + |\psi_{01}|^2 + |\psi_{10}|^2 + |\psi_{11}|^2 = 1\)</span>, due to normalisation.</p>
+<p>For <em>three qubits</em> we have <span class="math notranslate nohighlight">\(\mathbb{C}^8 = \mathbb{C}^2 \otimes \mathbb{C}^2 \otimes \mathbb{C}^2\)</span>, the computation basis is</p>
+<div class="math notranslate nohighlight">
+\[
+    \{|000\rangle, |001\rangle, |010\rangle, |011\rangle, |100\rangle, |101\rangle, |110\rangle, |111\rangle\},
+\]</div>
+<p>and</p>
+<div class="math notranslate nohighlight">
+\[
+    |\psi\rangle = \sum_{i,j,k=0}^1 \psi_{ijk} |ijk\rangle,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\sum_{ijk} |\psi_{ijk}|^2 = 1\)</span>. And similarly for more qubits. Importantly, the size of the vector space grows exponentially with the number of qubits, i.e., for <span class="math notranslate nohighlight">\(N\)</span> qubits the vector space is <span class="math notranslate nohighlight">\(\mathbb{C}^{2^N}\)</span>. The exponential growth of the vector space is where the advantage of quantum computers lies. Put another way, as we increase the number of qubits, the size of matrices and vectors will at some point become too large to store in memory on a classical computer. Importantly, there are ways that we can manipulate these qubits that cannot be simulated efficiently on a classical computer.</p>
+</section>
+<section id="kronecker-product-operators">
+<h2><span class="section-number">2.2. </span>Kronecker product operators<a class="headerlink" href="#kronecker-product-operators" title="Link to this heading">#</a></h2>
+<p>Once we have multiple qubits, the simplest thing we could do is to manipulate them separately while still describing them as a combined system of multiple qubits. These operators correspond to Kronecker products of single qubit operators. For example,</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../../_images/Kronecker2Qubit.png"><img alt="../../_images/Kronecker2Qubit.png" src="../../_images/Kronecker2Qubit.png" style="width: 75%;" /></a>
+</figure>
+<p>Here we have used a quantum circuit diagram with multiple qubits, represented by the black “wires” running from left to right. The <span class="math notranslate nohighlight">\(H\)</span> gate acting on only the first qubit is equivalent to acting on both qubits with the operator <span class="math notranslate nohighlight">\(H\otimes 1\)</span>. In the end, the state is still in tensor product form, that is, the multi-qubit state is the tensor product of two single qubit states.</p>
+<p>Let us consider another example, this time using three qubits and multiple single qubit gates:</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../../_images/Kronecker3Qubit.png"><img alt="../../_images/Kronecker3Qubit.png" src="../../_images/Kronecker3Qubit.png" style="width: 100%;" /></a>
+</figure>
+<p>Again we end up with a tensor product state.</p>
+<p>Often we will use a short hand for single qubit gates, where we write the operator with an index, e.g., <span class="math notranslate nohighlight">\(H_2\)</span> which is a Hadamard gate acting on the second qubit. If we had three qubits, this would be shorthand for <span class="math notranslate nohighlight">\(H_2 = 1 \otimes H \otimes 1\)</span>. We often don’t need to think about this tensor product with identities, and can simply think of the gate acting on a single qubit. However, mathematically our state lives in a larger vector space, e.g. <span class="math notranslate nohighlight">\(\mathbb{C}^8\)</span>, and so it doesn’t make sense to apply a <span class="math notranslate nohighlight">\(2\times 2\)</span> matrix to an 8-dimensional vector.</p>
+<p>The Kronecker product of two single qubit gates in matrix form is given by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+    \left(\begin{matrix} 
+    a_{11} &amp; a_{12} \\
+    a_{21} &amp; a_{22}
+    \end{matrix}\right) \otimes
+    \left(\begin{matrix} 
+    b_{11} &amp; b_{12} \\
+    b_{21} &amp; b_{22}
+    \end{matrix}\right)
+    =
+    \left(\begin{matrix} 
+    a_{11}b_{11} &amp; a_{11} b_{12} &amp; a_{12}b_{11} &amp; a_{12}b_{12} \\
+    a_{11}b_{21} &amp; a_{11} b_{22} &amp; a_{12}b_{21} &amp; a_{12}b_{22} \\
+    a_{21}b_{11} &amp; a_{21} b_{12} &amp; a_{22}b_{11} &amp; a_{22}b_{12} \\
+    a_{22}b_{21} &amp; a_{22} b_{22} &amp; a_{22}b_{21} &amp; a_{22}b_{22}
+    \end{matrix}\right).
+\end{split}\]</div>
+<p>In general this can be nicely summarised in block form:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+    A \otimes B = \left(\begin{matrix} 
+    a_{11}B &amp; \cdots &amp; a_{1n}B \\
+    \vdots &amp; \ddots &amp; \vdots \\
+    a_{m1}B &amp; \cdots &amp; a_{mm}B
+    \end{matrix}\right),
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\(A\)</span> is a <span class="math notranslate nohighlight">\(m\times n\)</span> matrix, and <span class="math notranslate nohighlight">\(B\)</span> is a <span class="math notranslate nohighlight">\(r \times s\)</span> matrix.</p>
+</section>
+<section id="measuring-multiple-qubits">
+<h2><span class="section-number">2.3. </span>Measuring multiple qubits<a class="headerlink" href="#measuring-multiple-qubits" title="Link to this heading">#</a></h2>
+<p>Measuring multiple qubits is similar to the single qubit case: when we measure the system of many qubits we will find it in one of the computational basis states. The probability of being in each of the basis states is given by the probability amplitude squared, e.g., <span class="math notranslate nohighlight">\(p(|010\rangle) = |\psi_{010}|^2\)</span>.</p>
+<figure class="align-center" id="fig-measurement-2-qubit">
+<a class="reference internal image-reference" href="../../_images/Measurement2qubitSchematic.pdf"><img alt="../../_images/Measurement2qubitSchematic.pdf" src="../../_images/Measurement2qubitSchematic.pdf" style="width: 85%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 2.1 </span><span class="caption-text">Schematic of measurement of two qubits in quantum mechanics. As with a single qubit, measuring the system causes it to collapse into one of the basis states with probabilities determined by the absolute square of the coefficients.</span><a class="headerlink" href="#fig-measurement-2-qubit" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>There are cases when we might want to use multiple qubits to do a computation but not measure all of them. In this case, the probability is simply the sum of all the probabilities that have that outcome for the measured qubits. For example, consider three qubits, but we only measure the first qubit. The probabilities of measuring the two states of that qubit are</p>
+<div class="math notranslate nohighlight" id="equation-eq-reduced-measurement">
+<span class="eqno">(2.1)<a class="headerlink" href="#equation-eq-reduced-measurement" title="Link to this equation">#</a></span>\[\begin{split}
+\begin{aligned}
+    p(|0\rangle_1) = p(|000\rangle) + p(|001\rangle) + p(|010\rangle) + p(|011\rangle),\\
+    p(|1\rangle_1) = p(|100\rangle) + p(|101\rangle) + p(|110\rangle) + p(|111\rangle).
+\end{aligned}
+\end{split}\]</div>
+<div class="admonition-exercises-2-1 admonition">
+<p class="admonition-title">Exercises 2.1</p>
+<p><strong>1.</strong> Compute the following Kronecker products: <span class="math notranslate nohighlight">\(X\otimes X\)</span>, <span class="math notranslate nohighlight">\(Z \otimes Z\)</span>, <span class="math notranslate nohighlight">\(1 \otimes X\)</span>, <span class="math notranslate nohighlight">\(Z \otimes X \otimes Y\)</span>.</p>
+<p><strong>2.</strong> Remembering that for a Hermitian operator <span class="math notranslate nohighlight">\(H\)</span> with eigenvalues <span class="math notranslate nohighlight">\(E_i\)</span> and corresponding eigenvectors <span class="math notranslate nohighlight">\(|\psi_i\rangle\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[
+    \langle H \rangle \equiv \langle \psi | H | \psi \rangle = \sum_i E_i p(|\psi_i\rangle)
+\]</div>
+<p>and given the probabilities in the <span class="math notranslate nohighlight">\(Z\)</span>-basis, <span class="math notranslate nohighlight">\(p(|00\rangle), p(|01\rangle), p(|10\rangle), p(|11\rangle)\)</span>, write expressions for the expectation values <span class="math notranslate nohighlight">\(\langle 1 \otimes Z \rangle\)</span>, <span class="math notranslate nohighlight">\(\langle Z \otimes 1 \rangle\)</span>, and <span class="math notranslate nohighlight">\(\langle Z \otimes Z \rangle\)</span>.</p>
+</div>
+</section>
+<section id="entangling-gates-cnot">
+<h2><span class="section-number">2.4. </span>Entangling gates (CNOT)<a class="headerlink" href="#entangling-gates-cnot" title="Link to this heading">#</a></h2>
+<p>So far we have only acted separately on multiple qubits. While describing these operations may seem to require matrices that are exponentially large in the number of qubits, we must remember that we could always treat each qubit separately. Therefore, simulating <span class="math notranslate nohighlight">\(N\)</span> qubits on a classical computer is only <span class="math notranslate nohighlight">\(N\)</span> times harder than a single qubit, not exponentially. To do something genuinely useful on a quantum computer we need to introduce operators that act on multiple qubits and that aren’t Kronecker product operators. This type of operator can generate quantum entanglement and stops us from being able to classically simulate the problem.</p>
+<p>There are several important multi-qubit gates, but we will only need one. This is the CNOT or controlled-NOT (also called CX or controlled-X) gate. This gate is represented as</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../../_images/CNOTGate.png"><img alt="../../_images/CNOTGate.png" src="../../_images/CNOTGate.png" style="width: 45%;" /></a>
+</figure>
+<p>Importantly, this gate is not a Kronecker product operator, that is, <span class="math notranslate nohighlight">\(\text{CNOT} \neq A \otimes B\)</span> for any single qubit gates <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span>.</p>
+<p>The CNOT gate “flips” (applies X) to the second qubit if the first is in the <span class="math notranslate nohighlight">\(|1\rangle\)</span> state or does nothing if the first qubit is in the <span class="math notranslate nohighlight">\(|0\rangle\)</span> state. The first qubit is referred to as the <em>control qubit</em>, and the second as the <em>target qubit</em>. Explicitly, we have</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\text{CNOT} |00\rangle &amp;= |00 \rangle, \\
+\text{CNOT} |01\rangle &amp;= |01 \rangle, \\
+\text{CNOT} |10\rangle &amp;= |11 \rangle, \\
+\text{CNOT} |11\rangle &amp;= |10 \rangle.
+\end{aligned}
+\end{split}\]</div>
+<p>The way the CNOT gate acts on the target qubit is different depending on the state of the control qubit. It is for this reason that the gate cannot be split into single qubit gates. The state of the qubits can also become entangled after applying the CNOT gate. We will see in the next section what it means to be entangled.</p>
+<p>For single qubit gates we introduced an array of different single qubit gates, and even found that a general single qubit gate can be continuously parametrised by three angles. However, here we only introduce a single multi-qubit gate. It turns out that the CNOT gate plus single qubit rotations is a <em>universal gate set</em>. This means that any quantum gate (unitary matrix) can be approximated to arbitrary accuracy by a sequence of these gates. Therefore any other two-qubit gates, or gates involving more than two qubits can be written in terms of CNOT and single qubit rotations. This is an extremely powerful theorem in quantum computing that we will not show here. The proof is provided in Ref.<span id="id1">[<a class="reference internal" href="#id8" title="Michael A. Nielsen and Isaac L. Chuang. Quantum Computation and Quantum Information: 10th Anniversary Edition. Cambridge University Press, 2010. doi:10.1017/CBO9780511976667.">NC10</a>]</span>.</p>
+<p>The CNOT gate is not unique in this respect: there are other choices we could have made for our entangling gate. We primarily chose the CNOT because this is the gate that IBM have implemented in there quantum computers.</p>
+</section>
+<section id="my-first-circuit-bell-states">
+<h2><span class="section-number">2.5. </span>My first circuit (Bell states)<a class="headerlink" href="#my-first-circuit-bell-states" title="Link to this heading">#</a></h2>
+<p>With all of this setup, let us now turn to our first proper multi-qubit quantum circuit. This will showcase what the CNOT gate is doing and what we mean by quantum entanglement. Let us consider the following circuit</p>
+<figure class="align-center" id="eq-bell-state-circuit">
+<a class="reference internal image-reference" href="../../_images/BellCircuit.png"><img alt="../../_images/BellCircuit.png" src="../../_images/BellCircuit.png" style="width: 30%;" /></a>
+</figure>
+<p>At the start of the circuit we are in the state</p>
+<div class="math notranslate nohighlight">
+\[
+    |\psi_0\rangle = |00\rangle = |0\rangle \otimes |0\rangle.
+\]</div>
+<p>This is the starting state for the quantum computer. Any quantum circuit we run will always start with all qubits in the zero state. Next we apply a Hadamard gate to the first qubit. This is a Kronecker product operator and results in the state</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+    |\psi_1\rangle = H\otimes 1 |00\rangle &amp;= H|0\rangle \otimes |0\rangle\\
+    &amp; = \frac{1}{\sqrt{2}}(|0\rangle + |1\rangle) \otimes |0\rangle \\
+    &amp; = \frac{1}{\sqrt{2}}\left( |00\rangle + |10\rangle \right).
+\end{aligned}
+\end{split}\]</div>
+<p>Next we apply the CNOT gate to get the final state before measuring</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+|\psi\rangle &amp;= \text{CNOT} \cdot \frac{1}{\sqrt{2}} \left( |00\rangle + |10\rangle \right) \\
+&amp; = \frac{1}{\sqrt{2}} \left( |00\rangle + |11\rangle \right).
+\end{aligned}
+\end{split}\]</div>
+<p>This state is no longer a tensor product of single qubit states, that is, <span class="math notranslate nohighlight">\(|\psi\rangle \neq |\phi_1\rangle \otimes |\phi_2\rangle\)</span>, for any single qubit state <span class="math notranslate nohighlight">\(|\phi_1\rangle\)</span>, and <span class="math notranslate nohighlight">\(|\phi_2\rangle\)</span>.</p>
+<p>Finally, we measure both qubits. The probabilities of measuring each of the states are</p>
+<div class="math notranslate nohighlight">
+\[
+    p(|00\rangle) = \frac{1}{2}, \quad p(|01\rangle) = 0, \quad  p(|10\rangle) = 0, \quad  p(|11\rangle) = \frac{1}{2}.
+\]</div>
+<p>To understand how strange this is, consider measuring the two qubits separately. We find that <span class="math notranslate nohighlight">\(p(|0\rangle_1) = p(|0\rangle_2) = 1/2\)</span> and <span class="math notranslate nohighlight">\(p(|1\rangle_1) = p(|1\rangle_2) = 1/2\)</span>. That is, both qubits have 50% chance of being in either state, just like a fair coin flip. However, when we measure them together we find that the two qubits will always agree. There is zero probability of being in the <span class="math notranslate nohighlight">\(|01\rangle\)</span> state or the <span class="math notranslate nohighlight">\(|10\rangle\)</span> state. If we measure one of the qubits first, then the outcome of measuring the other qubit will be fixed. The two qubits are said to be entangled.</p>
+<p>The state we have constructed is one of the four Bell states</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+    |\Phi^+ \rangle &amp;= \frac{1}{\sqrt{2}} \left( |00\rangle + |11\rangle \right), \\
+    |\Phi^- \rangle &amp;= \frac{1}{\sqrt{2}} \left( |00\rangle - |11\rangle \right), \\
+    |\Psi^+ \rangle &amp;= \frac{1}{\sqrt{2}} \left( |01\rangle + |10\rangle \right), \\
+    |\Psi^- \rangle &amp;= \frac{1}{\sqrt{2}} \left( |01\rangle - |10\rangle \right).
+\end{aligned}
+\end{split}\]</div>
+<p>These states form an alternative orthonormal basis for the vector space of two qubits. These states are all “maximally entangled”. There is no basis in which we can measure a single qubit and get a certain answer. In fact, measuring in any basis we find that we have 50% probability of measuring one of the qubits in either of its two states. However, once we measure one of the qubits, the state of the other qubit is certain.</p>
+<div class="admonition-exercises-2-2 admonition">
+<p class="admonition-title">Exercises 2.2</p>
+<p><strong>1.</strong> Modify the Bell State circuit in the following way:</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../../_images/GHZCircuit.png"><img alt="../../_images/GHZCircuit.png" src="../../_images/GHZCircuit.png" style="width: 30%;" /></a>
+</figure>
+<p>Write down the three-qubit state this quantum circuit diagram represents. This state is known as the Greenberger–Horne–Zeilinger (GHZ) state.</p>
+</div>
+</section>
+<section id="using-pennylane-and-ibmq">
+<h2><span class="section-number">2.6. </span>Using pennylane and IBMQ<a class="headerlink" href="#using-pennylane-and-ibmq" title="Link to this heading">#</a></h2>
+<p>We are now in a position to simulate our first quantum circuit and to also run it on a real quantum computer. To do so we will be using a python package called <a class="reference external" href="https://pennylane.ai">pennylane</a> <span id="id2">[<a class="reference internal" href="#id10" title="Pennylane: automatic differentiation of hybrid quantum-classical computations. 2018. doi:https://doi.org/10.48550/arXiv.1811.04968.">pen18</a>]</span>. We will then run our code on one of IBM’s quantum computers, for which there is free access through IBM’s quantum experience and <a class="reference external" href="https://www.ibm.com/quantum/qiskit">qiskit</a> <span id="id3">[<a class="reference internal" href="#id9" title="Qiskit: an open-source framework for quantum computing. 2021. doi:10.5281/zenodo.2573505.">Qis21</a>]</span>, which we can connect to pennylane. In this section we will go through how to use pennylane to program and run the Bell state circuit we discussed in the previous section.</p>
+<p>To start, let us install pennylane using your favourite python installation or virtual environment. This is most easily done using pip:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span> <span class="o">&gt;&gt;</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">pennylane</span> <span class="o">--</span><span class="n">upgrade</span>
+</pre></div>
+</div>
+<p>See <a class="reference external" href="http://pennylane.ai">pennylane.ai</a> for more details, which also includes detailed documentation. I would recommend using a Jupyter notebook, but you can also use python scripts if preferred.</p>
+<p>Our first code is included in the file named “BellState-simulator.ipynb”, which is provided on the course moodle page. To start we need to import the relevant python packages using the following</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pennylane</span> <span class="k">as</span> <span class="nn">qml</span>
+</pre></div>
+</div>
+<p>This imports the pennylane package under the shorthand qml (quantum machine learning). This shorthand comes from the historical focus of pennylane as a quantum machine learning package with built in autodifferentiation, but it has become much more general than this. Next we have to set the device for running the quantum circuit</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">dev</span> <span class="o">=</span> <span class="n">qml</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;default.qubit&quot;</span><span class="p">,</span> <span class="n">wires</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To start with we are using a simulator that will run directly on our computer. We specify that we will only be using two qubits (called wires). To run our code on a real quantum computer, we will later change this line.</p>
+<figure class="align-center" id="fig-bell-state-qiskit-circuit">
+<a class="reference internal image-reference" href="../../_images/pennylane_BellCircuit.png"><img alt="../../_images/pennylane_BellCircuit.png" src="../../_images/pennylane_BellCircuit.png" style="width: 90%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 2.2 </span><span class="caption-text">(a) Quantum circuit diagram drawn by pennylane. (b) Histogram of the measurement outcomes for the quantum circuit. On the x-axis are the different basis states that were measured. The y-axis shows the inferred probability of measuring each of the basis states.</span><a class="headerlink" href="#fig-bell-state-qiskit-circuit" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>After this setup we will next build the quantum circuit</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nd">@qml</span><span class="o">.</span><span class="n">qnode</span><span class="p">(</span><span class="n">dev</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">circuit</span><span class="p">():</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">Hadamard</span><span class="p">(</span><span class="n">wires</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># apply a Hadamard gate on qubit 0</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">CNOT</span><span class="p">(</span><span class="n">wires</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">])</span>  <span class="c1"># apply CNOT from qubit 0 to 1</span>
+
+    <span class="k">return</span> <span class="n">qml</span><span class="o">.</span><span class="n">counts</span><span class="p">()</span>  <span class="c1"># measure all qubits and return the counts</span>
+</pre></div>
+</div>
+<p>The decorator in the first line lets pennylane know that the following function defines a quantum circuit and that it should be run on the device “dev”. We then define the circuit by adding a Hadamrd gate to qubit 0 and a CNOT between qubit 0 and 1. Finally, the function returns the counts. When we call this function, the circuit will be run and the function returns the measured counts.</p>
+<p>Now that we have defined the circuit, we can check that we have defined it correctly by plotting the corresponding circuit diagram</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">qml</span><span class="o">.</span><span class="n">drawer</span><span class="o">.</span><span class="n">use_style</span><span class="p">(</span><span class="s2">&quot;black_white&quot;</span><span class="p">)</span>
+<span class="n">qml</span><span class="o">.</span><span class="n">draw_mpl</span><span class="p">(</span><span class="n">circuit</span><span class="p">)()</span>  <span class="c1"># plot the circuit diagram</span>
+</pre></div>
+</div>
+<p>This produces the image shown in <a class="reference internal" href="#fig-bell-state-qiskit-circuit"><span class="std std-numref">Fig. 2.2</span></a>(a), which is indeed the circuit we want to run.</p>
+<p>We are now in the position to run the circuit, which is done with one line:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">counts</span> <span class="o">=</span> <span class="n">circuit</span><span class="p">(</span><span class="n">shots</span><span class="o">=</span><span class="mi">8192</span><span class="p">)</span>  <span class="c1"># run circuit with 8192 shots</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The first line runs the circuit using 8192 shots. A shot is a single run of the circuit, the outcome of which will be a single basis state, e.g. 00, 01, 10, or 11. By running the circuit for several shots we can estimate the probability of measuring each of the basis states. This is similar to flipping a coin many times to find the probability of getting heads or tails. We choose to set the number of shots to be 8192, chosen because it is a power of 2. The second line prints the result of the simulation. In just 12 lines of code, we have simulated our first quantum circuit!</p>
+<p>Rather than simply looking at the printed results, it is a lot better to plot them and visually see the results. To do this, we first want to convert the number of counts into the estimates of the probabilities for measuring that state, which can be done with the following lines</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">probs</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">counts</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+    <span class="n">probs</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span><span class="o">/</span><span class="mi">8192</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">probs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We can then use pyplot to plot a bar chart with the outcomes</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">bars</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">probs</span><span class="o">.</span><span class="n">keys</span><span class="p">(),</span> <span class="n">probs</span><span class="o">.</span><span class="n">values</span><span class="p">(),</span> <span class="n">linewidth</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">bar_label</span><span class="p">(</span><span class="n">bars</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;probability&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;BellState_simulator.pdf&quot;</span><span class="p">,</span><span class="nb">format</span><span class="o">=</span><span class="s2">&quot;pdf&quot;</span><span class="p">,</span><span class="n">bbox_inches</span><span class="o">=</span><span class="s2">&quot;tight&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>This produces the plot shown in <a class="reference internal" href="#fig-bell-state-qiskit-circuit"><span class="std std-numref">Fig. 2.2</span></a>(b). Note that we do not get perfect 50% probability because we only measured 8192 times. As we increase the number of shots, the probabilities will approach 50%.</p>
+<figure class="align-center" id="fig-bell-state-real">
+<a class="reference internal image-reference" href="../../_images/BellState_IBM.pdf"><img alt="../../_images/BellState_IBM.pdf" src="../../_images/BellState_IBM.pdf" style="width: 60%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 2.3 </span><span class="caption-text">Histogram of the measurement outcomes for the quantum circuit run on the IBM quantum computer. On the x-axis are the different basis states that were measured. The y-axis shows the inferred probability of measuring each of the basis states.</span><a class="headerlink" href="#fig-bell-state-real" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>We can also run our quantum circuit on a real quantum computer provided by IBM. To do this, we first need to set up an IBM quantum experience account and to save our account in python using qiskit. See <a class="reference external" href="https://auth.quantum-computing.ibm.com">https://auth.quantum-computing.ibm.com</a> for more details on how to sign up and how to save your account in python using a token. You will then need to install the pennylane package for interacting with qiskit, which will allow us to use IBM’s devices. To install qiskit and the pennylane add-on we can use pip</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span> <span class="o">&gt;&gt;</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">qiskit</span>
+ <span class="o">&gt;&gt;</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">pennylane</span><span class="o">-</span><span class="n">qiskit</span>
+</pre></div>
+</div>
+<p>Once this is set up, all you need to do is replace line 2 with the following</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit_ibm_runtime</span> <span class="kn">import</span> <span class="n">QiskitRuntimeService</span>
+
+<span class="n">service</span> <span class="o">=</span> <span class="n">QiskitRuntimeService</span><span class="p">(</span><span class="n">channel</span><span class="o">=</span><span class="s2">&quot;ibm_quantum&quot;</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="s2">&quot;ibm-q/open/main&quot;</span><span class="p">)</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">backend</span><span class="p">(</span><span class="s2">&quot;ibm_brisbane&quot;</span><span class="p">)</span>
+
+<span class="n">dev</span> <span class="o">=</span> <span class="n">qml</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;qiskit.remote&#39;</span><span class="p">,</span> <span class="n">wires</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The first line loads the necessary functions from qiskit. The second line loads your IBMQ credentials that you have already saved in python by following the instructions on the IBMQ website. The third line loads the IBM device codenamed <code class="docutils literal notranslate"><span class="pre">ibmq_brisbane</span></code>. This device refers to a real quantum computer hosted by IBM, of which there are several. Using the online interface you can see which quantum computers are available to you and how many jobs have been submitted and are currently in the queue. You may want to use a device that is less busy. Note you will also want to change the name of the pdf that you save to file when running on the real device.</p>
+<p>Running the code again with those changes runs your code on the quantum computer, which will take significantly longer than the simulator. This is because the data has to be communicated with the IBM server, placed in a queue to run on the device, and then finally run. When plotting the histogram of the measurements, you find something closer to <a class="reference internal" href="#fig-bell-state-real"><span class="std std-numref">Fig. 2.3</span></a>. Not only are the values further away from 50% but we also have non-zero probabilities for the states 01, 10. This is because the current devices are not yet perfect and suffer from a significant amount of noise that affects the measurement results. Regardless, we have run our first circuit on a quantum computer and realised an entangled quantum state.</p>
+<div class="admonition-exercises-2-3 admonition">
+<p class="admonition-title">Exercises 2.3</p>
+<p><strong>1.</strong> Modify the BellState example code to implement the following circuit</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../../_images/GHZCodeExercise.png"><img alt="../../_images/GHZCodeExercise.png" src="../../_images/GHZCodeExercise.png" style="width: 40%;" /></a>
+</figure>
+<p>This is the GHZ circuit from Exercises 2.2 but including measurements. Check that the probabilities obtained in the simulator (and on a real device) match the expected values for this state.</p>
+</div>
+<div class="admonition-code-download admonition">
+<p class="admonition-title">Code Download</p>
+<p>Here are links to download Jupyter notebooks for the code from this lecture:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../downloads/BellState-simulator.html"><span class="std std-doc">BellState-simulator</span></a> - running the Bell state circuit on a simulator.</p></li>
+<li><p><a class="reference internal" href="#../downloads/BellState-IBMQ.ipynb"><span class="xref myst">BellState-IBMQ</span></a> - running the Bell state circuit on a real IBM quantum computer.</p></li>
+</ul>
+<p>Here is the notebook to setup and save your IBM credentials:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../downloads/IBM_setup.html"><span class="std std-doc">IBM_setup</span></a> - setting up and saving your IBM credentials.</p></li>
+</ul>
+<p>You can also use this <a class="reference download internal" download="" href="../../_downloads/3730393110661fde6912d3fa15fbf048/environment.yml"><span class="xref download myst">environment yaml file</span></a> to setup a conda environment to run these notebooks, and all the code in this course.</p>
+</div>
+</section>
+<hr class="docutils" />
+<section id="references">
+<h2><span class="section-number">2.7. </span>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<div class="docutils container" id="id4">
+<div role="list" class="citation-list">
+<div class="citation" id="id10" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">pen18</a><span class="fn-bracket">]</span></span>
+<p>Pennylane: automatic differentiation of hybrid quantum-classical computations. 2018. <a class="reference external" href="https://doi.org/https://doi.org/10.48550/arXiv.1811.04968">doi:https://doi.org/10.48550/arXiv.1811.04968</a>.</p>
+</div>
+<div class="citation" id="id9" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">Qis21</a><span class="fn-bracket">]</span></span>
+<p>Qiskit: an open-source framework for quantum computing. 2021. <a class="reference external" href="https://doi.org/10.5281/zenodo.2573505">doi:10.5281/zenodo.2573505</a>.</p>
+</div>
+<div class="citation" id="id8" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">NC10</a><span class="fn-bracket">]</span></span>
+<p>Michael A. Nielsen and Isaac L. Chuang. <em>Quantum Computation and Quantum Information: 10th Anniversary Edition</em>. Cambridge University Press, 2010. <a class="reference external" href="https://doi.org/10.1017/CBO9780511976667">doi:10.1017/CBO9780511976667</a>.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./content/lectures"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="lecture1.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">1. </span>Quantum mechanics of a qubit</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="lecture3.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">3. </span>Bloch sphere, tomography, and optimisation</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quantum-states-of-multiple-qubits">2.1. Quantum states of multiple qubits</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#kronecker-product-operators">2.2. Kronecker product operators</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#measuring-multiple-qubits">2.3. Measuring multiple qubits</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#entangling-gates-cnot">2.4. Entangling gates (CNOT)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#my-first-circuit-bell-states">2.5. My first circuit (Bell states)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-pennylane-and-ibmq">2.6. Using pennylane and IBMQ</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">2.7. References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dr Adam Gammon-Smith
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

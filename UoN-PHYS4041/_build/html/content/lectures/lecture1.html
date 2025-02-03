@@ -1,0 +1,712 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>1. Quantum mechanics of a qubit &#8212; Introduction to Practical Quantum Computing - University of Nottingham (PHYS4041)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'content/lectures/lecture1';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="2. Multiple qubits, entanglement, and IBMQ" href="lecture2.html" />
+    <link rel="prev" title="Setup Python and Pennylane" href="../outline/pythonEnvironment.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Introduction to Practical Quantum Computing - University of Nottingham (PHYS4041) - Home"/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="Introduction to Practical Quantum Computing - University of Nottingham (PHYS4041) - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Introduction to Practical Quantum Computing - University of Nottingham (PHYS4041)
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Information about the course</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../outline/courseStructure.html">Course Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../outline/pythonEnvironment.html">Setup Python and Pennylane</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Lectures</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">1. Quantum mechanics of a qubit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lecture2.html">2. Multiple qubits, entanglement, and IBMQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lecture3.html">3. Bloch sphere, tomography, and optimisation</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/content/lectures/lecture1.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Quantum mechanics of a qubit</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quantum-states-of-a-qubit">1.1. Quantum states of a qubit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-bloch-sphere">1.2. The Bloch sphere</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quantum-gates">1.3. Quantum Gates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#measuring-quantum-states">1.4. Measuring quantum states</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quantum-circuit-notation">1.5. Quantum circuit notation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">1.6. References</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="quantum-mechanics-of-a-qubit">
+<span id="sec-qubit"></span><h1><span class="section-number">1. </span>Quantum mechanics of a qubit<a class="headerlink" href="#quantum-mechanics-of-a-qubit" title="Link to this heading">#</a></h1>
+<p>In this section we will set up the basics of quantum mechanics necessary for understanding how to use a quantum computer. This will hopefully be a recap of concepts you have already learnt, but may use unfamiliar notation. The best reference for this course is the book by Nielson and Chaung <span id="id1">[<a class="reference internal" href="lecture2.html#id8" title="Michael A. Nielsen and Isaac L. Chuang. Quantum Computation and Quantum Information: 10th Anniversary Edition. Cambridge University Press, 2010. doi:10.1017/CBO9780511976667.">NC10</a>]</span>. This is the standard text book in quantum computing and includes introductory chapters on linear algebra and quantum mechanics. It goes far beyond what we will cover and chapter 2 is the most relevant for us.</p>
+<p>If you have already taken a course on quantum mechanics you may be familiar with the wave mechanics of a single particle, e.g., solving the Schrödinger equation for a particle in a box. This involves differentiable complex wave functions and the solution to a partial differential equation. In the course we will instead be interested in the quantum mechanics of qubits. This will be described by finite complex vectors that represent the quantum many-body state of the qubits and unitary matrices that represent the relevant operators.</p>
+<section id="quantum-states-of-a-qubit">
+<h2><span class="section-number">1.1. </span>Quantum states of a qubit<a class="headerlink" href="#quantum-states-of-a-qubit" title="Link to this heading">#</a></h2>
+<p>The building blocks of quantum computers are called qubits, which are two-level quantum systems. That is, a qubit has two orthogonal states, commonly denoted</p>
+<div class="math notranslate nohighlight">
+\[
+    |0\rangle, \qquad \text{and} \qquad |1\rangle.
+\]</div>
+<p>These are the analogues of the classical states of a bit: 0 or 1. However, quantum mechanically, a qubit can exist in superpositions of these states. A general state of a qubit can be written as</p>
+<div class="math notranslate nohighlight">
+\[
+    |\psi\rangle = \alpha|0\rangle + \beta |1 \rangle,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\alpha, \beta \in \mathbb{C}\)</span> and <span class="math notranslate nohighlight">\(|\alpha|^2 = |\beta|^2 = 1\)</span>.</p>
+<p>The state of the qubit lives in the vector space <span class="math notranslate nohighlight">\(\mathbb{C}^2\)</span> which is equipped with the standard inner product (making it an inner product space, and actually a Hilbert space). The inner product can be defined by</p>
+<div class="math notranslate nohighlight">
+\[
+    \langle \phi | \psi \rangle = \phi_0^* \psi_0 + \phi_1^* \psi_1,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(|\phi\rangle = \phi_0 |0\rangle + \phi_1|1\rangle\)</span>, and <span class="math notranslate nohighlight">\(|\psi\rangle = \psi_0|0\rangle + \psi_1|1\rangle\)</span>. This form for the inner product can be nicely summarised using the Dirac bra-ket notation, where <span class="math notranslate nohighlight">\(\langle \phi | = \phi_0^* \langle 0 | + \phi_1^* \langle 1|\)</span>, with <span class="math notranslate nohighlight">\(\langle 0 | 1 \rangle = \langle 1 | 0 \rangle = 0\)</span>, and <span class="math notranslate nohighlight">\(\langle 0 | 0 \rangle = \langle 1 | 1 \rangle = 1\)</span>. This inner product also defines a norm</p>
+<div class="math notranslate nohighlight">
+\[
+    | |\psi\rangle | = \sqrt{ \langle \psi | \psi \rangle }.
+\]</div>
+<p>The physical pure states are those with unit norm.</p>
+<p>The two states <span class="math notranslate nohighlight">\(\{|0\rangle, |1\rangle\}\)</span> form an orthonormal basis for the two-dimensional vector space <span class="math notranslate nohighlight">\(\mathbb{C}^2\)</span>, and so we could instead use the column vector notation</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+    |0\rangle \equiv \left(\begin{matrix}1\\0\end{matrix}\right), \qquad |1 \rangle \equiv \left(\begin{matrix}0\\1\end{matrix}\right).
+\end{split}\]</div>
+<p>This is usually referred to as the computational basis (other names include: logical basis, natural basis or Z-basis). Depending on the circumstance, it will be useful to switch between Dirac notation and column vector notation.</p>
+<p>As with any vector space, the choice of basis is not unique. Two other useful choices of basis are the X-basis, <span class="math notranslate nohighlight">\(\{|+\rangle, |-\rangle \}\)</span>, given by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+    |+\rangle = \frac{1}{\sqrt{2}}\left( |0\rangle + |1\rangle \right) \equiv \frac{1}{\sqrt{2}} \left( \begin{matrix}1\\1 \end{matrix} \right), \qquad |-\rangle = \frac{1}{\sqrt{2}}\left( |0\rangle - |1\rangle \right) \equiv \frac{1}{\sqrt{2}} \left( \begin{matrix}1\\-1 \end{matrix} \right),
+\end{split}\]</div>
+<p>and the Y-basis, <span class="math notranslate nohighlight">\(\{ |R\rangle, |L \rangle\}\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+    |R\rangle = \frac{1}{\sqrt{2}}\left( |0\rangle + i|1\rangle \right) \equiv \frac{1}{\sqrt{2}} \left( \begin{matrix}1\\i \end{matrix} \right), \qquad |L\rangle = \frac{1}{\sqrt{2}}\left( |0\rangle -i |1\rangle \right) \equiv \frac{1}{\sqrt{2}} \left( \begin{matrix}1\\-i \end{matrix} \right).
+\end{split}\]</div>
+<p>You can check using the above definition of the inner product that these are also orthonormal bases.
+We can then write a given state in any basis depending on which is most convenient, e.g.,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+    |\psi \rangle = \alpha |0\rangle + \beta |1\rangle = \frac{\alpha + \beta}{\sqrt{2}} |+\rangle + \frac{\alpha - \beta}{\sqrt{2}}|-\rangle \equiv \left( \begin{matrix}\alpha\\ \beta \end{matrix} \right).
+\end{split}\]</div>
+</section>
+<section id="the-bloch-sphere">
+<h2><span class="section-number">1.2. </span>The Bloch sphere<a class="headerlink" href="#the-bloch-sphere" title="Link to this heading">#</a></h2>
+<figure class="align-center" id="fig-bloch-sphere">
+<a class="reference internal image-reference" href="../../_images/BlochSphere.pdf"><img alt="../../_images/BlochSphere.pdf" src="../../_images/BlochSphere.pdf" style="width: 60%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 1.1 </span><span class="caption-text">Representation of the state of a single qubit on the Bloch sphere. The state <span class="math notranslate nohighlight">\(|\psi\rangle\)</span> is parametrised by two angles <span class="math notranslate nohighlight">\(\theta\)</span> and <span class="math notranslate nohighlight">\(\phi\)</span>. The computational basis state <span class="math notranslate nohighlight">\(|0\rangle\)</span> and <span class="math notranslate nohighlight">\(|1\rangle\)</span> are at the north and south pole. The other basis states we introduced lie along the x and y axes.</span><a class="headerlink" href="#fig-bloch-sphere" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Given that physical states are normalised, a general state of a single qubit can be parametrised as</p>
+<div class="math notranslate nohighlight">
+\[
+|\psi\rangle = e^{i\lambda} \left[ \cos \frac{\theta}{2} |0 \rangle + e^{i \phi} \sin \frac{\theta}{2} |1\rangle \right].
+\]</div>
+<p>However, the overall phase <span class="math notranslate nohighlight">\(e^{i\lambda}\)</span> is not measurable and so can also be fixed to 1. Note, that when we introduce more qubits the <em>relative</em> phase will be measurable. Therefore, the single qubit state has the following parametrisation</p>
+<div class="math notranslate nohighlight">
+\[
+|\psi\rangle = \cos \frac{\theta}{2} |0 \rangle + e^{i \phi} \sin \frac{\theta}{2} |1\rangle,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\theta \in [0, \pi)\)</span> and <span class="math notranslate nohighlight">\(\phi \in [0,2\pi)\)</span>.</p>
+<p>The angles <span class="math notranslate nohighlight">\(\theta\)</span> and <span class="math notranslate nohighlight">\(\phi\)</span> can be re-interpreted as parametrising the surface of a unit sphere, known as the Bloch sphere, as shown in <a class="reference internal" href="#fig-bloch-sphere"><span class="std std-numref">Fig. 1.1</span></a>. The <span class="math notranslate nohighlight">\(|0\rangle\)</span> basis state is at the north pole of this Bloch sphere and the <span class="math notranslate nohighlight">\(|1\rangle\)</span> is at the south pole. This picture will be useful for interpreting quantum states and the action of quantum gates.</p>
+<div class="admonition-exercises-1-1 admonition">
+<p class="admonition-title">Exercises 1.1.</p>
+<p><strong>1.</strong> Show that the X-basis, <span class="math notranslate nohighlight">\(\{|+\rangle, |-\rangle \}\)</span>, and the Y-basis, <span class="math notranslate nohighlight">\(\{|R\rangle, |L\rangle \}\)</span>, are orthonormal bases using both the column vector notation and Dirac bra-ket notation.</p>
+<p><strong>2.</strong> Write the state <span class="math notranslate nohighlight">\(|\phi\rangle = \gamma |R\rangle + \delta |L\rangle\)</span> in the <span class="math notranslate nohighlight">\(Z\)</span>-basis <span class="math notranslate nohighlight">\(\{|0\rangle, |1\rangle \}\)</span>.</p>
+<p><strong>3.</strong> Find the Bloch angles <span class="math notranslate nohighlight">\(\theta, \phi\)</span> for the state</p>
+<div class="math notranslate nohighlight">
+\[
+|L\rangle = \frac{1}{\sqrt{2}}|0\rangle - i \frac{1}{\sqrt{2}} |1\rangle.
+\]</div>
+</div>
+</section>
+<section id="quantum-gates">
+<h2><span class="section-number">1.3. </span>Quantum Gates<a class="headerlink" href="#quantum-gates" title="Link to this heading">#</a></h2>
+<figure class="align-center" id="fig-single-qubit-gates">
+<a class="reference internal image-reference" href="../../_images/single_qubit_gates.png"><img alt="../../_images/single_qubit_gates.png" src="../../_images/single_qubit_gates.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 1.2 </span><span class="caption-text">Action of single qubit gates on the Bloch sphere. The Hadmard gate allows us two go between the <span class="math notranslate nohighlight">\(|0\rangle\)</span> and <span class="math notranslate nohighlight">\(|+\rangle\)</span> states. The rotation gates correspond to rotations by <span class="math notranslate nohighlight">\(\theta\)</span> around the x, y and z axes.</span><a class="headerlink" href="#fig-single-qubit-gates" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Now that we can represent the different states of a qubit, to do something useful we need to be able to change and manipulate these states. This is done using quantum gates. Single qubit gates are unitary operators acting on <span class="math notranslate nohighlight">\(\mathbb{C}^2\)</span>, the vector space for our states. A unitary operator is one whose inverse is its Hermitian conjugate, i.e., <span class="math notranslate nohighlight">\(\hat{U}\hat{U}^\dagger = \hat{U}^\dagger \hat{U} = 1\)</span>. These are usually easiest to represent as <span class="math notranslate nohighlight">\(2\times 2\)</span> unitary matrices, where <span class="math notranslate nohighlight">\(U^\dagger\)</span> is the conjugate transpose of the matrix <span class="math notranslate nohighlight">\(U\)</span>.</p>
+<p>One very useful set of single qubit gates are the Pauli matrices <span class="math notranslate nohighlight">\(\{ 1, X, Y, Z \}\)</span>, defined by</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+    1 &amp;\equiv \left(\begin{matrix} 1 &amp; 0\\ 0 &amp; 1 \end{matrix} \right), \qquad 1|0\rangle = |0\rangle, \;\; 1|1\rangle = |1\rangle\\
+    \sigma^x = X &amp;\equiv \left(\begin{matrix} 0 &amp; 1\\ 1 &amp; 0 \end{matrix} \right), \qquad X|0\rangle = |1\rangle, \;\; X|1\rangle = |0\rangle \\
+    \sigma^y = Y &amp;\equiv \left(\begin{matrix} 0 &amp; -i\\ i &amp; 0 \end{matrix} \right), \qquad Y|0\rangle = i|1\rangle, \;\; Y|1\rangle = -i|0\rangle \\
+    \sigma^z = Z &amp;\equiv \left(\begin{matrix} 1 &amp; 0\\ 0 &amp; -1 \end{matrix} \right), \qquad Z|0\rangle = |0\rangle, \;\; Z|1\rangle = -|1\rangle
+\end{aligned}
+\end{split}\]</div>
+<p>Depending on the situation it might be easier to use operator/Dirac notation or matrix/vector notation. In any case, you should be comfortable with switching between the two. As an example</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+    X|-\rangle = - |-\rangle, \quad \text{equivalent to} \quad \left( \begin{matrix} 0&amp; 1\\ 1&amp; 0 \end{matrix}\right) \frac{1}{\sqrt{2}} \left(\begin{matrix} 1\\-1 \end{matrix} \right) = - \frac{1}{\sqrt{2}} \left(\begin{matrix} 1\\-1 \end{matrix} \right).
+\end{split}\]</div>
+<p>Other important single qubit gates are the following,</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\text{Hadamard} \qquad H &amp; \equiv \frac{1}{\sqrt{2}} \left(\begin{matrix}1 &amp; 1\\ 1 &amp; -1 \end{matrix} \right),\\
+\text{Phase} \qquad S &amp; \equiv \left(\begin{matrix}1 &amp; 0\\ 0 &amp; i \end{matrix} \right),\\
+\pi/8 \qquad T &amp; \equiv \left(\begin{matrix}1 &amp; 0\\ 0 &amp; e^{i\pi/4} \end{matrix} \right).
+\end{aligned}
+\end{split}\]</div>
+<p>In particular, we will use the Hadamard and phase gates to change basis, as demonstrated in Fig.~\ref{fig: single qubit gates}. The Hadamard is also useful for creating superposition states. We will aslo use the following rotation gates</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+R_X(\theta) = \exp\left\{-i\frac{\theta}{2} X\right\} = \cos \frac{\theta}{2} 1 - i \sin \frac{\theta}{2} X, \\
+R_Y(\theta) = \exp\left\{-i\frac{\theta}{2} Y\right\} = \cos \frac{\theta}{2} 1 - i \sin \frac{\theta}{2} Y, \\
+R_Z(\theta) = \exp\left\{-i\frac{\theta}{2} Z\right\} = \cos \frac{\theta}{2} 1 - i \sin \frac{\theta}{2} Z.
+\end{aligned}
+\end{split}\]</div>
+<p>On the Bloch sphere, these correspond to rotations around a given axis. For instance <span class="math notranslate nohighlight">\(R_X(\theta)\)</span> rotates the state around the x-axis by angle <span class="math notranslate nohighlight">\(\theta\)</span>, as shown in Fig.~\ref{fig: single qubit gates}. It turns out that we can write an arbitrary single qubit gate using three rotations plus an overall phase, i.e.</p>
+<div class="math notranslate nohighlight" id="equation-eq-general-rotation">
+<span class="eqno">(1.1)<a class="headerlink" href="#equation-eq-general-rotation" title="Link to this equation">#</a></span>\[
+U = e^{i\alpha} R_Z(\beta) R_Y(\gamma) R_Z(\delta).
+\]</div>
+<p>Here we chose <span class="math notranslate nohighlight">\(Z\)</span> and <span class="math notranslate nohighlight">\(Y\)</span> rotation but we could have equivalently chosen any pair of <span class="math notranslate nohighlight">\(\{X, Y, Z\}\)</span>, see <span id="id2">[<a class="reference internal" href="lecture2.html#id8" title="Michael A. Nielsen and Isaac L. Chuang. Quantum Computation and Quantum Information: 10th Anniversary Edition. Cambridge University Press, 2010. doi:10.1017/CBO9780511976667.">NC10</a>]</span> for a proof. This combination of rotations generates an arbitrary unitary matrix in <span class="math notranslate nohighlight">\(SU(2)\)</span>, and the added phase promotes this to <span class="math notranslate nohighlight">\(U(2)\)</span>. When dealing with a single qubit, this phase can again be ignored since it is not measurable.</p>
+<div class="admonition-exercises-1-2 admonition">
+<p class="admonition-title">Exercises 1.2</p>
+<p><strong>1.</strong> Show that <span class="math notranslate nohighlight">\(HZH = X\)</span> and <span class="math notranslate nohighlight">\(SHZHS^\dagger = Y\)</span>.</p>
+<p><strong>2.</strong> Show that <span class="math notranslate nohighlight">\(H\)</span> and <span class="math notranslate nohighlight">\(S\)</span> are unitary.</p>
+<p><strong>3.</strong> Given that</p>
+<div class="math notranslate nohighlight">
+\[
+    R_Z(\theta) = \exp\left\{-i\frac{\theta}{2} Z\right\} = \cos \frac{\theta}{2} 1 - i \sin \frac{\theta}{2} Z.
+\]</div>
+<p>and that for a unitary matrix <span class="math notranslate nohighlight">\(U\)</span>, the matrix exponential has the following property</p>
+<div class="math notranslate nohighlight">
+\[
+    \exp (U^\dagger M U) = U^\dagger \exp (M) U
+\]</div>
+<p>Use this and the previous parts to show that</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+R_X(\theta) = \exp\left\{-i\frac{\theta}{2} X\right\} = \cos \frac{\theta}{2} 1 - i \sin \frac{\theta}{2} X, \\
+R_Y(\theta) = \exp\left\{-i\frac{\theta}{2} Y\right\} = \cos \frac{\theta}{2} 1 - i \sin \frac{\theta}{2} Y.
+\end{aligned}
+\end{split}\]</div>
+</div>
+</section>
+<section id="measuring-quantum-states">
+<span id="sec-measurement"></span><h2><span class="section-number">1.4. </span>Measuring quantum states<a class="headerlink" href="#measuring-quantum-states" title="Link to this heading">#</a></h2>
+<p>Now we know how to represent the state of qubit and how to manipulate it using quantum gates, all that remains is to measure the qubit. Measurement is perhaps the most unsettling aspect of quantum mechanics. Despite the deterministic nature of complex vectors and unitary matrix multiplication, our observation of a quantum system is necessarily probabilistic.</p>
+<p>Let us consider a single qubit in the state</p>
+<div class="math notranslate nohighlight">
+\[
+    |\psi\rangle = \alpha |0 \rangle + \beta |1 \rangle,
+\]</div>
+<p>which is properly normalised such that <span class="math notranslate nohighlight">\(|\alpha|^2 + |\beta|^2 = 1\)</span>. If we now ``look at” the qubit, we will find that it is in the state <span class="math notranslate nohighlight">\(|0\rangle\)</span> or <span class="math notranslate nohighlight">\(|1\rangle\)</span> with probabilities <span class="math notranslate nohighlight">\(|\alpha|^2\)</span> and <span class="math notranslate nohighlight">\(|\beta|^2\)</span>, respectively, as illustrated in <a class="reference internal" href="#fig-measurement"><span class="std std-numref">Fig. 1.3</span></a>. That is, while the state is in a superposition, when we measure it has to be in either <span class="math notranslate nohighlight">\(|0\rangle\)</span> or <span class="math notranslate nohighlight">\(|1\rangle\)</span>, and this becomes the new state of the system. This is sometimes referred to as the wavefunction collapsing. Which of the two possibilities we actually measure and which way the state collapses is probabilistic. To paraphrase: when we measure a qubit we get a classical bit, whose value is probabilistic.</p>
+<figure class="align-center" id="fig-measurement">
+<a class="reference internal image-reference" href="../../_images/MeasurementSchematic.pdf"><img alt="../../_images/MeasurementSchematic.pdf" src="../../_images/MeasurementSchematic.pdf" style="width: 75%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 1.3 </span><span class="caption-text">Schematic of measurement of a qubit in quantum mechanics. When we measure the qubit the state collapses into one of the two basis states. The probability of each possibility is given by the absolute square of the coefficients in the original state.</span><a class="headerlink" href="#fig-measurement" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Let us be a bit more formal. Above, there was something special about the states <span class="math notranslate nohighlight">\(|0\rangle\)</span> and <span class="math notranslate nohighlight">\(|1\rangle\)</span>, which is due to a choice in how we measured. We say we “measured in the computational basis”. More generally, measurements are associated with operators <span class="math notranslate nohighlight">\(\{M_n\}\)</span>, such that <span class="math notranslate nohighlight">\(\sum_n M_n^\dagger M_n = 1\)</span>. The specific operators <span class="math notranslate nohighlight">\(M_n\)</span> are specified by our measurement apparatus.</p>
+<p>When we measure, the state of the system becomes,</p>
+<div class="math notranslate nohighlight">
+\[
+    |\psi'\rangle = \frac{M_n |\psi\rangle}{\sqrt{\langle\psi|M^\dagger_n M_n |\psi\rangle}}, \quad \text{with probability} \quad p(n) = \langle \psi | M_n^\dagger M_n |\psi \rangle.
+\]</div>
+<p>In the computational basis, this amounts to the choice <span class="math notranslate nohighlight">\(M_0 = |0\rangle\langle 0|\)</span>, <span class="math notranslate nohighlight">\(M_1 = |1\rangle \langle 1 |\)</span>, which project onto the two computational basis states.</p>
+<p>In a quantum computer the measurement operators are fixed and we always measure in the computational basis. However, we can measure in different bases, say the X-basis <span class="math notranslate nohighlight">\(\{|+\rangle, |-\rangle \}\)</span> by first applying a unitary Hadamard gate. That is,
+measuring</p>
+<div class="math notranslate nohighlight">
+\[
+|\psi\rangle = \alpha |+\rangle + \beta |-\rangle, \quad \text{with} \quad M_+ = |+\rangle\langle +|, M_- = |-\rangle\langle -|,
+\]</div>
+<p>is equivalent to measuring,</p>
+<div class="math notranslate nohighlight">
+\[
+    |\psi'\rangle = H |\psi\rangle = \alpha |0\rangle + \beta |1\rangle, \quad \text{with} \quad M_0 = |0\rangle\langle 0|, M_1 = |1\rangle \langle 1|.
+\]</div>
+<p>And so we can always measure in a different basis by first rotating our state.</p>
+<p>Often when we measure a qubit, our goal will be to compute an expectation value of some Hermitian (observable) operator. As the simplest case consider the expectation value <span class="math notranslate nohighlight">\(\langle Z \rangle = \langle \psi | Z | \psi \rangle\)</span>. Here we use the shorthand for expectation values with respect to a given state, i.e., <span class="math notranslate nohighlight">\(\langle \cdot \rangle = \langle \psi | \cdot |\psi \rangle\)</span>. The Z Pauli matrix is diagonal in the computational basis (meaning the basis states are eigenvectors) and we have <span class="math notranslate nohighlight">\(Z |0\rangle = |0\rangle\)</span> and <span class="math notranslate nohighlight">\(Z|1\rangle = -|1\rangle\)</span>. This makes the expectation value particular easy to compute in terms of the probabilities of measuring each basis state, that is</p>
+<div class="math notranslate nohighlight">
+\[
+\langle Z \rangle = p(|0\rangle) - p(|1\rangle).
+\]</div>
+<p>For the other Pauli operators we can make a basis change to make them diagonal in the computational basis. That is <span class="math notranslate nohighlight">\(\langle X \rangle = (\langle \psi| H) Z (H |\psi\rangle)\)</span>, and <span class="math notranslate nohighlight">\(\langle Y \rangle = (\langle \psi|SH) Z (HS^\dagger |\psi\rangle)\)</span>. In the general case, let <span class="math notranslate nohighlight">\(H\)</span> be the Hermitian operator with eigenstates <span class="math notranslate nohighlight">\(|\psi_i\rangle\)</span> and eigenvalues <span class="math notranslate nohighlight">\(E_i\)</span>, then the expectation value is given by</p>
+<div class="math notranslate nohighlight">
+\[
+    \langle H \rangle = \sum_i E_i p(|\psi_i\rangle).
+\]</div>
+</section>
+<section id="quantum-circuit-notation">
+<h2><span class="section-number">1.5. </span>Quantum circuit notation<a class="headerlink" href="#quantum-circuit-notation" title="Link to this heading">#</a></h2>
+<p>As we go further, and particularly when we add more qubits, working with vectors and matrices can become a bit cumbersome and hard to read. We will therefore use a graphical <em>quantum circuit</em> notation.</p>
+<p>Let us look at a couple of examples for a single qubit. The first example is</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../../_images/hadamard_diagram.png"><img alt="../../_images/hadamard_diagram.png" src="../../_images/hadamard_diagram.png" style="width: 45%;" /></a>
+</figure>
+<p>Here we start with the state <span class="math notranslate nohighlight">\(|0\rangle\)</span> and then apply the hadamard gate to get the state <span class="math notranslate nohighlight">\(|\psi\rangle\)</span>. In the quantum circuit notation “time” goes from left to right. The qubit is symbolised by a black “wire” and the hadamard gate by a box with the letter <span class="math notranslate nohighlight">\(H\)</span>. As a second example, consider</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../../_images/two_gates_diagram.png"><img alt="../../_images/two_gates_diagram.png" src="../../_images/two_gates_diagram.png" style="width: 55%;" /></a>
+</figure>
+<p>Here we apply the X gate first and then the hadamard gate. Is is important to notice that our direction of “time” is opposite to matrix multiplication.</p>
+<p>Finally, we can also introduce measurements into our quantum circuit diagrams. for example</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../../_images/measurement_diagram.png"><img alt="../../_images/measurement_diagram.png" src="../../_images/measurement_diagram.png" style="width: 25%;" /></a>
+</figure>
+<p>where the final box symbolises a “meter” which performs the measurment. In contrast to the previous examples, this circuit diagram does not represent a quantum state. Instead this is a complete quantum program including measurement. The outcome of this program with either be 0 or 1 (corresponding to measuring <span class="math notranslate nohighlight">\(|0\rangle\)</span> or <span class="math notranslate nohighlight">\(|1\rangle\)</span>), with probabilities set by the state immediately before measuring.</p>
+<div class="admonition-exercises-1-3 admonition">
+<p class="admonition-title">Exercises 1.3</p>
+<p><strong>1.</strong> We previously showed that <span class="math notranslate nohighlight">\(HZH = Z\)</span> and <span class="math notranslate nohighlight">\(SHZHS^\dagger = Y\)</span>. Hence show that</p>
+<div class="math notranslate nohighlight">
+\[
+    \langle \psi | X | \psi \rangle = \langle \psi_x | Z |\psi_x\rangle, \qquad \langle \psi | Y | \psi \rangle = \langle \psi_y | Z |\psi_y\rangle,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(|\psi_x\rangle = H |\psi\rangle\)</span> and <span class="math notranslate nohighlight">\(|\psi_y\rangle = HS^\dagger |\psi\rangle\)</span>.</p>
+<p><strong>2.</strong> Given the state <span class="math notranslate nohighlight">\(|\psi\rangle = \alpha |0\rangle + \beta |1\rangle\)</span>, show that</p>
+<div class="math notranslate nohighlight">
+\[
+\langle \psi | Z | \psi \rangle = |\alpha|^2 - |\beta|^2 = p(|0\rangle) - p(|1\rangle).
+\]</div>
+<p><strong>3.</strong> A general single-qubit rotation can be written as <span class="math notranslate nohighlight">\(U = R_Z(\beta) R_Y(\gamma) R_Z(\delta)\)</span>, up to a global phase. Write this decomposition of a rotation gate applied to the state <span class="math notranslate nohighlight">\(|0\rangle\)</span> in quantum circuit notation.</p>
+</div>
+</section>
+<hr class="docutils" />
+<section id="references">
+<h2><span class="section-number">1.6. </span>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<div class="docutils container" id="id3">
+<div role="list" class="citation-list">
+<div class="citation" id="id7" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>NC10<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id2">2</a>)</span>
+<p>Michael A. Nielsen and Isaac L. Chuang. <em>Quantum Computation and Quantum Information: 10th Anniversary Edition</em>. Cambridge University Press, 2010. <a class="reference external" href="https://doi.org/10.1017/CBO9780511976667">doi:10.1017/CBO9780511976667</a>.</p>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./content/lectures"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../outline/pythonEnvironment.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Setup Python and Pennylane</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="lecture2.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">2. </span>Multiple qubits, entanglement, and IBMQ</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quantum-states-of-a-qubit">1.1. Quantum states of a qubit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-bloch-sphere">1.2. The Bloch sphere</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quantum-gates">1.3. Quantum Gates</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#measuring-quantum-states">1.4. Measuring quantum states</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quantum-circuit-notation">1.5. Quantum circuit notation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">1.6. References</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dr Adam Gammon-Smith
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
