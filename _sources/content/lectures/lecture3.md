@@ -164,7 +164,7 @@ align: center
 ---
 
 ``` 
-where $A \in \{1, H, HS^\dag\}$ is the gate needed to change to each of the three bases.
+where $A \in \{1, H, HS^\dagger\}$ is the gate needed to change to each of the three bases.
 
 To perform the minimisation we need to define a ``loss`` or ``objective`` function. This can simply be the distance between the vectors
 
@@ -226,3 +226,12 @@ that is, without the square root. Does the optimisation still work?
 [RotationOptimisation.ipynb](../downloads/RotationOptimisation.ipynb) - Jupyter notebook with code for optimising a rotation gate.
 
 ````
+
+
+
+---
+
+## References
+```{bibliography}
+:filter: docname in docnames
+```
