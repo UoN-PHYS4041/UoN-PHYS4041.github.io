@@ -14,3 +14,4 @@ parts:
     - file: content/lectures/lecture1
     - file: content/lectures/lecture2
     - file: content/lectures/lecture3
+    - file: content/lectures/lecture4
