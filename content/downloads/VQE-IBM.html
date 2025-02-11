@@ -1,0 +1,888 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>&lt;no title&gt; &#8212; Introduction to Practical Quantum Computing - University of Nottingham (PHYS4041)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'content/downloads/VQE-IBM';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Introduction to Practical Quantum Computing - University of Nottingham (PHYS4041) - Home"/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="Introduction to Practical Quantum Computing - University of Nottingham (PHYS4041) - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Introduction to Practical Quantum Computing - University of Nottingham (PHYS4041)
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Information about the course</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../outline/courseStructure.html">Course Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../outline/pythonEnvironment.html">Setup Python and Pennylane</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Lectures</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../lectures/lecture1.html">1. Quantum mechanics of a qubit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lectures/lecture2.html">2. Multiple qubits, entanglement, and IBMQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lectures/lecture3.html">3. Bloch sphere, tomography, and optimisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lectures/lecture4.html">4. Variational quantum eigensolver (VQE)</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/content/downloads/VQE-IBM.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1><no title></h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="simple visible nav section-nav flex-column">
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pennylane</span> <span class="k">as</span> <span class="nn">qml</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span> <span class="nn">pennylane</span> <span class="k">as</span> <span class="nn">qml</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="kn">from</span> <span class="nn">matplotlib</span> <span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;pennylane&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit_ibm_runtime</span> <span class="kn">import</span> <span class="n">QiskitRuntimeService</span>
+
+<span class="n">service</span> <span class="o">=</span> <span class="n">QiskitRuntimeService</span><span class="p">(</span><span class="n">channel</span><span class="o">=</span><span class="s2">&quot;ibm_quantum&quot;</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="s2">&quot;ibm-q/open/main&quot;</span><span class="p">)</span>
+<span class="n">backend</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">backend</span><span class="p">(</span><span class="s2">&quot;ibm_brisbane&quot;</span><span class="p">)</span>
+
+<span class="n">dev</span> <span class="o">=</span> <span class="n">qml</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;qiskit.remote&#39;</span><span class="p">,</span> <span class="n">wires</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Pauli matrices</span>
+<span class="n">Id</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">X</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
+<span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="n">j</span><span class="p">],[</span><span class="mi">1</span><span class="n">j</span><span class="p">,</span><span class="mi">0</span><span class="p">]])</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">0</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">]])</span>
+
+<span class="n">parameters</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&quot;HamiltonianParameters.txt&quot;</span><span class="p">)</span>
+
+<span class="n">R</span> <span class="o">=</span> <span class="mi">90</span>
+<span class="n">H_param</span> <span class="o">=</span> <span class="n">parameters</span><span class="p">[</span><span class="n">parameters</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span><span class="o">==</span><span class="n">R</span><span class="p">,</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">flatten</span><span class="p">()</span>
+
+<span class="n">C</span> <span class="o">=</span> <span class="n">H_param</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">Jx</span> <span class="o">=</span> <span class="n">H_param</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+<span class="n">Jz</span> <span class="o">=</span> <span class="n">H_param</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+<span class="c1">#Jx = H_param[3]</span>
+<span class="n">Jxx</span> <span class="o">=</span> <span class="n">H_param</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+<span class="n">Jxz</span> <span class="o">=</span> <span class="n">H_param</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+<span class="c1">#Jz = H_param[6]</span>
+<span class="c1">#Jzx = H_param[7]</span>
+<span class="n">Jzz</span> <span class="o">=</span> <span class="n">H_param</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Jx=</span><span class="si">{</span><span class="n">Jx</span><span class="si">}</span><span class="s2">, Jz=</span><span class="si">{</span><span class="n">Jz</span><span class="si">}</span><span class="s2">, Jxx=</span><span class="si">{</span><span class="n">Jxx</span><span class="si">}</span><span class="s2">, Jzz=</span><span class="si">{</span><span class="n">Jzz</span><span class="si">}</span><span class="s2">, Jxz=</span><span class="si">{</span><span class="n">Jxz</span><span class="si">}</span><span class="s2">, C=</span><span class="si">{</span><span class="n">C</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">Hamiltonian</span><span class="p">():</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">Jx</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Id</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">Id</span><span class="p">,</span><span class="n">X</span><span class="p">))</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">H</span> <span class="o">+</span> <span class="n">Jz</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span><span class="n">Id</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">Id</span><span class="p">,</span><span class="n">Z</span><span class="p">))</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">H</span> <span class="o">+</span> <span class="n">Jxx</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">X</span><span class="p">)</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">H</span> <span class="o">+</span> <span class="n">Jzz</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span><span class="n">Z</span><span class="p">)</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">H</span> <span class="o">+</span> <span class="n">Jxz</span> <span class="o">*</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">X</span><span class="p">,</span><span class="n">Z</span><span class="p">)</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">Z</span><span class="p">,</span><span class="n">X</span><span class="p">))</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">H</span> <span class="o">+</span> <span class="n">C</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">kron</span><span class="p">(</span><span class="n">Id</span><span class="p">,</span><span class="n">Id</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">H</span><span class="o">/</span><span class="mi">2</span>
+
+<span class="k">def</span> <span class="nf">exactEnergy</span><span class="p">():</span>
+    <span class="n">H</span> <span class="o">=</span> <span class="n">Hamiltonian</span><span class="p">()</span>
+
+    <span class="n">E</span><span class="p">,</span> <span class="n">V</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">eigh</span><span class="p">(</span><span class="n">H</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">E</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Exact ground state energy is E = </span><span class="si">{</span><span class="n">exactEnergy</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Jx=-0.2288, Jz=-1.0466, Jxx=0.2613, Jzz=0.2356, Jxz=0.2288, C=-3.8505
+Exact ground state energy is E = -2.8626207640766816
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nd">@qml</span><span class="o">.</span><span class="n">qnode</span><span class="p">(</span><span class="n">dev_IBM</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">ansatz</span><span class="p">(</span><span class="n">angles</span><span class="p">):</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">angles</span><span class="p">[:</span><span class="mi">8</span><span class="p">]</span>
+    <span class="n">basis</span> <span class="o">=</span> <span class="n">angles</span><span class="p">[</span><span class="mi">8</span><span class="p">:]</span>  <span class="c1"># basis has two elements with values 0 or 1</span>
+
+    <span class="c1"># inital rotations</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">RX</span><span class="p">(</span><span class="n">theta</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="n">theta</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">RX</span><span class="p">(</span><span class="n">theta</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="n">theta</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># CNOT to entangle</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="n">wires</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="c1"># second round of rotations</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">RX</span><span class="p">(</span><span class="n">theta</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="n">theta</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">RX</span><span class="p">(</span><span class="n">theta</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="n">theta</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">qml</span><span class="o">.</span><span class="n">U3</span><span class="p">(</span><span class="n">basis</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">basis</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">wires</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># apply hadamard gate to qubit 0 iff basis[0]=1</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">U3</span><span class="p">(</span><span class="n">basis</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">basis</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">wires</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># apply hadamard gate to qubit 1 iff basis[1]=1</span>
+
+    <span class="k">return</span> <span class="n">qml</span><span class="o">.</span><span class="n">probs</span><span class="p">(</span><span class="n">wires</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_expectation</span><span class="p">(</span><span class="n">gate</span><span class="p">,</span> <span class="n">probabilities</span><span class="p">):</span>
+    <span class="n">II</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">IZ</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">ZI</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+    <span class="n">ZZ</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+    
+    <span class="n">probabilities</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">probabilities</span><span class="p">)</span>
+
+    <span class="k">if</span> <span class="n">gate</span> <span class="o">==</span> <span class="s1">&#39;II&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">II</span><span class="p">,</span> <span class="n">probabilities</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">gate</span> <span class="o">==</span> <span class="s1">&#39;IZ&#39;</span> <span class="ow">or</span> <span class="n">gate</span> <span class="o">==</span> <span class="s1">&#39;IX&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">IZ</span><span class="p">,</span> <span class="n">probabilities</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">gate</span> <span class="o">==</span> <span class="s1">&#39;ZI&#39;</span> <span class="ow">or</span> <span class="n">gate</span> <span class="o">==</span> <span class="s1">&#39;XI&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">ZI</span><span class="p">,</span> <span class="n">probabilities</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">gate</span> <span class="o">==</span> <span class="s1">&#39;ZZ&#39;</span> <span class="ow">or</span> <span class="n">gate</span> <span class="o">==</span> <span class="s1">&#39;XX&#39;</span> <span class="ow">or</span> <span class="n">gate</span> <span class="o">==</span> <span class="s1">&#39;XZ&#39;</span> <span class="ow">or</span> <span class="n">gate</span> <span class="o">==</span> <span class="s1">&#39;ZX&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">ZZ</span><span class="p">,</span> <span class="n">probabilities</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="s1">&#39;Unidentified Gate&#39;</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">energy</span><span class="p">(</span><span class="n">probs_XX</span><span class="p">,</span> <span class="n">probs_XZ</span><span class="p">,</span> <span class="n">probs_ZX</span><span class="p">,</span> <span class="n">probs_ZZ</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; </span>
+<span class="sd">    counts - dictionary of measured counts, e.g., {&#39;00&#39;: 4096, &#39;11&#39;: 4096}</span>
+<span class="sd">    shots - total number of shots for each basis (for convenience. Can be computed from counts)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Replace with code to convert counts to expectation values to get energy expectation.</span>
+
+    <span class="n">E_H</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">E_H</span> <span class="o">+=</span> <span class="n">Jx</span><span class="o">*</span><span class="p">(</span><span class="n">get_expectation</span><span class="p">(</span><span class="s1">&#39;XI&#39;</span><span class="p">,</span> <span class="n">probs_XX</span><span class="p">)</span> <span class="o">+</span> <span class="n">get_expectation</span><span class="p">(</span><span class="s1">&#39;IX&#39;</span><span class="p">,</span> <span class="n">probs_XX</span><span class="p">))</span>
+    <span class="n">E_H</span> <span class="o">+=</span> <span class="n">Jz</span><span class="o">*</span><span class="p">(</span><span class="n">get_expectation</span><span class="p">(</span><span class="s1">&#39;ZI&#39;</span><span class="p">,</span> <span class="n">probs_ZZ</span><span class="p">)</span> <span class="o">+</span> <span class="n">get_expectation</span><span class="p">(</span><span class="s1">&#39;IZ&#39;</span><span class="p">,</span> <span class="n">probs_ZZ</span><span class="p">))</span>
+    <span class="n">E_H</span> <span class="o">+=</span> <span class="n">Jxx</span><span class="o">*</span><span class="n">get_expectation</span><span class="p">(</span><span class="s1">&#39;XX&#39;</span><span class="p">,</span> <span class="n">probs_XX</span><span class="p">)</span> 
+    <span class="n">E_H</span> <span class="o">+=</span> <span class="n">Jzz</span><span class="o">*</span><span class="n">get_expectation</span><span class="p">(</span><span class="s1">&#39;ZZ&#39;</span><span class="p">,</span> <span class="n">probs_ZZ</span><span class="p">)</span> 
+    <span class="n">E_H</span> <span class="o">+=</span> <span class="n">Jxz</span><span class="o">*</span><span class="p">(</span><span class="n">get_expectation</span><span class="p">(</span><span class="s1">&#39;XZ&#39;</span><span class="p">,</span> <span class="n">probs_XZ</span><span class="p">)</span> <span class="o">+</span> <span class="n">get_expectation</span><span class="p">(</span><span class="s1">&#39;ZX&#39;</span><span class="p">,</span> <span class="n">probs_ZX</span><span class="p">))</span>
+    <span class="n">E_H</span> <span class="o">+=</span> <span class="n">C</span>
+    <span class="n">E_H</span> <span class="o">*=</span> <span class="mf">0.5</span>
+
+    <span class="k">return</span> <span class="n">E_H</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># compute energy using batching</span>
+<span class="n">shots</span> <span class="o">=</span> <span class="mi">8192</span>
+<span class="n">angles</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.1</span><span class="p">,</span><span class="mf">0.2</span><span class="p">,</span><span class="mf">0.3</span><span class="p">,</span><span class="mf">0.4</span><span class="p">,</span><span class="mf">0.5</span><span class="p">,</span><span class="mf">0.6</span><span class="p">,</span><span class="mf">0.7</span><span class="p">,</span><span class="mf">0.8</span><span class="p">]]</span><span class="o">*</span><span class="mi">4</span><span class="p">)</span><span class="o">.</span><span class="n">T</span>
+<span class="n">angles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">angles</span><span class="p">,[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">angles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">angles</span><span class="p">,[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">probs</span> <span class="o">=</span> <span class="n">ansatz</span><span class="p">(</span><span class="n">angles</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">)</span>
+<span class="n">E_1</span> <span class="o">=</span> <span class="n">energy</span><span class="p">(</span><span class="n">probs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">probs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">probs</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">probs</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;My batched energy is E = </span><span class="si">{</span><span class="n">E_1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The correct energy (for these parameters) is E = -1.083 ± 0.012 (margin due to finite number of shots)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>My batched energy is E = -1.2253068237304687
+The correct energy (for these parameters) is E = -1.083 ± 0.012 (margin due to finite number of shots)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># use same random values to start IBM and simulator</span>
+<span class="n">theta_initial</span> <span class="o">=</span> <span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>  <span class="c1"># random initial angle values!</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">theta</span> <span class="o">=</span> <span class="n">theta_initial</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">c</span> <span class="o">=</span> <span class="mf">0.05</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span>  <span class="c1"># c used in approximating the gradient</span>
+<span class="n">eta</span> <span class="o">=</span> <span class="mf">0.5</span>  <span class="c1"># controls the rate of descent</span>
+<span class="n">shots</span> <span class="o">=</span> <span class="mi">8192</span>
+
+<span class="n">energy_list</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">iterations</span> <span class="o">=</span> <span class="mi">25</span>
+
+<span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iterations</span><span class="p">):</span>
+
+    <span class="n">angles</span> <span class="o">=</span> <span class="p">[[]]</span><span class="o">*</span><span class="mi">8</span>
+    <span class="n">basis</span> <span class="o">=</span> <span class="p">[[]]</span><span class="o">*</span><span class="mi">2</span>
+    <span class="n">gradient</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">):</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+        <span class="n">e</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">theta_plus</span> <span class="o">=</span> <span class="n">theta</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="o">+</span> <span class="n">c</span><span class="o">*</span><span class="n">e</span>
+        <span class="n">theta_minus</span> <span class="o">=</span> <span class="n">theta</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="o">-</span> <span class="n">c</span><span class="o">*</span><span class="n">e</span>
+
+        <span class="n">angles</span> <span class="o">=</span> <span class="p">[</span><span class="n">angles</span><span class="p">[</span><span class="n">kk</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">theta_plus</span><span class="p">[</span><span class="n">kk</span><span class="p">]]</span><span class="o">*</span><span class="mi">4</span> <span class="k">for</span> <span class="n">kk</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">)]</span>
+        <span class="n">basis</span>  <span class="o">=</span> <span class="p">[</span><span class="n">basis</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">basis</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="n">angles</span> <span class="o">=</span> <span class="p">[</span><span class="n">angles</span><span class="p">[</span><span class="n">kk</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">theta_minus</span><span class="p">[</span><span class="n">kk</span><span class="p">]]</span><span class="o">*</span><span class="mi">4</span> <span class="k">for</span> <span class="n">kk</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">)]</span>
+        <span class="n">basis</span>  <span class="o">=</span> <span class="p">[</span><span class="n">basis</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">basis</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span>
+
+    <span class="n">angles</span> <span class="o">=</span> <span class="p">[</span><span class="n">angles</span><span class="p">[</span><span class="n">kk</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">theta</span><span class="p">[</span><span class="n">kk</span><span class="p">]]</span><span class="o">*</span><span class="mi">4</span> <span class="k">for</span> <span class="n">kk</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">)]</span>
+    <span class="n">basis</span>  <span class="o">=</span> <span class="p">[</span><span class="n">basis</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">basis</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span>
+
+    <span class="n">angles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">angles</span> <span class="o">+</span> <span class="n">basis</span><span class="p">)</span>
+    <span class="n">probs</span> <span class="o">=</span> <span class="n">ansatz</span><span class="p">(</span><span class="n">angles</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">):</span>
+        <span class="n">E_plus</span> <span class="o">=</span> <span class="n">energy</span><span class="p">(</span><span class="n">probs</span><span class="p">[</span><span class="mi">8</span><span class="o">*</span><span class="n">ii</span><span class="p">],</span> <span class="n">probs</span><span class="p">[</span><span class="mi">8</span><span class="o">*</span><span class="n">ii</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">probs</span><span class="p">[</span><span class="mi">8</span><span class="o">*</span><span class="n">ii</span><span class="o">+</span><span class="mi">2</span><span class="p">],</span> <span class="n">probs</span><span class="p">[</span><span class="mi">8</span><span class="o">*</span><span class="n">ii</span><span class="o">+</span><span class="mi">3</span><span class="p">])</span>
+        <span class="n">E_minus</span> <span class="o">=</span> <span class="n">energy</span><span class="p">(</span><span class="n">probs</span><span class="p">[</span><span class="mi">8</span><span class="o">*</span><span class="n">ii</span><span class="o">+</span><span class="mi">4</span><span class="p">],</span> <span class="n">probs</span><span class="p">[</span><span class="mi">8</span><span class="o">*</span><span class="n">ii</span><span class="o">+</span><span class="mi">5</span><span class="p">],</span> <span class="n">probs</span><span class="p">[</span><span class="mi">8</span><span class="o">*</span><span class="n">ii</span><span class="o">+</span><span class="mi">6</span><span class="p">],</span> <span class="n">probs</span><span class="p">[</span><span class="mi">8</span><span class="o">*</span><span class="n">ii</span><span class="o">+</span><span class="mi">7</span><span class="p">])</span>
+
+        <span class="n">gradient</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">(</span><span class="n">E_plus</span> <span class="o">-</span> <span class="n">E_minus</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">c</span><span class="p">)</span> <span class="p">)</span>  <span class="c1"># approximate gradient</span>
+
+    <span class="n">energy_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">energy</span><span class="p">(</span><span class="n">probs</span><span class="p">[</span><span class="mi">8</span><span class="o">*</span><span class="mi">8</span><span class="p">],</span> <span class="n">probs</span><span class="p">[</span><span class="mi">8</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">probs</span><span class="p">[</span><span class="mi">8</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mi">2</span><span class="p">],</span> <span class="n">probs</span><span class="p">[</span><span class="mi">8</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mi">3</span><span class="p">]))</span>
+
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">theta</span> <span class="o">-</span> <span class="n">eta</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">gradient</span><span class="p">)</span>  <span class="c1"># update the angles using gradient descent!</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Energy at iteration </span><span class="si">{</span><span class="n">jj</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">energy_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">angles</span> <span class="o">=</span> <span class="p">[[</span><span class="n">theta</span><span class="p">[</span><span class="n">kk</span><span class="p">]]</span><span class="o">*</span><span class="mi">4</span> <span class="k">for</span> <span class="n">kk</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">)]</span>
+<span class="n">basis</span>  <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span>
+<span class="n">angles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">angles</span> <span class="o">+</span> <span class="n">basis</span><span class="p">)</span>
+
+<span class="n">probs</span> <span class="o">=</span> <span class="n">ansatz</span><span class="p">(</span><span class="n">angles</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">)</span>
+<span class="n">E_final</span> <span class="o">=</span> <span class="n">energy</span><span class="p">(</span><span class="n">probs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">probs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">probs</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">probs</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+<span class="n">energy_list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">E_final</span> <span class="p">)</span>  <span class="c1"># final energy!</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Final energy: </span><span class="si">{</span><span class="n">energy_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Energy at iteration 0: -1.4628114990234373
+Energy at iteration 1: -1.6500795776367188
+Energy at iteration 2: -1.8517486694335936
+Energy at iteration 3: -1.9954532104492186
+Energy at iteration 4: -2.0966974243164063
+Energy at iteration 5: -2.1810505615234375
+Energy at iteration 6: -2.264396032714844
+Energy at iteration 7: -2.328307995605469
+Energy at iteration 8: -2.3944037353515624
+Energy at iteration 9: -2.437919689941406
+Energy at iteration 10: -2.5128611816406248
+Energy at iteration 11: -2.5852836303710935
+Energy at iteration 12: -2.629099816894531
+Energy at iteration 13: -2.680608166503906
+Energy at iteration 14: -2.712880053710937
+Energy at iteration 15: -2.7500034912109372
+Energy at iteration 16: -2.7560806518554686
+Energy at iteration 17: -2.776929772949219
+Energy at iteration 18: -2.78839375
+Energy at iteration 19: -2.7930887817382812
+Energy at iteration 20: -2.800887585449219
+Energy at iteration 21: -2.8005564453125
+Energy at iteration 22: -2.8061789794921874
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING:urllib3.connectionpool:Retrying (PostForcelistRetry(total=4, connect=3, read=None, redirect=None, status=None)) after connection broken by &#39;ProtocolError(&#39;Connection aborted.&#39;, ConnectionResetError(54, &#39;Connection reset by peer&#39;))&#39;: /us-east-quantum-computing-user-jobs-prod/result-63d24f82392a6680d07984dd.json?X-Amz-Algorithm=AWS4-HMAC-SHA256&amp;X-Amz-Credential=475dae915f3c4ddaaeb2f3a93929a94d%2F20230126%2Fus-east%2Fs3%2Faws4_request&amp;X-Amz-Date=20230126T103913Z&amp;X-Amz-Expires=604800&amp;X-Amz-SignedHeaders=host&amp;X-Amz-Signature=ce253b282f2daba367e6b659bc10dea460fa12aaedd5da48554d9e2d78136f9b
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Energy at iteration 23: -2.8102278076171876
+Energy at iteration 24: -2.802863916015625
+Final energy: -2.8129236328125
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;angles: </span><span class="si">{</span><span class="n">theta</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># plot the results!</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="n">iterations</span><span class="p">],[</span><span class="n">exactEnergy</span><span class="p">(),</span><span class="n">exactEnergy</span><span class="p">()],</span><span class="s1">&#39;--&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_list</span><span class="p">,</span><span class="s1">&#39;o&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;energy&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;iteration&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>angles: [3.08764639 0.23610117 1.37341084 0.02145599 3.25885509 4.26034228
+ 1.43146357 3.55435663]
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;iteration&#39;)
+</pre></div>
+</div>
+<img alt="../../_images/d9e30069a1e2cbe0c37e760bd45d72cbb3408c4b2a7a59dddb5aba1cb45b24d9.png" src="../../_images/d9e30069a1e2cbe0c37e760bd45d72cbb3408c4b2a7a59dddb5aba1cb45b24d9.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nd">@qml</span><span class="o">.</span><span class="n">qnode</span><span class="p">(</span><span class="n">dev_sim</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">ansatz_sim</span><span class="p">(</span><span class="n">angles</span><span class="p">):</span>
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">angles</span><span class="p">[:</span><span class="mi">8</span><span class="p">]</span>
+    <span class="n">basis</span> <span class="o">=</span> <span class="n">angles</span><span class="p">[</span><span class="mi">8</span><span class="p">:]</span>  <span class="c1"># basis has two elements with values 0 or 1</span>
+
+    <span class="c1"># inital rotations</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">RX</span><span class="p">(</span><span class="n">theta</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="n">theta</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">RX</span><span class="p">(</span><span class="n">theta</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="n">theta</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c1"># CNOT to entangle</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">CZ</span><span class="p">(</span><span class="n">wires</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="c1"># second round of rotations</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">RX</span><span class="p">(</span><span class="n">theta</span><span class="p">[</span><span class="mi">4</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="n">theta</span><span class="p">[</span><span class="mi">5</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">RX</span><span class="p">(</span><span class="n">theta</span><span class="p">[</span><span class="mi">6</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="n">theta</span><span class="p">[</span><span class="mi">7</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="n">qml</span><span class="o">.</span><span class="n">U3</span><span class="p">(</span><span class="n">basis</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">basis</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">wires</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>  <span class="c1"># apply hadamard gate to qubit 0 iff basis[0]=1</span>
+    <span class="n">qml</span><span class="o">.</span><span class="n">U3</span><span class="p">(</span><span class="n">basis</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">basis</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="p">,</span> <span class="n">wires</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># apply hadamard gate to qubit 1 iff basis[1]=1</span>
+
+    <span class="k">return</span> <span class="n">qml</span><span class="o">.</span><span class="n">probs</span><span class="p">(</span><span class="n">wires</span><span class="o">=</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">theta</span> <span class="o">=</span> <span class="n">theta_initial</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">c</span> <span class="o">=</span> <span class="mf">0.05</span><span class="o">*</span><span class="mi">2</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span>  <span class="c1"># c used in approximating the gradient</span>
+<span class="n">eta</span> <span class="o">=</span> <span class="mf">0.5</span>  <span class="c1"># controls the rate of descent</span>
+<span class="n">shots</span> <span class="o">=</span> <span class="mi">8192</span>
+
+<span class="n">energy_list_sim</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="n">iterations</span> <span class="o">=</span> <span class="mi">25</span>
+
+<span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iterations</span><span class="p">):</span>
+
+    <span class="n">angles</span> <span class="o">=</span> <span class="p">[[]]</span><span class="o">*</span><span class="mi">8</span>
+    <span class="n">basis</span> <span class="o">=</span> <span class="p">[[]]</span><span class="o">*</span><span class="mi">2</span>
+    <span class="n">gradient</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">):</span>
+        <span class="n">e</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="mi">8</span><span class="p">)</span>
+        <span class="n">e</span><span class="p">[</span><span class="n">ii</span><span class="p">]</span> <span class="o">=</span> <span class="mi">1</span>
+        <span class="n">theta_plus</span> <span class="o">=</span> <span class="n">theta</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="o">+</span> <span class="n">c</span><span class="o">*</span><span class="n">e</span>
+        <span class="n">theta_minus</span> <span class="o">=</span> <span class="n">theta</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span> <span class="o">-</span> <span class="n">c</span><span class="o">*</span><span class="n">e</span>
+
+        <span class="n">angles</span> <span class="o">=</span> <span class="p">[</span><span class="n">angles</span><span class="p">[</span><span class="n">kk</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">theta_plus</span><span class="p">[</span><span class="n">kk</span><span class="p">]]</span><span class="o">*</span><span class="mi">4</span> <span class="k">for</span> <span class="n">kk</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">)]</span>
+        <span class="n">basis</span>  <span class="o">=</span> <span class="p">[</span><span class="n">basis</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">basis</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="n">angles</span> <span class="o">=</span> <span class="p">[</span><span class="n">angles</span><span class="p">[</span><span class="n">kk</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">theta_minus</span><span class="p">[</span><span class="n">kk</span><span class="p">]]</span><span class="o">*</span><span class="mi">4</span> <span class="k">for</span> <span class="n">kk</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">)]</span>
+        <span class="n">basis</span>  <span class="o">=</span> <span class="p">[</span><span class="n">basis</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">basis</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span>
+
+    <span class="n">angles</span> <span class="o">=</span> <span class="p">[</span><span class="n">angles</span><span class="p">[</span><span class="n">kk</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">theta</span><span class="p">[</span><span class="n">kk</span><span class="p">]]</span><span class="o">*</span><span class="mi">4</span> <span class="k">for</span> <span class="n">kk</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">)]</span>
+    <span class="n">basis</span>  <span class="o">=</span> <span class="p">[</span><span class="n">basis</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">basis</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span>
+
+    <span class="n">angles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">angles</span> <span class="o">+</span> <span class="n">basis</span><span class="p">)</span>
+    <span class="n">probs</span> <span class="o">=</span> <span class="n">ansatz_sim</span><span class="p">(</span><span class="n">angles</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">):</span>
+        <span class="n">E_plus</span> <span class="o">=</span> <span class="n">energy</span><span class="p">(</span><span class="n">probs</span><span class="p">[</span><span class="mi">8</span><span class="o">*</span><span class="n">ii</span><span class="p">],</span> <span class="n">probs</span><span class="p">[</span><span class="mi">8</span><span class="o">*</span><span class="n">ii</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">probs</span><span class="p">[</span><span class="mi">8</span><span class="o">*</span><span class="n">ii</span><span class="o">+</span><span class="mi">2</span><span class="p">],</span> <span class="n">probs</span><span class="p">[</span><span class="mi">8</span><span class="o">*</span><span class="n">ii</span><span class="o">+</span><span class="mi">3</span><span class="p">])</span>
+        <span class="n">E_minus</span> <span class="o">=</span> <span class="n">energy</span><span class="p">(</span><span class="n">probs</span><span class="p">[</span><span class="mi">8</span><span class="o">*</span><span class="n">ii</span><span class="o">+</span><span class="mi">4</span><span class="p">],</span> <span class="n">probs</span><span class="p">[</span><span class="mi">8</span><span class="o">*</span><span class="n">ii</span><span class="o">+</span><span class="mi">5</span><span class="p">],</span> <span class="n">probs</span><span class="p">[</span><span class="mi">8</span><span class="o">*</span><span class="n">ii</span><span class="o">+</span><span class="mi">6</span><span class="p">],</span> <span class="n">probs</span><span class="p">[</span><span class="mi">8</span><span class="o">*</span><span class="n">ii</span><span class="o">+</span><span class="mi">7</span><span class="p">])</span>
+
+        <span class="n">gradient</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="p">(</span><span class="n">E_plus</span> <span class="o">-</span> <span class="n">E_minus</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="n">c</span><span class="p">)</span> <span class="p">)</span>  <span class="c1"># approximate gradient</span>
+
+    <span class="n">energy_list_sim</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">energy</span><span class="p">(</span><span class="n">probs</span><span class="p">[</span><span class="mi">8</span><span class="o">*</span><span class="mi">8</span><span class="p">],</span> <span class="n">probs</span><span class="p">[</span><span class="mi">8</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mi">1</span><span class="p">],</span> <span class="n">probs</span><span class="p">[</span><span class="mi">8</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mi">2</span><span class="p">],</span> <span class="n">probs</span><span class="p">[</span><span class="mi">8</span><span class="o">*</span><span class="mi">8</span><span class="o">+</span><span class="mi">3</span><span class="p">]))</span>
+
+    <span class="n">theta</span> <span class="o">=</span> <span class="n">theta</span> <span class="o">-</span> <span class="n">eta</span><span class="o">*</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">gradient</span><span class="p">)</span>  <span class="c1"># update the angles using gradient descent!</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Energy at iteration </span><span class="si">{</span><span class="n">jj</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">energy_list</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">angles</span> <span class="o">=</span> <span class="p">[[</span><span class="n">theta</span><span class="p">[</span><span class="n">kk</span><span class="p">]]</span><span class="o">*</span><span class="mi">4</span> <span class="k">for</span> <span class="n">kk</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">)]</span>
+<span class="n">basis</span>  <span class="o">=</span> <span class="p">[[</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">0</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">]]</span>
+<span class="n">angles</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">angles</span> <span class="o">+</span> <span class="n">basis</span><span class="p">)</span>
+
+<span class="n">probs</span> <span class="o">=</span> <span class="n">ansatz_sim</span><span class="p">(</span><span class="n">angles</span><span class="p">,</span> <span class="n">shots</span><span class="o">=</span><span class="n">shots</span><span class="p">)</span>
+<span class="n">E_final</span> <span class="o">=</span> <span class="n">energy</span><span class="p">(</span><span class="n">probs</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">probs</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">probs</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">probs</span><span class="p">[</span><span class="mi">3</span><span class="p">])</span>
+<span class="n">energy_list_sim</span><span class="o">.</span><span class="n">append</span><span class="p">(</span> <span class="n">E_final</span> <span class="p">)</span>  <span class="c1"># final energy!</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Final energy: </span><span class="si">{</span><span class="n">energy_list_sim</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Energy at iteration 0: -2.8129236328125
+Energy at iteration 1: -2.8129236328125
+Energy at iteration 2: -2.8129236328125
+Energy at iteration 3: -2.8129236328125
+Energy at iteration 4: -2.8129236328125
+Energy at iteration 5: -2.8129236328125
+Energy at iteration 6: -2.8129236328125
+Energy at iteration 7: -2.8129236328125
+Energy at iteration 8: -2.8129236328125
+Energy at iteration 9: -2.8129236328125
+Energy at iteration 10: -2.8129236328125
+Energy at iteration 11: -2.8129236328125
+Energy at iteration 12: -2.8129236328125
+Energy at iteration 13: -2.8129236328125
+Energy at iteration 14: -2.8129236328125
+Energy at iteration 15: -2.8129236328125
+Energy at iteration 16: -2.8129236328125
+Energy at iteration 17: -2.8129236328125
+Energy at iteration 18: -2.8129236328125
+Energy at iteration 19: -2.8129236328125
+Energy at iteration 20: -2.8129236328125
+Energy at iteration 21: -2.8129236328125
+Energy at iteration 22: -2.8129236328125
+Energy at iteration 23: -2.8129236328125
+Energy at iteration 24: -2.8129236328125
+Final energy: -2.850762866210937
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;angles: </span><span class="si">{</span><span class="n">theta</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="c1"># plot the results!</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span><span class="n">iterations</span><span class="p">],[</span><span class="n">exactEnergy</span><span class="p">(),</span><span class="n">exactEnergy</span><span class="p">()],</span><span class="s1">&#39;--&#39;</span><span class="p">,</span><span class="n">color</span><span class="o">=</span><span class="s1">&#39;k&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;exact&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_list_sim</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;simulator&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">energy_list</span><span class="p">,</span> <span class="s1">&#39;o&#39;</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;IBM&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;energy&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;iteration&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s2">&quot;VQE.pdf&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;pdf&quot;</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s2">&quot;tight&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>angles: [3.13899943 0.24263626 1.11813372 0.08707151 3.22672644 4.29610565
+ 1.11088053 3.61360833]
+</pre></div>
+</div>
+<img alt="../../_images/a0ec27925405515bf98253b226c47180421af472fba476adac773fd0ae965113.png" src="../../_images/a0ec27925405515bf98253b226c47180421af472fba476adac773fd0ae965113.png" />
+</div>
+</div>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./content/downloads"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="simple visible nav section-nav flex-column">
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dr Adam Gammon-Smith
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
