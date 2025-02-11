@@ -321,7 +321,10 @@
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-time-independent-schrodinger-equation">4.1. The time-independent Schrödinger equation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">4.2. References</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-the-ground-state">4.2. Finding the ground state</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quantum-state-ansatz">4.3. Quantum state ansatz</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#measuring-the-energy">4.4. Measuring the energy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">4.5. References</a></li>
 </ul>
             </nav>
         </div>
@@ -344,13 +347,85 @@
     \hat{H} |\psi\rangle = E |\psi\rangle,
 \]</div>
 <p>which is an eigenproblem.
-The Hamiltonian operator <span class="math notranslate nohighlight">\(\hat{H}\)</span> is a Hermitian operator (<span class="math notranslate nohighlight">\(H^\dag\)</span> = <span class="math notranslate nohighlight">\(H\)</span>) that plays the role of energy in quantum mechanical systems. The eigenvalue <span class="math notranslate nohighlight">\(E\)</span> is the energy of a particular eigenstate that solves this equation. This is generically a hard problem! A typical approach is to approximate the Hamiltonian by a finite but large matrix, the size of which generically grows exponentially with the number of particles involved. This is the same problem we have already encountered with the size of the vector space for our qubits.</p>
+The Hamiltonian operator <span class="math notranslate nohighlight">\(\hat{H}\)</span> is a Hermitian operator (<span class="math notranslate nohighlight">\(H^\dagger\)</span> = <span class="math notranslate nohighlight">\(H\)</span>) that plays the role of energy in quantum mechanical systems. The eigenvalue <span class="math notranslate nohighlight">\(E\)</span> is the energy of a particular eigenstate that solves this equation. This is generically a hard problem! A typical approach is to approximate the Hamiltonian by a finite but large matrix, the size of which generically grows exponentially with the number of particles involved. This is the same problem we have already encountered with the size of the vector space for our qubits.</p>
 <p>As an example, many magnetic materials can be approximated by lattices of spin-1/2 degrees of freedom, which are two level systems similar to our qubits. If we map this lattice of spins to our qubits then we can see that the size of the matrices grows exponentially with the number of sites in the lattice. The current limit for generic systems on the most powerful supercomputers is around 50 qubits / spins. It is clear that this is far from a realistic model of real materials. It is worth noting that in many cases we can do far better than this by taking advantage of symmetries, low dimensionality, semi-classical models etc. However, these approach are ineffective for many physically relevant models and here quantum computers may be able to help.</p>
 <p>The VQE algorithm was first demonstrated in the context of quantum chemistry by finding the ground state of simple molecules <span id="id1">[<a class="reference internal" href="#id5" title="Alberto Peruzzo, Jarrod McClean, Peter Shadbolt, Man-Hong Yung, Xiao-Qi Zhou, Peter J. Love, Alán Aspuru-Guzik, and Jeremy L. O'Brien. A variational eigenvalue solver on a photonic quantum processor. Nature Communications, 5(1):4213, sep 2014. URL: http://www.nature.com/articles/ncomms5213, doi:10.1038/ncomms5213.">PMS+14</a>]</span><span id="id2">[<a class="reference internal" href="#id4" title="Abhinav Kandala, Antonio Mezzacapo, Kristan Temme, Maika Takita, Markus Brink, Jerry M. Chow, and Jay M. Gambetta. Hardware-efficient variational quantum eigensolver for small molecules and quantum magnets. Nature, 549(7671):242–246, sep 2017. doi:10.1038/nature23879.">KMT+17</a>]</span>. This is the case we will also focus on.</p>
 </section>
+<section id="finding-the-ground-state">
+<h2><span class="section-number">4.2. </span>Finding the ground state<a class="headerlink" href="#finding-the-ground-state" title="Link to this heading">#</a></h2>
+<p>The task that we will consider is to find the ground state of the Schr{“o}dinger equation. That is to find the state <span class="math notranslate nohighlight">\(|\psi\rangle\)</span> that solves the Schr{“o}dinger equation~\eqref{eq: Schrodinger equation} with the lowest energy <span class="math notranslate nohighlight">\(E\)</span>. Formally, the goal is to find the state <span class="math notranslate nohighlight">\(|\psi\rangle\)</span> that minimises</p>
+<div class="math notranslate nohighlight">
+\[
+E = \min_{|\psi\rangle} \frac{\langle \psi | \hat{H} |\psi\rangle}{\langle \psi | \psi \rangle} = \min_{|\psi\rangle}\langle \psi | \hat{H} |\psi\rangle,
+\]</div>
+<p>where in the second equality we used the fact that the state <span class="math notranslate nohighlight">\(|\psi\rangle\)</span> is normalised. On the quantum computer we always start with the zero state <span class="math notranslate nohighlight">\(|000\cdots \rangle\)</span>, and so we rephrase the problem as finding the quantum circuit <span class="math notranslate nohighlight">\(V\)</span> such that <span class="math notranslate nohighlight">\(|\psi\rangle = V |000\cdots\rangle\)</span>, i.e.,</p>
+<figure class="align-center" id="fig-vqe-general-circuit">
+<a class="reference internal image-reference" href="../../_images/VQEGeneralCircuit.png"><img alt="../../_images/VQEGeneralCircuit.png" src="../../_images/VQEGeneralCircuit.png" style="width: 30%;" /></a>
+</figure>
+<p>minimises the energy.</p>
+<p>The quantum circuit in <code class="xref std std-numref docutils literal notranslate"><span class="pre">fig:VQE_general_circuit</span></code> contains a large multiple qubit gate. As we mentioned in a previous section, we are able to approximate a general multi-qubit gate using only the single qubit rotations and the CNOT gate. The art of VQE is to come up with the best quantum circuit to approximate <span class="math notranslate nohighlight">\(V\)</span>.</p>
+<p>The basic setup of VQE consists of the following three steps:</p>
+<ol class="arabic simple">
+<li><p>Create an ansatz quantum circuit with variable parameters that can be optimised.</p></li>
+<li><p>Measure the quantum circuit to extract the value of the energy.</p></li>
+<li><p>Use a classical optimisation algorithm to propose updated parameters for the quantum circuit ansatz, then repeat from 1.</p></li>
+</ol>
+<p>We will discuss these three steps in greater detail in the following three sections.</p>
+</section>
+<section id="quantum-state-ansatz">
+<h2><span class="section-number">4.3. </span>Quantum state ansatz<a class="headerlink" href="#quantum-state-ansatz" title="Link to this heading">#</a></h2>
+<p>The first step in the VQE algorithm is choose an ansatz quantum circuit which will approximate our ground state <span class="math notranslate nohighlight">\(|\psi\rangle\)</span>. This is part of the art of VQE, designing a circuit structure that can well approximate our target state. On the simplest level, we want to have enough parameters and generate enough entanglement to represent the state while using gates that are easy for us to implement, such as rotations and CNOT gates.</p>
+<figure class="align-center" id="fig-vqe-parameterized-circuit">
+<a class="reference internal image-reference" href="../../_images/VQEParameterizedCircuit.png"><img alt="../../_images/VQEParameterizedCircuit.png" src="../../_images/VQEParameterizedCircuit.png" style="width: 40%;" /></a>
+</figure>
+<p>where the <span class="math notranslate nohighlight">\(U = U(\alpha, \beta, \gamma, \delta)\)</span> gates are general single rotations of the form in Eq.<a class="reference internal" href="lecture1.html#equation-eq-general-rotation">(1.1)</a>, with different angles for each gate. The Block indicated by the dashed box can be repeated <span class="math notranslate nohighlight">\(d\)</span> times to create an ansatz with more parameters and angles.</p>
+</section>
+<section id="measuring-the-energy">
+<h2><span class="section-number">4.4. </span>Measuring the energy<a class="headerlink" href="#measuring-the-energy" title="Link to this heading">#</a></h2>
+<p>The next step is to measure the energy. This is the function that we are minimising in our optimisation procedure. The energy is the expectation value of the Hamiltonian operator with respect to our ansatz state, that is,</p>
+<div class="math notranslate nohighlight">
+\[
+    E(\vec{\theta}) = \langle H \rangle_{\vec{\theta}} = \langle \psi | H |\psi\rangle,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(|\psi\rangle\)</span> is our ansatz quantum state which implicitly depends on the set of angles <span class="math notranslate nohighlight">\(\vec{\theta}\)</span>.</p>
+<p>The general form of a multi-qubit Hamiltonian is the following</p>
+<div class="math notranslate nohighlight">
+\[
+    H = \sum_{A=1,X,Y,Z} \sum_i h_i^A A_i + \sum_{A,B=X,Y,Z}\sum_{ij} h_{ij}^{AB} A_i B_j + \cdots,
+\]</div>
+<p>where the remaining terms contain higher order Pauli strings (products of non-trivial Pauli-operators). In practice we will often only be interested in Hamiltonians with a limited number of non-zero terms. The energy is then given by</p>
+<div class="math notranslate nohighlight">
+\[
+    \langle H \rangle = \sum_{A=1,X,Y,Z} \sum_i h_i^A \langle A_i \rangle + \sum_{A,B=X,Y,Z}\sum_{ij} h_{ij}^{AB} \langle A_i B_j \rangle + \cdots,
+\]</div>
+<p>where the angled brackets correspond to expectation values with respect to the ansatz state, i.e., <span class="math notranslate nohighlight">\(\langle \cdot \rangle = \langle \psi | \cdot |\psi \rangle\)</span>. Given the Hamiltonian parameters <span class="math notranslate nohighlight">\(\{h_i^A, h_{ij}^{AB},\cdots\}\)</span>, our goal is then to measure expectation values for the required Pauli strings.</p>
+<p>Let us consider a couple of simple examples which will make it clear how to measure general Pauli strings. For concreteness, suppose we have four qubits and we want to measure <span class="math notranslate nohighlight">\(\langle Z_2 Z_3 \rangle\)</span>. Since the Pauli-Z is already diagonal in the computational basis, the corresponding circuit is</p>
+<figure class="align-center" id="fig-z-basis-measurement">
+<a class="reference internal image-reference" href="../../_images/ZBasisMeasurement.png"><img alt="../../_images/ZBasisMeasurement.png" src="../../_images/ZBasisMeasurement.png" style="width: 35%;" /></a>
+</figure>
+<p>where we only measure the second and third qubits. Note that in practice we can measure all qubits and reproduce probabilities as explained in Eq.<a class="reference internal" href="lecture2.html#equation-eq-reduced-measurement">(2.1)</a>, and so can construct several expectation values from a single set of measurements. From these measurements we can estimate the probabilities for each of the four basis states for qubits 2 and 3. The expectation value is then given by</p>
+<div class="math notranslate nohighlight">
+\[
+    \langle Z_2 Z_3 \rangle = p(|00\rangle) + p(|11\rangle) - p(|01\rangle) - p(|10\rangle),
+\]</div>
+<p>where the signs are given by the eigenvalues of <span class="math notranslate nohighlight">\(Z_2 Z_3\)</span> for the given basis state, e.g., <span class="math notranslate nohighlight">\(Z_2 Z_3 |00\rangle = |00\rangle\)</span>, but <span class="math notranslate nohighlight">\(Z_2 Z_3 |01\rangle = -|01\rangle\)</span>.</p>
+<p>As a second example, consider measuring <span class="math notranslate nohighlight">\(\langle X_2 Y_3 \rangle\)</span>. In this case the operator is not diagonal in the computational basis and so we must first make a change of basis. The corresponding circuit would be</p>
+<figure class="align-center" id="fig-second-pauli-example">
+<a class="reference internal image-reference" href="../../_images/SecondPauliExample.png"><img alt="../../_images/SecondPauliExample.png" src="../../_images/SecondPauliExample.png" style="width: 55%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 4.1 </span><span class="caption-text">Basis transformation for measuring the expectation value <span class="math notranslate nohighlight">\(\langle X_2 Y_3 \rangle\)</span>.</span><a class="headerlink" href="#fig-second-pauli-example" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>where the <span class="math notranslate nohighlight">\(H\)</span> and <span class="math notranslate nohighlight">\(S\)</span> change basis. With the extra basis change we are effectively measuring <span class="math notranslate nohighlight">\(\langle Z_2 Z_3 \rangle\)</span> again but now for a different circuit including the basis change. That is, the expectation value is given by</p>
+<div class="math notranslate nohighlight">
+\[
+    \langle X_2 Y_3 \rangle = p(|00\rangle) + p(|11\rangle) - p(|01\rangle) - p(|10\rangle),
+\]</div>
+<p>where the probabilities are given by circuit in Eq.<a class="reference internal" href="#fig-second-pauli-example"><span class="std std-numref">Fig. 4.1</span></a>.</p>
+</section>
 <hr class="docutils" />
 <section id="references">
-<h2><span class="section-number">4.2. </span>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<h2><span class="section-number">4.5. </span>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
 <div class="docutils container" id="id3">
 <div role="list" class="citation-list">
 <div class="citation" id="id4" role="doc-biblioentry">
@@ -423,7 +498,10 @@ The Hamiltonian operator <span class="math notranslate nohighlight">\(\hat{H}\)<
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-time-independent-schrodinger-equation">4.1. The time-independent Schrödinger equation</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">4.2. References</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-the-ground-state">4.2. Finding the ground state</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quantum-state-ansatz">4.3. Quantum state ansatz</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#measuring-the-energy">4.4. Measuring the energy</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">4.5. References</a></li>
 </ul>
   </nav></div>
 
