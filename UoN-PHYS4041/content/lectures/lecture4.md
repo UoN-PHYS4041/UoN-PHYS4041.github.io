@@ -128,6 +128,141 @@ $$
 where the probabilities are given by circuit in {numref}`fig:second_Pauli_example`.
 
 
+## Using gradient descent
+
+Now that we have measured the energy, we want to update our set of parameters $\vec{\theta}$ in order to lower the energy. In the simplest case we could use basic gradient descent, i.e.,
+
+$$
+    \vec{\theta}_\text{new} = \vec{\theta}_\text{old} - \eta \nabla E(\vec{\theta}_\text{old}),
+$$
+
+where $\eta$ is the learning rate. We then want to compute the gradient of the energy $\nabla E(\vec{\theta}_\text{old})$. There are multiple ways to do this (which we will revisit in the next lecture), but the simplest would be the finite difference approximation
+
+$$
+    [\nabla E(\vec{\theta})]_i \approx \frac{E(\vec{\theta}+c\vec{e}_i) - E(\vec{\theta}-c\vec{e}_i)}{2c},
+$$
+
+where $\vec{e}_i$ is a unit vector with zeros except in the i$^\text{th}$ entry. In other words, $\vec{e}_i$ perturbs $\theta_i$. With this method, the number of times we are required to measure the energy is twice the number of parameters $\vec{\theta}$.
+
+There are many other ways we could compute the gradient that require fewer measurements of the energy such as stochastic approximation methods. Furthermore, we can use more sophisticated optimisation techniques than simple gradient descent such as the ADAM optimiser. However, for our purpose, this conceptually simple method will suffice.
+
+Once we have updated the parameters we can start the loop again, measure the energy, update the parameters and repeat until the energy converges.
+
+(sec:explicit_example)=
+## Explicit example
+
+To clarify the above discussion of VQE, let us consider an explicit example. The example we consider is the one used when the VQE was first introduced. We want to find the ground state energy of the H-He$^+$ molecule. This problame was solved using VQE in Ref.{cite}`Peruzzo2014`. The approach we will take is closer to the more recent work Ref.{cite}`Kandala2017`.
+
+We will find the ground state of the molecule at a fixed separation, $R$, where it has the following two-qubit effective Hamiltonian
+
+$$
+    H = \frac{1}{2} \left[ J_x (X1 + 1X) + J_z (Z1 + 1Z) + J_{xx}XX + J_{zz}ZZ + J_{xz}(XZ + ZX) + C  \right],
+$$
+
+where we omit kronecker products and use short hand, e.g., $X1 = X\otimes 1$. How to find the form of this Hamiltonian or the values of the parameters is far beyond this course. This Hamiltonian was found using PSI3 software using the Born-Oppenheimmer approximation {cite}`Peruzzo2014`. To be concrete, for $R=90$pm, the parameters are 
+$J_x = -0.2288, 
+    J_z = -1.0466,
+    J_{xx} = 0.2613,
+    J_{zz} = 0.2356,
+    J_{xz} = 0.2288,
+    C = -3.8505.
+$
+
+For our VQE algorithm, the first step is to decide on our quantum state ansatz. In this case we will use
+
+```{figure} ../images/VQEAnsatz.png
+---
+name: fig:VQE_ansatz
+width: 75%
+align: center
+---
+```
+
+where we have introduce a new two-qubit gate, called the CZ or controlled-Z gate. This is simply related to the CNOT gate by the following
+
+```{figure} ../images/CZGate.png
+---
+name: fig:CZ_gate
+width: 40%
+align: center
+---
+```
+This gate is symmetric with respect to the two qubits, and was chosen to simply the form of our ansatz circuit. Our ansatz circuit then contains eight angles $\theta_i$ that we want to optimise the get the lowest energy.
+
+In order the evaluate the energy, i.e., the expectation value of the Hamiltonian, we need to measure expectation values of the form
+
+$$
+    \langle X \rangle, \quad \langle Z \rangle, \quad \langle XX \rangle, \quad \langle ZZ \rangle, \quad \langle XZ \rangle.
+$$
+
+In order to extract these we need to rotate into four different bases, namely,
+
+```{figure} ../images/ExampleBasisTransformations.png
+---
+name: fig:expr_basis_transformations
+width: 95%
+align: center
+---
+```
+
+where $U(\vec{\theta})$ is our quantum circuit ansatz. The first circuit allows us to measure $\langle Z 1 \rangle$, $\langle 1Z \rangle$ and $\langle ZZ \rangle$, the second circuit $\langle ZX \rangle$, the third circuit give $\langle XZ \rangle$, and the final circuit $\langle X1 \rangle$, $\langle 1 X \rangle$ and $\langle XX \rangle$. From four sets of measurements we are able to extract the expectation values of all eight of the required Pauli strings.
+
+The final part is the classical optimisation. In the simplest case we can use gradient descent with the finite difference method, i.e., 
+
+$$
+    [\nabla E(\vec{\theta})]_i = \frac{E(\vec{\theta} + c\vec{e}_i) - E(\vec{\theta} - c\vec{e}_i)}{2c}.
+$$
+
+Since we have 8 parameters, we need to perturb the energy by $\pm c\vec{e}_i$ and we need to measure in 4 different bases, this means there are $8 \times 2 \times 4 = 64$ experiments we need to run for each iteration. 
+
+One extra consideration is the number of shots. Typically it is easy to run the same circuit for many shots. We will use 8192, which means that the expected error in our expectation values due to this finite sampling is $1/\sqrt{8192} \approx 1\%$, which is more than accurate enough for our purposes. If we require greater accuracy, we may need to increase the number of shots. The results from the simulator and using the IBM quantum computers is shown in {numref}`fig:VQE`.
+
+```{figure} ../images/VQE.pdf
+---
+name: fig:VQE
+width: 65%
+align: center
+---
+
+Results of the VQE optimisation using the simulator and on a real quantum device.
+```
+
+
+
+````{admonition} Exercises 4.1
+
+**1.** Given the probabilities in the $Z$-basis, $p(|00\rangle), p(|01\rangle), p(|10\rangle), p(|11\rangle)$, write expressions for the expectation values $\langle 1 \otimes Z \rangle$, $\langle Z \otimes 1 \rangle$, and $\langle Z \otimes Z \rangle$.
+
+**2.** Show that
+```{figure} ../images/CZGate.png
+---
+width: 40%
+align: center
+---
+```
+
+**3.** (Code) Modify the VQE example code [VQE-simulator.ipynb](../downloads/VQE-simulator.ipynb) to use the following ansatz circuit
+
+```{figure} ../images/VQE_alternative.png
+---
+width: 95%
+align: center
+---
+```
+How does this change affect the learning and the final accuracy?
+
+````
+
+````{admonition} Code downloads
+
+[VQE-simulator.ipynb](../downloads/VQE-simulator.ipynb) - Jupyter notebook for running VQE on the simulator.
+
+[VQE-simulator-simplified.ipynb](../downloads/VQE-simulator-simplified.ipynb) - Jupyter notebook for running VQE on the simulator using the built in pauli measurements.
+
+[VQE-IBM.ipynb](../downloads/VQE-IBM.ipynb) - Jupyter notebook for running VQE on the IBM devices.
+
+````
+
 
 
 

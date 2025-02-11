@@ -34,7 +34,7 @@
     <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css?v=be8a1c11" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
@@ -324,7 +324,9 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-the-ground-state">4.2. Finding the ground state</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quantum-state-ansatz">4.3. Quantum state ansatz</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#measuring-the-energy">4.4. Measuring the energy</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">4.5. References</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-gradient-descent">4.5. Using gradient descent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#explicit-example">4.6. Explicit example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">4.7. References</a></li>
 </ul>
             </nav>
         </div>
@@ -349,7 +351,7 @@
 <p>which is an eigenproblem.
 The Hamiltonian operator <span class="math notranslate nohighlight">\(\hat{H}\)</span> is a Hermitian operator (<span class="math notranslate nohighlight">\(H^\dagger\)</span> = <span class="math notranslate nohighlight">\(H\)</span>) that plays the role of energy in quantum mechanical systems. The eigenvalue <span class="math notranslate nohighlight">\(E\)</span> is the energy of a particular eigenstate that solves this equation. This is generically a hard problem! A typical approach is to approximate the Hamiltonian by a finite but large matrix, the size of which generically grows exponentially with the number of particles involved. This is the same problem we have already encountered with the size of the vector space for our qubits.</p>
 <p>As an example, many magnetic materials can be approximated by lattices of spin-1/2 degrees of freedom, which are two level systems similar to our qubits. If we map this lattice of spins to our qubits then we can see that the size of the matrices grows exponentially with the number of sites in the lattice. The current limit for generic systems on the most powerful supercomputers is around 50 qubits / spins. It is clear that this is far from a realistic model of real materials. It is worth noting that in many cases we can do far better than this by taking advantage of symmetries, low dimensionality, semi-classical models etc. However, these approach are ineffective for many physically relevant models and here quantum computers may be able to help.</p>
-<p>The VQE algorithm was first demonstrated in the context of quantum chemistry by finding the ground state of simple molecules <span id="id1">[<a class="reference internal" href="#id5" title="Alberto Peruzzo, Jarrod McClean, Peter Shadbolt, Man-Hong Yung, Xiao-Qi Zhou, Peter J. Love, Alán Aspuru-Guzik, and Jeremy L. O'Brien. A variational eigenvalue solver on a photonic quantum processor. Nature Communications, 5(1):4213, sep 2014. URL: http://www.nature.com/articles/ncomms5213, doi:10.1038/ncomms5213.">PMS+14</a>]</span><span id="id2">[<a class="reference internal" href="#id4" title="Abhinav Kandala, Antonio Mezzacapo, Kristan Temme, Maika Takita, Markus Brink, Jerry M. Chow, and Jay M. Gambetta. Hardware-efficient variational quantum eigensolver for small molecules and quantum magnets. Nature, 549(7671):242–246, sep 2017. doi:10.1038/nature23879.">KMT+17</a>]</span>. This is the case we will also focus on.</p>
+<p>The VQE algorithm was first demonstrated in the context of quantum chemistry by finding the ground state of simple molecules <span id="id1">[<a class="reference internal" href="#id8" title="Alberto Peruzzo, Jarrod McClean, Peter Shadbolt, Man-Hong Yung, Xiao-Qi Zhou, Peter J. Love, Alán Aspuru-Guzik, and Jeremy L. O'Brien. A variational eigenvalue solver on a photonic quantum processor. Nature Communications, 5(1):4213, sep 2014. URL: http://www.nature.com/articles/ncomms5213, doi:10.1038/ncomms5213.">PMS+14</a>]</span><span id="id2">[<a class="reference internal" href="#id7" title="Abhinav Kandala, Antonio Mezzacapo, Kristan Temme, Maika Takita, Markus Brink, Jerry M. Chow, and Jay M. Gambetta. Hardware-efficient variational quantum eigensolver for small molecules and quantum magnets. Nature, 549(7671):242–246, sep 2017. doi:10.1038/nature23879.">KMT+17</a>]</span>. This is the case we will also focus on.</p>
 </section>
 <section id="finding-the-ground-state">
 <h2><span class="section-number">4.2. </span>Finding the ground state<a class="headerlink" href="#finding-the-ground-state" title="Link to this heading">#</a></h2>
@@ -421,19 +423,105 @@ E = \min_{|\psi\rangle} \frac{\langle \psi | \hat{H} |\psi\rangle}{\langle \psi 
 \[
     \langle X_2 Y_3 \rangle = p(|00\rangle) + p(|11\rangle) - p(|01\rangle) - p(|10\rangle),
 \]</div>
-<p>where the probabilities are given by circuit in Eq.<a class="reference internal" href="#fig-second-pauli-example"><span class="std std-numref">Fig. 4.1</span></a>.</p>
+<p>where the probabilities are given by circuit in <a class="reference internal" href="#fig-second-pauli-example"><span class="std std-numref">Fig. 4.1</span></a>.</p>
+</section>
+<section id="using-gradient-descent">
+<h2><span class="section-number">4.5. </span>Using gradient descent<a class="headerlink" href="#using-gradient-descent" title="Link to this heading">#</a></h2>
+<p>Now that we have measured the energy, we want to update our set of parameters <span class="math notranslate nohighlight">\(\vec{\theta}\)</span> in order to lower the energy. In the simplest case we could use basic gradient descent, i.e.,</p>
+<div class="math notranslate nohighlight">
+\[
+    \vec{\theta}_\text{new} = \vec{\theta}_\text{old} - \eta \nabla E(\vec{\theta}_\text{old}),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\eta\)</span> is the learning rate. We then want to compute the gradient of the energy <span class="math notranslate nohighlight">\(\nabla E(\vec{\theta}_\text{old})\)</span>. There are multiple ways to do this (which we will revisit in the next lecture), but the simplest would be the finite difference approximation</p>
+<div class="math notranslate nohighlight">
+\[
+    [\nabla E(\vec{\theta})]_i \approx \frac{E(\vec{\theta}+c\vec{e}_i) - E(\vec{\theta}-c\vec{e}_i)}{2c},
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\vec{e}_i\)</span> is a unit vector with zeros except in the i<span class="math notranslate nohighlight">\(^\text{th}\)</span> entry. In other words, <span class="math notranslate nohighlight">\(\vec{e}_i\)</span> perturbs <span class="math notranslate nohighlight">\(\theta_i\)</span>. With this method, the number of times we are required to measure the energy is twice the number of parameters <span class="math notranslate nohighlight">\(\vec{\theta}\)</span>.</p>
+<p>There are many other ways we could compute the gradient that require fewer measurements of the energy such as stochastic approximation methods. Furthermore, we can use more sophisticated optimisation techniques than simple gradient descent such as the ADAM optimiser. However, for our purpose, this conceptually simple method will suffice.</p>
+<p>Once we have updated the parameters we can start the loop again, measure the energy, update the parameters and repeat until the energy converges.</p>
+</section>
+<section id="explicit-example">
+<span id="sec-explicit-example"></span><h2><span class="section-number">4.6. </span>Explicit example<a class="headerlink" href="#explicit-example" title="Link to this heading">#</a></h2>
+<p>To clarify the above discussion of VQE, let us consider an explicit example. The example we consider is the one used when the VQE was first introduced. We want to find the ground state energy of the H-He<span class="math notranslate nohighlight">\(^+\)</span> molecule. This problame was solved using VQE in Ref.<span id="id3">[<a class="reference internal" href="#id8" title="Alberto Peruzzo, Jarrod McClean, Peter Shadbolt, Man-Hong Yung, Xiao-Qi Zhou, Peter J. Love, Alán Aspuru-Guzik, and Jeremy L. O'Brien. A variational eigenvalue solver on a photonic quantum processor. Nature Communications, 5(1):4213, sep 2014. URL: http://www.nature.com/articles/ncomms5213, doi:10.1038/ncomms5213.">PMS+14</a>]</span>. The approach we will take is closer to the more recent work Ref.<span id="id4">[<a class="reference internal" href="#id7" title="Abhinav Kandala, Antonio Mezzacapo, Kristan Temme, Maika Takita, Markus Brink, Jerry M. Chow, and Jay M. Gambetta. Hardware-efficient variational quantum eigensolver for small molecules and quantum magnets. Nature, 549(7671):242–246, sep 2017. doi:10.1038/nature23879.">KMT+17</a>]</span>.</p>
+<p>We will find the ground state of the molecule at a fixed separation, <span class="math notranslate nohighlight">\(R\)</span>, where it has the following two-qubit effective Hamiltonian</p>
+<div class="math notranslate nohighlight">
+\[
+    H = \frac{1}{2} \left[ J_x (X1 + 1X) + J_z (Z1 + 1Z) + J_{xx}XX + J_{zz}ZZ + J_{xz}(XZ + ZX) + C  \right],
+\]</div>
+<p>where we omit kronecker products and use short hand, e.g., <span class="math notranslate nohighlight">\(X1 = X\otimes 1\)</span>. How to find the form of this Hamiltonian or the values of the parameters is far beyond this course. This Hamiltonian was found using PSI3 software using the Born-Oppenheimmer approximation <span id="id5">[<a class="reference internal" href="#id8" title="Alberto Peruzzo, Jarrod McClean, Peter Shadbolt, Man-Hong Yung, Xiao-Qi Zhou, Peter J. Love, Alán Aspuru-Guzik, and Jeremy L. O'Brien. A variational eigenvalue solver on a photonic quantum processor. Nature Communications, 5(1):4213, sep 2014. URL: http://www.nature.com/articles/ncomms5213, doi:10.1038/ncomms5213.">PMS+14</a>]</span>. To be concrete, for <span class="math notranslate nohighlight">\(R=90\)</span>pm, the parameters are
+<span class="math notranslate nohighlight">\(J_x = -0.2288, 
+    J_z = -1.0466,
+    J_{xx} = 0.2613,
+    J_{zz} = 0.2356,
+    J_{xz} = 0.2288,
+    C = -3.8505.
+\)</span></p>
+<p>For our VQE algorithm, the first step is to decide on our quantum state ansatz. In this case we will use</p>
+<figure class="align-center" id="fig-vqe-ansatz">
+<a class="reference internal image-reference" href="../../_images/VQEAnsatz.png"><img alt="../../_images/VQEAnsatz.png" src="../../_images/VQEAnsatz.png" style="width: 75%;" /></a>
+</figure>
+<p>where we have introduce a new two-qubit gate, called the CZ or controlled-Z gate. This is simply related to the CNOT gate by the following</p>
+<figure class="align-center" id="fig-cz-gate">
+<a class="reference internal image-reference" href="../../_images/CZGate.png"><img alt="../../_images/CZGate.png" src="../../_images/CZGate.png" style="width: 40%;" /></a>
+</figure>
+<p>This gate is symmetric with respect to the two qubits, and was chosen to simply the form of our ansatz circuit. Our ansatz circuit then contains eight angles <span class="math notranslate nohighlight">\(\theta_i\)</span> that we want to optimise the get the lowest energy.</p>
+<p>In order the evaluate the energy, i.e., the expectation value of the Hamiltonian, we need to measure expectation values of the form</p>
+<div class="math notranslate nohighlight">
+\[
+    \langle X \rangle, \quad \langle Z \rangle, \quad \langle XX \rangle, \quad \langle ZZ \rangle, \quad \langle XZ \rangle.
+\]</div>
+<p>In order to extract these we need to rotate into four different bases, namely,</p>
+<figure class="align-center" id="fig-expr-basis-transformations">
+<a class="reference internal image-reference" href="../../_images/ExampleBasisTransformations.png"><img alt="../../_images/ExampleBasisTransformations.png" src="../../_images/ExampleBasisTransformations.png" style="width: 95%;" /></a>
+</figure>
+<p>where <span class="math notranslate nohighlight">\(U(\vec{\theta})\)</span> is our quantum circuit ansatz. The first circuit allows us to measure <span class="math notranslate nohighlight">\(\langle Z 1 \rangle\)</span>, <span class="math notranslate nohighlight">\(\langle 1Z \rangle\)</span> and <span class="math notranslate nohighlight">\(\langle ZZ \rangle\)</span>, the second circuit <span class="math notranslate nohighlight">\(\langle ZX \rangle\)</span>, the third circuit give <span class="math notranslate nohighlight">\(\langle XZ \rangle\)</span>, and the final circuit <span class="math notranslate nohighlight">\(\langle X1 \rangle\)</span>, <span class="math notranslate nohighlight">\(\langle 1 X \rangle\)</span> and <span class="math notranslate nohighlight">\(\langle XX \rangle\)</span>. From four sets of measurements we are able to extract the expectation values of all eight of the required Pauli strings.</p>
+<p>The final part is the classical optimisation. In the simplest case we can use gradient descent with the finite difference method, i.e.,</p>
+<div class="math notranslate nohighlight">
+\[
+    [\nabla E(\vec{\theta})]_i = \frac{E(\vec{\theta} + c\vec{e}_i) - E(\vec{\theta} - c\vec{e}_i)}{2c}.
+\]</div>
+<p>Since we have 8 parameters, we need to perturb the energy by <span class="math notranslate nohighlight">\(\pm c\vec{e}_i\)</span> and we need to measure in 4 different bases, this means there are <span class="math notranslate nohighlight">\(8 \times 2 \times 4 = 64\)</span> experiments we need to run for each iteration.</p>
+<p>One extra consideration is the number of shots. Typically it is easy to run the same circuit for many shots. We will use 8192, which means that the expected error in our expectation values due to this finite sampling is <span class="math notranslate nohighlight">\(1/\sqrt{8192} \approx 1\%\)</span>, which is more than accurate enough for our purposes. If we require greater accuracy, we may need to increase the number of shots. The results from the simulator and using the IBM quantum computers is shown in <a class="reference internal" href="#fig-vqe"><span class="std std-numref">Fig. 4.2</span></a>.</p>
+<figure class="align-center" id="fig-vqe">
+<a class="reference internal image-reference" href="../../_images/VQE.pdf"><img alt="../../_images/VQE.pdf" src="../../_images/VQE.pdf" style="width: 65%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 4.2 </span><span class="caption-text">Results of the VQE optimisation using the simulator and on a real quantum device.</span><a class="headerlink" href="#fig-vqe" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<div class="admonition-exercises-4-1 admonition">
+<p class="admonition-title">Exercises 4.1</p>
+<p><strong>1.</strong> Given the probabilities in the <span class="math notranslate nohighlight">\(Z\)</span>-basis, <span class="math notranslate nohighlight">\(p(|00\rangle), p(|01\rangle), p(|10\rangle), p(|11\rangle)\)</span>, write expressions for the expectation values <span class="math notranslate nohighlight">\(\langle 1 \otimes Z \rangle\)</span>, <span class="math notranslate nohighlight">\(\langle Z \otimes 1 \rangle\)</span>, and <span class="math notranslate nohighlight">\(\langle Z \otimes Z \rangle\)</span>.</p>
+<p><strong>2.</strong> Show that</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../../_images/CZGate.png"><img alt="../../_images/CZGate.png" src="../../_images/CZGate.png" style="width: 40%;" /></a>
+</figure>
+<p><strong>3.</strong> (Code) Modify the VQE example code <a class="reference internal" href="../downloads/VQE-simulator.html"><span class="std std-doc">VQE-simulator.ipynb</span></a> to use the following ansatz circuit</p>
+<figure class="align-center">
+<a class="reference internal image-reference" href="../../_images/VQE_alternative.png"><img alt="../../_images/VQE_alternative.png" src="../../_images/VQE_alternative.png" style="width: 95%;" /></a>
+</figure>
+<p>How does this change affect the learning and the final accuracy?</p>
+</div>
+<div class="admonition-code-downloads admonition">
+<p class="admonition-title">Code downloads</p>
+<p><a class="reference internal" href="../downloads/VQE-simulator.html"><span class="std std-doc">VQE-simulator.ipynb</span></a> - Jupyter notebook for running VQE on the simulator.</p>
+<p><a class="reference internal" href="../downloads/VQE-simulator-simplified.html"><span class="std std-doc">VQE-simulator-simplified.ipynb</span></a> - Jupyter notebook for running VQE on the simulator using the built in pauli measurements.</p>
+<p><a class="reference internal" href="../downloads/VQE-IBM.html"><span class="std std-doc">VQE-IBM.ipynb</span></a> - Jupyter notebook for running VQE on the IBM devices.</p>
+</div>
 </section>
 <hr class="docutils" />
 <section id="references">
-<h2><span class="section-number">4.5. </span>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
-<div class="docutils container" id="id3">
+<h2><span class="section-number">4.7. </span>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<div class="docutils container" id="id6">
 <div role="list" class="citation-list">
-<div class="citation" id="id4" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">KMT+17</a><span class="fn-bracket">]</span></span>
+<div class="citation" id="id7" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>KMT+17<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id2">1</a>,<a role="doc-backlink" href="#id4">2</a>)</span>
 <p>Abhinav Kandala, Antonio Mezzacapo, Kristan Temme, Maika Takita, Markus Brink, Jerry M. Chow, and Jay M. Gambetta. Hardware-efficient variational quantum eigensolver for small molecules and quantum magnets. <em>Nature</em>, 549(7671):242–246, sep 2017. <a class="reference external" href="https://doi.org/10.1038/nature23879">doi:10.1038/nature23879</a>.</p>
 </div>
-<div class="citation" id="id5" role="doc-biblioentry">
-<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">PMS+14</a><span class="fn-bracket">]</span></span>
+<div class="citation" id="id8" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span>PMS+14<span class="fn-bracket">]</span></span>
+<span class="backrefs">(<a role="doc-backlink" href="#id1">1</a>,<a role="doc-backlink" href="#id3">2</a>,<a role="doc-backlink" href="#id5">3</a>)</span>
 <p>Alberto Peruzzo, Jarrod McClean, Peter Shadbolt, Man-Hong Yung, Xiao-Qi Zhou, Peter J. Love, Alán Aspuru-Guzik, and Jeremy L. O'Brien. A variational eigenvalue solver on a photonic quantum processor. <em>Nature Communications</em>, 5(1):4213, sep 2014. URL: <a class="reference external" href="http://www.nature.com/articles/ncomms5213">http://www.nature.com/articles/ncomms5213</a>, <a class="reference external" href="https://doi.org/10.1038/ncomms5213">doi:10.1038/ncomms5213</a>.</p>
 </div>
 </div>
@@ -501,7 +589,9 @@ E = \min_{|\psi\rangle} \frac{\langle \psi | \hat{H} |\psi\rangle}{\langle \psi 
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finding-the-ground-state">4.2. Finding the ground state</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quantum-state-ansatz">4.3. Quantum state ansatz</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#measuring-the-energy">4.4. Measuring the energy</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">4.5. References</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-gradient-descent">4.5. Using gradient descent</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#explicit-example">4.6. Explicit example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">4.7. References</a></li>
 </ul>
   </nav></div>
 
