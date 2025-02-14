@@ -15,3 +15,5 @@ parts:
     - file: content/lectures/lecture2
     - file: content/lectures/lecture3
     - file: content/lectures/lecture4
+    - file: content/lectures/lecture5
+    - file: content/lectures/lecture6
