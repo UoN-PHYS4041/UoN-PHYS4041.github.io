@@ -323,6 +323,15 @@
             <nav aria-label="Page">
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#supervised-learning-classification-of-mnist">6.1. Supervised learning: classification of MNIST</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classical-data-as-quantum-states">6.2. Classical data as quantum states</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basis-encoding">6.2.1. Basis encoding</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#amplitude-encoding">6.2.2. Amplitude encoding</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#frqi">6.2.3. FRQI</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quantum-neural-network">6.3. Quantum neural network</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mnist-classification-example">6.4. MNIST classification example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">6.5. References</a></li>
 </ul>
             </nav>
         </div>
@@ -353,12 +362,133 @@
 </figcaption>
 </figure>
 <p>Similarly, there is a second dataset called fashionMNIST, which has exactly the same format, but where the images correspond to 10 different items of clothing. Again the task is to classify the images according to the 10 categories, and can similarly be reduced to a binary classification task between pairs of categories.</p>
-<figure class="align-center" id="fig-sashion-mnist">
+<figure class="align-center" id="fig-fashion-mnist">
 <a class="reference internal image-reference" href="../../_images/FashionMNIST.png"><img alt="../../_images/FashionMNIST.png" src="../../_images/FashionMNIST.png" style="width: 100%;" /></a>
 <figcaption>
-<p><span class="caption-number">Fig. 6.2 </span><span class="caption-text">Examples from the fashion MNIST dataset with the corresponding classification label.</span><a class="headerlink" href="#fig-sashion-mnist" title="Link to this image">#</a></p>
+<p><span class="caption-number">Fig. 6.2 </span><span class="caption-text">Examples from the fashion MNIST dataset with the corresponding classification label.</span><a class="headerlink" href="#fig-fashion-mnist" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
+</section>
+<section id="classical-data-as-quantum-states">
+<h2><span class="section-number">6.2. </span>Classical data as quantum states<a class="headerlink" href="#classical-data-as-quantum-states" title="Link to this heading">#</a></h2>
+<p>The first task in devising a quantum approach to this type of machine learning task is to represent the images a quantum state, or equivalently, as a quantum circuit<a class="footnote-reference brackets" href="#id11" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a>. This quantum state will then be the initial state for a variational quantum circuit, the measurement of which will allow us to classify the image, as described in Section~\ref{sec: quantum NN}.</p>
+<section id="basis-encoding">
+<h3><span class="section-number">6.2.1. </span>Basis encoding<a class="headerlink" href="#basis-encoding" title="Link to this heading">#</a></h3>
+<p>The most direct way to encode an image is to assign a qubit to each of the pixels of the image. We can make the identification of the zero state <span class="math notranslate nohighlight">\(|0\rangle\)</span> with a white pixel, and <span class="math notranslate nohighlight">\(|1\rangle\)</span> with a black pixel. We can also represent gray-scale values by making use of qubit rotations. If we scale the pixel values such that 0 correspond to pure white and 1 to pure black, then for a pixel value <span class="math notranslate nohighlight">\(x\in (0,1)\)</span>, we can rotate the qubit using the Pauli-Y gate, as so <span class="math notranslate nohighlight">\(R_Y(\pi x) |0\rangle = \cos(\pi x/2) |0\rangle - \sin(\pi x/2) |1\rangle\)</span>. If we measure the qubit then we can extract the original pixel value from <span class="math notranslate nohighlight">\(x = 2\arccos(\sqrt{p(|0\rangle)}) /\pi\)</span>. This provides a one-to-one mapping between our pixels and qubit states.</p>
+<p>While this approach is very simple and natural, even these very small <span class="math notranslate nohighlight">\(28\times 28\)</span> images will require 784 qubits to represent the image. Considering that multi-billion dollar companies such as Google have so far only achieved around 50 high-quality qubits in a real devices, this approach is not yet realistic for the full image. We could scale the image down further to use this approach, but in the following sections we will show alternative methods of representing the full images using far fewer qubits.</p>
+</section>
+<section id="amplitude-encoding">
+<h3><span class="section-number">6.2.2. </span>Amplitude encoding<a class="headerlink" href="#amplitude-encoding" title="Link to this heading">#</a></h3>
+<p>The power of quantum computing comes from the fact the quantum states can exist in superposition states and the dimensionality of the Hilbert is exponential in the number of qubits. In other words, to fully specify the quantum state of <span class="math notranslate nohighlight">\(N\)</span> qubits, there are <span class="math notranslate nohighlight">\(2^N\)</span> complex numbers: the probability amplitudes for each of the basis states. Amplitude encoding takes advantage of this by encoding the image in these probability amplitudes. This means, to represent an image with <span class="math notranslate nohighlight">\(M\)</span> pixels, we need <span class="math notranslate nohighlight">\(\lceil \log_2 M \rceil\)</span>, and our <span class="math notranslate nohighlight">\(28 \times 28\)</span> pixel images can be encoded in only 10 qubits. To encode the image, we take the value of the <span class="math notranslate nohighlight">\(i^\text{th}\)</span> pixel, which we label <span class="math notranslate nohighlight">\(x_i\)</span> and normalise it to become <span class="math notranslate nohighlight">\(y_i = x_i/\sum_i x^2_i\)</span>. The amplitude encoding can then be written as</p>
+<div class="math notranslate nohighlight">
+\[
+|\psi\rangle = \sum_i y_i |i\rangle,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(|i\rangle\)</span> is the basis state which is the binary representation of <span class="math notranslate nohighlight">\(i\)</span>. In this representation we can arbitrarily choose how to label the pixels (and different choices may lead to different results). The measure the images, we simply measure the probability of measuring each of the bitstrings, and then <span class="math notranslate nohighlight">\(y_i = \sqrt{p(|i\rangle)}\)</span>.</p>
+<p>This encoding has the benefit of requiring far fewer qubits than basis encoding, which makes it more feasible on near-term devices. However, this approach has two downsides. The first is that while we have reduced the number of qubits, in order to create this state generally requires a circuit that scales exponentially with the number of qubits. This is not a surprise, since exponential in qubits means linear in the number of qubits. We don’t get anything for free, we have traded qubit number for circuit depth. The second downside is that we have had to normalise our pixel values, which was not the case in basis encoding. While we can still reproduce our images, we have actually thrown away some information about the overall scale of the pixel values, or in other words, the contrast of the image. Many images with different contrast will have exactly the same quantum state representation. Furthermore, if we have an image with a lot of black, then the apparent contrast of the normalised imaged will be much lower, as shown in <a class="reference internal" href="#fig-amplitude-encoding"><span class="std std-numref">Fig. 6.3</span></a>. First, we note the different colour scale in these figures. Second, the darker image appears relatively more washed out when normalised. Since we will be directly comparing this images, this could cause issues for classification and is not a favourable property.</p>
+<figure class="align-center" id="fig-amplitude-encoding">
+<a class="reference internal image-reference" href="../../_images/AmplitudeEncoding.png"><img alt="../../_images/AmplitudeEncoding.png" src="../../_images/AmplitudeEncoding.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 6.3 </span><span class="caption-text">The effects of normalising the images for the amplitude encoding on two example images for fashionMNIST.</span><a class="headerlink" href="#fig-amplitude-encoding" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="frqi">
+<h3><span class="section-number">6.2.3. </span>FRQI<a class="headerlink" href="#frqi" title="Link to this heading">#</a></h3>
+<p>Let us consider one final method for encoding images as quantum states, called the flexible representation of quantum images (FRQI)<span id="id2">[<a class="reference internal" href="#id10" title="Phuc Q. Le, Fangyan Dong, and Kaoru Hirota. A flexible representation of quantum images for polynomial preparation, image compression, and processing operations. Quantum Information Processing, 10(84):63, 2011. doi:10.1007/s11128-010-0177-y.">LDH11</a>]</span>. This combines the benefits of the amplitude encoding, without the need to normalise the pixel values and lose information about the image contrast but using a logarithmic number of qubits. The idea is to use <span class="math notranslate nohighlight">\(\lceil \log_2 M \rceil\)</span> qubits to label the position of the qubit, as in the amplitude encoding, but to introduce an additional qubit which encodes the value of that pixel, in the same way as the basis encoding. By entangling these sets of qubits, we can represent the image as follows</p>
+<div class="math notranslate nohighlight">
+\[
+|\psi\rangle = \sum_i |i\rangle \otimes ( \cos(\pi x_i/2) |0\rangle + \sin(\pi x_i /2) |1\rangle ).
+\]</div>
+<p>To understand what this means, consider the simplest case of a two-pixel image. The image would then be encoded as</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+|\psi\rangle &amp;= |0\rangle \otimes ( \cos(\pi x_0/2) |0\rangle + \sin(\pi x_0 /2) |1\rangle ) + |1\rangle \otimes ( \cos(\pi x_1/2) |0\rangle + \sin(\pi x_1 /2) |1\rangle )\\
+&amp;= \cos(\pi x_0/2) |00\rangle + \cos(\pi x_1/2) |10\rangle + \sin(\pi x_0/2) |01\rangle + \cos(\pi x_1/2) |11\rangle.
+\end{aligned}
+\end{split}\]</div>
+<p>We have created an entangled state between the “label” qubits and the “value” qubit.</p>
+<p>With this quantum state representation of the image, we can represent the <span class="math notranslate nohighlight">\(28\times 28\)</span> MNIST images, without throwing away any information, using only 11 qubits.</p>
+<div class="admonition-exercises-6-1 admonition">
+<p class="admonition-title">Exercises 6.1</p>
+<p><strong>1.</strong> Consider the super simple image consisting of two pixels, which can classically be written as the column vector</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\left(\begin{matrix} 
+    x_0 \\
+    x_1
+    \end{matrix}\right).
+\end{split}\]</div>
+<p>Write down the column vector corresponding to the quantum state using: (i) basis encoding, (ii) amplitude encoding, (iii) FRQI.</p>
+</div>
+</section>
+</section>
+<section id="quantum-neural-network">
+<span id="sec-quantum-nn"></span><h2><span class="section-number">6.3. </span>Quantum neural network<a class="headerlink" href="#quantum-neural-network" title="Link to this heading">#</a></h2>
+<p>We now have a quantum version of our dataset using one of the above encoding methods. Next we want to introduce a quantum circuit analogue of the neural network in order to classify the data. This is simply a parametrised quantum circuit that we apply to our quantum data, followed by a measurement that we interpret as a classification label. As an example, let us consider a simple case where we have a binary classification problem with data on four qubits, we could then use a circuit of the form</p>
+<figure class="align-center" id="fig-quantum-nn">
+<a class="reference internal image-reference" href="../../_images/QuantumNN.png"><img alt="../../_images/QuantumNN.png" src="../../_images/QuantumNN.png" style="width: 75%;" /></a>
+</figure>
+<p>Here we follow the circuit for encoding the image as a quantum state with a circuit that has 6 parameters <span class="math notranslate nohighlight">\(\theta_i\)</span>, and a measurement on the first qubit. We can classify the image based on which of the measurement outcomes, <span class="math notranslate nohighlight">\(|0\rangle\)</span> or <span class="math notranslate nohighlight">\(|1\rangle\)</span> has the largest probability. Our goal is then to optimise the angles <span class="math notranslate nohighlight">\(\theta_i\)</span>, so that the classification is as accurate as possible over the entire dataset, just as in standard machine learning.</p>
+<p>We can even use the same cost functions. If we take <span class="math notranslate nohighlight">\(p(|0\rangle)\)</span> as the output, then this is a value in the interval <span class="math notranslate nohighlight">\((0, 1)\)</span>. By mapping our binary classification possibilities to <span class="math notranslate nohighlight">\(0\)</span> and <span class="math notranslate nohighlight">\(1\)</span>. For example, for a given image labelled <span class="math notranslate nohighlight">\(i\)</span>, let us write the measured probability for that image as <span class="math notranslate nohighlight">\(x_i\)</span> and let <span class="math notranslate nohighlight">\(y_i\)</span> be the actual label for that image, then the mean squared error loss function for a batch of images would be</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{1}{N}\sum_{i=1}^N (x_i - y_i)^2.
+\]</div>
+<p>Using the methods from <a class="reference internal" href="lecture5.html#sec-gradient"><span class="std std-numref">Section 5</span></a>, we can differentiate this loss function to perform gradient descent, just like we do for neural networks.</p>
+<p>Just as the success of classical neural networks depends on the particular structure (e.g., number of parameters, number hidden layers, convolutional layers, etc.), we must also design our quantum circuits in a way to most effectively classify the data. This is an area of active research. Even better, many packages such as pennylane and cirq incorporate parametrised quantum circuits into Keras and tensorflow so we can directly use all of our familiar tools and optimisers.</p>
+</section>
+<section id="mnist-classification-example">
+<h2><span class="section-number">6.4. </span>MNIST classification example<a class="headerlink" href="#mnist-classification-example" title="Link to this heading">#</a></h2>
+<p>As a concrete example, let us consider the task of classifying the digits 0 and 1 from the MNIST handwritten digits dataset. We will use the simplest basis encoding for this example. However, we cannot use as many qubits as pixels since it is far too many to simulate. Instead we will first scale the images down to 9 by 9 and then take only the central column of the image. In this way we reduce the number of qubits needed form 784 to 9. In <a class="reference internal" href="#fig-mnist-reduced"><span class="std std-numref">Fig. 6.4</span></a> we show an example of the image reduction for a 0 digit.</p>
+<figure class="align-center" id="fig-mnist-reduced">
+<a class="reference internal image-reference" href="../../_images/MNISTReduced.png"><img alt="../../_images/MNISTReduced.png" src="../../_images/MNISTReduced.png" style="width: 65%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 6.4 </span><span class="caption-text">Reduction of the MNIST digits before basis encoding.</span><a class="headerlink" href="#fig-mnist-reduced" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>For the quantum circuit we will use a variation of the circuit before that uses general rotation gates, namely</p>
+<figure class="align-center" id="fig-mnist-example-circuit">
+<a class="reference internal image-reference" href="../../_images/MNISTExampleCircuit.png"><img alt="../../_images/MNISTExampleCircuit.png" src="../../_images/MNISTExampleCircuit.png" style="width: 70%;" /></a>
+</figure>
+<p>where this is a simplified circuit on only 4 qubits. The actual circuit will use 9 qubits. The initial <span class="math notranslate nohighlight">\(R_Y\)</span> gates implement the basis encoding of our image. We can also increase the length of the circuit adding more layers of rotations and CNOTs. The gates labelled <span class="math notranslate nohighlight">\(U\)</span> are general single qubit gates that implicitly depend on three parameters each. From the circuit we will compute the expectation value of <span class="math notranslate nohighlight">\(Z\)</span> on the first qubit, i.e., <span class="math notranslate nohighlight">\(\langle Z_1 \rangle\)</span>. Therefore, we also need to map the classification labels <span class="math notranslate nohighlight">\(0 \mapsto -1\)</span>, <span class="math notranslate nohighlight">\(1 \mapsto 1\)</span>.</p>
+<p>For the loss functions (and accuracy) we use the hinge loss</p>
+<div class="math notranslate nohighlight">
+\[
+    L(y) = \frac{1}{N} \sum_i \max( 1- y_i x_i, 0),
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(y_i\)</span> are the predicted labels in the batch of size <span class="math notranslate nohighlight">\(N\)</span> and <span class="math notranslate nohighlight">\(x_i\)</span> are the true classification labels. This function returns <span class="math notranslate nohighlight">\(0\)</span> if <span class="math notranslate nohighlight">\(x_i\)</span> and <span class="math notranslate nohighlight">\(y_i\)</span> have the same sign (corresponding to correct classification), and is greater than zero if the signs don’t match.</p>
+<figure class="align-center" id="fig-mnist-classification">
+<a class="reference internal image-reference" href="../../_images/MNISTClassification.png"><img alt="../../_images/MNISTClassification.png" src="../../_images/MNISTClassification.png" style="width: 95%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 6.5 </span><span class="caption-text">Hinge loss and accuracy over 20 epochs of training a quantum neural network to classify reduced <span class="math notranslate nohighlight">\(0\)</span> and <span class="math notranslate nohighlight">\(1\)</span> MNIST digits.</span><a class="headerlink" href="#fig-mnist-classification" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>In pennylane we are able to convert the circuit into a Keras layer, which we can then use like any other Keras layer. In particular, we can construct a Keras model with the pixel values as input and the value of the <span class="math notranslate nohighlight">\(Z\)</span> expectation value as output. We can then train this using the hinge loss and the Adam optimiser. In <a class="reference internal" href="#fig-mnist-classification"><span class="std std-numref">Fig. 6.5</span></a> we show the loss function and the accuracy over 20 epochs of training. The code that produces these results can be found on Moodle. We also show results with quantum circuits with one full set of rotations and CNOTS (which we call 1 layer), and with two full sets, one after another (which we call 2 layers). We find that the extra circuit depth and increased number of parameters leads to a much greater accuracy of the model (<span class="math notranslate nohighlight">\(\sim\)</span> 85% vs <span class="math notranslate nohighlight">\(\sim\)</span> 96%). Furthermore, the extra parameters appear to make the model converge more quickly to the final accuracy and has less fluctation during training.</p>
+<div class="admonition-exercises-6-2 admonition">
+<p class="admonition-title">Exercises 6.2</p>
+<p><strong>1.</strong> (Code) Modify the <a class="reference internal" href="../downloads/MNIST-classification.html"><span class="std std-doc">MNIST-classification.ipynb</span></a> code the classify digits 3 and 6 instead of 0 and 1. Note this may take a long time to train so you might want to run using Google colab.</p>
+</div>
+</section>
+<hr class="docutils" />
+<section id="references">
+<h2><span class="section-number">6.5. </span>References<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<div class="docutils container" id="id3">
+<div role="list" class="citation-list">
+<div class="citation" id="id10" role="doc-biblioentry">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">LDH11</a><span class="fn-bracket">]</span></span>
+<p>Phuc Q. Le, Fangyan Dong, and Kaoru Hirota. A flexible representation of quantum images for polynomial preparation, image compression, and processing operations. <em>Quantum Information Processing</em>, 10(84):63, 2011. <a class="reference external" href="https://doi.org/10.1007/s11128-010-0177-y">doi:10.1007/s11128-010-0177-y</a>.</p>
+</div>
+</div>
+</div>
+<hr class="footnotes docutils" />
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id11" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<p>Actually this is only one approach. There are other approaches where the images is directly inputted as angles into a variational quantum circuit. What we are considering can be considered as a subset of these approaches.</p>
+</aside>
+</aside>
 </section>
 </section>
 
@@ -419,6 +549,15 @@
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#supervised-learning-classification-of-mnist">6.1. Supervised learning: classification of MNIST</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classical-data-as-quantum-states">6.2. Classical data as quantum states</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#basis-encoding">6.2.1. Basis encoding</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#amplitude-encoding">6.2.2. Amplitude encoding</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#frqi">6.2.3. FRQI</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quantum-neural-network">6.3. Quantum neural network</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mnist-classification-example">6.4. MNIST classification example</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">6.5. References</a></li>
 </ul>
   </nav></div>
 
