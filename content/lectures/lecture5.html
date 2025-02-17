@@ -1,0 +1,635 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>5. Quantum gradients and optimisation &#8212; Introduction to Practical Quantum Computing - University of Nottingham (PHYS4041)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!-- 
+    this give us a css class that will be invisible only if js is disabled 
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'content/lectures/lecture5';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="6. Quantum machine learning" href="lecture6.html" />
+    <link rel="prev" title="4. Variational quantum eigensolver (VQE)" href="lecture4.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Introduction to Practical Quantum Computing - University of Nottingham (PHYS4041) - Home"/>
+    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="Introduction to Practical Quantum Computing - University of Nottingham (PHYS4041) - Home"/>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Introduction to Practical Quantum Computing - University of Nottingham (PHYS4041)
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Information about the course</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../outline/courseStructure.html">Course Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../outline/pythonEnvironment.html">Setup Python and Pennylane</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Lectures</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="lecture1.html">1. Quantum mechanics of a qubit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lecture2.html">2. Multiple qubits, entanglement, and IBMQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lecture3.html">3. Bloch sphere, tomography, and optimisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lecture4.html">4. Variational quantum eigensolver (VQE)</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">5. Quantum gradients and optimisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="lecture6.html">6. Quantum machine learning</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/content/lectures/lecture5.md" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.md</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button>
+
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Quantum gradients and optimisation</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finite-difference-revisited">5.1. Finite difference revisited</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simultaneous-perturbation-stochastic-approximation">5.2. Simultaneous perturbation stochastic approximation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-shift">5.3. Parameter shift</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#derivation">5.3.1. Derivation</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="quantum-gradients-and-optimisation">
+<span id="sec-gradient"></span><h1><span class="section-number">5. </span>Quantum gradients and optimisation<a class="headerlink" href="#quantum-gradients-and-optimisation" title="Link to this heading">#</a></h1>
+<p>A central part of variational quantum algorithms, including the quantum machine learning algorithms we will introduce in the final section, is the optimisation of quantum circuits with respect to some objective (or cost) function. One way to achieve this is by using gradient descent, or variations thereof. This involves changing parameters in the direction of the gradient of our objective functions. We will therefore be required to compute derivative of our circuits. This can be achieved by using approximations of the gradient (e.g. finite difference method <a class="reference internal" href="#sec-finite-difference"><span class="std std-numref">Section 5.1</span></a>), but in some cases it can also be computed exactly (e.g. parameter shift <a class="reference internal" href="#sec-parameter-shift"><span class="std std-numref">Section 5.3</span></a>).</p>
+<p>In all of the cases we are concerned with, the optimisation problem we are interested can be reduced to finding the minimum value of an expectation value,</p>
+<div class="math notranslate nohighlight">
+\[
+    F(\vec{\theta}) = \langle \psi(\vec{\theta}) | \hat{O} | \psi(\vec{\theta}) \rangle,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\hat{O}\)</span> is some observable of interest, such as the Hamiltonian <span class="math notranslate nohighlight">\(\hat{O} = \hat{H}\)</span>, considered in <a class="reference internal" href="lecture4.html#sec-vqe"><span class="std std-numref">Section 4</span></a> for the VQE, and where <span class="math notranslate nohighlight">\(|\psi(\theta)\rangle\)</span> is a state constructed by a quantum circuit with variable parameters <span class="math notranslate nohighlight">\(\vec{\theta}\)</span>. That is, the goal is to find</p>
+<div class="math notranslate nohighlight">
+\[
+    F_0 = \min_{\vec{\theta}} F(\vec{\theta}) \quad \text{or} \quad \vec{\theta}_0 = \text{argmin}_{\vec{\theta}} F(\vec{\theta}).
+\]</div>
+<p>One way to achieve this is using gradient descent, which in its simplest form updates the parameters via the iterative process,</p>
+<div class="math notranslate nohighlight">
+\[
+    \vec{\theta}_{i+1} = \vec{\theta}_i - \eta \nabla F(\vec{\theta}_i),
+\]</div>
+<p>where the idea is that <span class="math notranslate nohighlight">\(\lim_{i\rightarrow \infty} \vec{\theta}_i = \vec{\theta}_0\)</span>. While this cannot be guaranteed, due to the unknown structure of the optimisation landscape, which may include many local minima, this is a popular approach, and reflects the established use of (variants of) gradient descent in machine learning.</p>
+<section id="finite-difference-revisited">
+<span id="sec-finite-difference"></span><h2><span class="section-number">5.1. </span>Finite difference revisited<a class="headerlink" href="#finite-difference-revisited" title="Link to this heading">#</a></h2>
+<p>One of the most straightforward ways of approximating the gradient of our objective / loss function <span class="math notranslate nohighlight">\(F(\vec{\theta})\)</span> is to use the finite difference method. This is motivated by the definition of the gradient,</p>
+<div class="math notranslate nohighlight">
+\[
+    [\nabla F(\vec{\theta})]_i = \lim_{\delta \rightarrow 0} \frac{F(\vec{\theta}+\delta \vec{e}_i) - F(\vec{\theta})}{\delta},
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\hat{e}_i\)</span> is a unit vector with <span class="math notranslate nohighlight">\(1\)</span> in the <span class="math notranslate nohighlight">\(i^\text{th}\)</span> row and all other values <span class="math notranslate nohighlight">\(0\)</span>. In practice, we are not able to compute the gradient, or this limit exactly. Instead we can use a small but finite value of <span class="math notranslate nohighlight">\(\delta\)</span> to get the approximation,</p>
+<div class="math notranslate nohighlight" id="equation-eq-finite-difference">
+<span class="eqno">(5.1)<a class="headerlink" href="#equation-eq-finite-difference" title="Link to this equation">#</a></span>\[
+    [\nabla F(\vec{\theta})]_i \approx \frac{F(\vec{\theta}+\delta \vec{e}_i) - F(\vec{\theta})}{\delta}.
+\]</div>
+<p>To understand the finite difference formula better, let us consider the Taylor series for <span class="math notranslate nohighlight">\(F(\vec{\theta} + \delta \vec{e}_i)\)</span>, which is</p>
+<div class="math notranslate nohighlight">
+\[
+    F(\vec{\theta} + \delta \vec{e}_i) = F(\vec{\theta}) + \delta \frac{\partial F(\vec{\theta})}{\partial \theta_i}  + \frac{\delta^2}{2} \frac{\partial^2 F(\vec{\theta})}{\partial \theta_i^2}  + \frac{\delta^3}{3!} \frac{\partial^3 F(\vec{\theta})}{\partial \theta_i^3}  + \mathcal{O} (\delta^4).
+\]</div>
+<p>Using this, we can see that Eq.<a class="reference internal" href="#equation-eq-finite-difference">(5.1)</a> approximates the gradient with error <span class="math notranslate nohighlight">\(\mathcal{O}(\delta)\)</span>. Using this Taylor series we can also derive higher-order approximations such as the symmetric difference formula,</p>
+<div class="math notranslate nohighlight">
+\[
+    [\nabla F(\vec{\theta})]_i = \frac{F(\vec{\theta}+\delta \vec{e}_i) - F(\vec{\theta}-\delta \vec{e}_i)}{2\delta} + \mathcal{O}(\delta^2).
+\]</div>
+<p>However, it is worth noting that this increased accuracy comes at the cost of twice as many function evaluations, and so in practice the lowest order approximation is typically used. It is also possible to access higher order derivatives (such as the Hessian matrix) using this method, which could be useful in more sophisticated optimisation algorithms.</p>
+<p>In <a class="reference internal" href="#fig-gradient-comparison"><span class="std std-numref">Fig. 5.1</span></a> we show the results of gradient descent using first and second order finite difference approximation for the rotation optimisation (<a class="reference internal" href="lecture3.html#sec-tomography"><span class="std std-numref">Section 3</span></a>) and VQE (<a class="reference internal" href="lecture4.html#sec-vqe"><span class="std std-numref">Section 4</span></a>). We additionally show results of the two other methods in the following sections.</p>
+<figure class="align-center" id="fig-gradient-comparison">
+<a class="reference internal image-reference" href="../../_images/GradientComparison.png"><img alt="../../_images/GradientComparison.png" src="../../_images/GradientComparison.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 5.1 </span><span class="caption-text">Comparison of the performance of gradient descent using different methods to approximate (or evaluate) the gradient. (Left) Optimisation of the single qubit gate from <a class="reference internal" href="lecture3.html#sec-tomography"><span class="std std-numref">Section 3</span></a>. (Right) VQE from <a class="reference internal" href="lecture4.html#sec-vqe"><span class="std std-numref">Section 4</span></a>.</span><a class="headerlink" href="#fig-gradient-comparison" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<div class="admonition-exercises-5-1 admonition">
+<p class="admonition-title">Exercises 5.1</p>
+<p><strong>1.</strong> Using the Taylor series</p>
+<div class="math notranslate nohighlight">
+\[
+    F(\vec{\theta} + \delta \vec{e}_i) = F(\vec{\theta}) + \delta \frac{\partial F(\vec{\theta})}{\partial \theta_i}  + \frac{\delta^2}{2} \frac{\partial^2 F(\vec{\theta})}{\partial \theta_i^2}  + \frac{\delta^3}{3!} \frac{\partial^3 F(\vec{\theta})}{\partial \theta_i^3}  + \mathcal{O} (\delta^4),
+\]</div>
+<p>show that the approximation</p>
+<div class="math notranslate nohighlight">
+\[
+    [\nabla F(\vec{\theta})]_i \approx \frac{F(\vec{\theta}+\delta \vec{e}_i) - F(\vec{\theta})}{\delta}.
+\]</div>
+<p>has error of order <span class="math notranslate nohighlight">\(\mathcal{O}(\delta)\)</span>, and that</p>
+<div class="math notranslate nohighlight">
+\[
+    [\nabla F(\vec{\theta})]_i \approx \frac{F(\vec{\theta}+\delta \vec{e}_i) - F(\vec{\theta}-\delta \vec{e}_i)}{2\delta},
+\]</div>
+<p>has error of order <span class="math notranslate nohighlight">\(\mathcal{O}(\delta^2)\)</span>.</p>
+</div>
+</section>
+<section id="simultaneous-perturbation-stochastic-approximation">
+<span id="sec-spsa"></span><h2><span class="section-number">5.2. </span>Simultaneous perturbation stochastic approximation<a class="headerlink" href="#simultaneous-perturbation-stochastic-approximation" title="Link to this heading">#</a></h2>
+<p>The finite difference method requires use to evaluate our objective function at a number of points that scales linearly with the number of parameters in our functions. Since each evaluation corresponds to a new experiment, this can be costly if our function has many parameters. Instead we might want to sacrifice accuracy in our gradient in order perform many more steps of gradient descent. This is achieved by the method of simultaneous perturbation stochastic perturbation (SPSA).</p>
+<p>SPSA works similarly uses the same iterative process as graident descent, namely</p>
+<div class="math notranslate nohighlight">
+\[
+\vec{\theta}_{n+1} = \vec{\theta}_n - a_n g(\vec{\theta}_n),
+\]</div>
+<p>but where <span class="math notranslate nohighlight">\(g(\vec{\theta}_n) \approx \nabla F(\vec{\theta}_n)\)</span> is our approximation of the gradient. SPSA approximates this gradient in the following way,</p>
+<div class="math notranslate nohighlight">
+\[
+[g(\vec{\theta}_n)]_i = \frac{F(\vec{\theta}_n + c_n \vec{\Delta}_n) - F(\vec{\theta}_n - c_n \vec{\Delta}_n)}{2c_n [\Delta_n]_i},
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(c_n\)</span> is a scalar that depends on the iteration step <span class="math notranslate nohighlight">\(n\)</span>, and <span class="math notranslate nohighlight">\(\Delta_n\)</span> is a random vector with the same length as <span class="math notranslate nohighlight">\(\vec{\theta}_n\)</span>. Rather than perturbing each of the angles separately to compute the gradient, we perturb all of the angles at the same time by a random vector <span class="math notranslate nohighlight">\(\vec{\Delta}_n\)</span>.</p>
+<figure class="align-center" id="fig-spsa">
+<a class="reference internal image-reference" href="../../_images/SPSA.png"><img alt="../../_images/SPSA.png" src="../../_images/SPSA.png" style="width: 100%;" /></a>
+<figcaption>
+<p><span class="caption-number">Fig. 5.2 </span><span class="caption-text">Results of running SPSA 10 times. (Left) Optimisation of the single qubit gate from <a class="reference internal" href="lecture3.html#sec-tomography"><span class="std std-numref">Section 3</span></a>. (Right) VQE from <a class="reference internal" href="lecture4.html#sec-vqe"><span class="std std-numref">Section 4</span></a>.</span><a class="headerlink" href="#fig-spsa" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>For this approximation to converge we need <span class="math notranslate nohighlight">\(a_n\)</span>, <span class="math notranslate nohighlight">\(c_n\)</span> and <span class="math notranslate nohighlight">\(\vec{\Delta}_n\)</span> to satisfy several properties.</p>
+<ol class="arabic simple">
+<li><p><span class="math notranslate nohighlight">\(a_n \rightarrow 0\)</span> as <span class="math notranslate nohighlight">\(n \rightarrow \infty\)</span> and <span class="math notranslate nohighlight">\(\sum_n a_n = \infty\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(c_n \rightarrow 0\)</span>, such that <span class="math notranslate nohighlight">\(\sum_n (\frac{a_n}{c_n})^2 &lt; \infty\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\([\vec{\Delta}_n]_i\)</span> are mutually independent random variables with zero mean, symmetrically distributed about zero, with finite inverse first and second moments.</p></li>
+</ol>
+<p>While there are many choices that would satisfy these conditions, we can take <span class="math notranslate nohighlight">\(a_n = a/n\)</span>, with <span class="math notranslate nohighlight">\(a&gt;0\)</span>, <span class="math notranslate nohighlight">\(c_n = c/\sqrt[3]{n}\)</span>, with <span class="math notranslate nohighlight">\(c&gt;0\)</span>, and <span class="math notranslate nohighlight">\([\vec{\Delta}_n]_i\)</span> sampled from the binomial distribution <span class="math notranslate nohighlight">\(\{-1,+1\}\)</span>, with equal probability, <span class="math notranslate nohighlight">\(0.5\)</span>.</p>
+<p>Note that SPSA is a stochastic algorithm which relies on the generation of a random perturbation vector. Because of this we should expect the gradient descent to have significant fluctuations, as seen in <a class="reference internal" href="#fig-gradient-comparison"><span class="std std-numref">Fig. 5.1</span></a>. Furthermore, it means the results will be different each time we run the algorithm. In <a class="reference internal" href="#fig-spsa"><span class="std std-numref">Fig. 5.2</span></a> we show the results of 10 runs starting from the same initial angles and with the same target. Each individual run is different, and there is quite a spread in the rates of convergence. However, this stochastic nature of the algorithm is compensated by the drastic reduction in the number of measurements on the quantum computer that are needed. For each approximation to the gradient, we only need to run the circuit twice, in contrast to twice the number of parameters as for finite difference.</p>
+</section>
+<section id="parameter-shift">
+<span id="sec-parameter-shift"></span><h2><span class="section-number">5.3. </span>Parameter shift<a class="headerlink" href="#parameter-shift" title="Link to this heading">#</a></h2>
+<p>So far we have been considering different methods for approximating the gradient of a quantum circuit in order to perform gradient descent. However, by using knowledge about the structure of the quantum circuit we are able to compute gradients exactly using the parameter shift method. This is similar to the property for sine and cosine, namely</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\text{d}}{\text{d} x} \sin(x) = \frac{1}{2} \left[\sin\left(x+\frac{\pi}{2}\right) - \sin\left(x-\frac{\pi}{2}\right) \right].
+\]</div>
+<p>More specifically let us consider a function that we want to optimise of the form</p>
+<div class="math notranslate nohighlight">
+\[
+F(\vec{\theta}) = \langle \psi(\vec{\theta}) | \hat{O} | \psi(\vec{\theta}) \rangle,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(\hat{O}\)</span> is an observable, and <span class="math notranslate nohighlight">\(|\psi(\vec{\theta})\rangle\)</span> is the quantum state realised by a parametrised quantum circuit. If the parameters in <span class="math notranslate nohighlight">\(|\psi(\vec{\theta})\rangle\)</span> only appear in Pauli-rotation gates, e.g. <span class="math notranslate nohighlight">\(R_P(\theta) = \exp(-i\theta/2 P)\)</span> (which we can always do), then we have</p>
+<div class="math notranslate nohighlight" id="equation-eq-parameter-shift-final">
+<span class="eqno">(5.2)<a class="headerlink" href="#equation-eq-parameter-shift-final" title="Link to this equation">#</a></span>\[
+[\nabla F(\theta)]_i = \frac{1}{2} \left[ F \left(\vec{\theta} + \frac{\pi}{2} \vec{e}_i \right) - F \left(\vec{\theta} + \frac{\pi}{2} \vec{e}_i \right) \right].
+\]</div>
+<p>While this looks very similar to finite difference, this gives the exact value of the gradient.</p>
+<p>In <a class="reference internal" href="#fig-gradient-comparison"><span class="std std-numref">Fig. 5.1</span></a> we show the results of using the exact gradient. For these two simple problems, there appears to be little difference to the second-order finite difference method. However, there are cases where the finite difference method becomes numerically unstable, and the parameter shift would be preferred. In any case, it requires the same number of jobs to be run on the quantum computer and so would generally be preferred if our circuit if of the correct form.</p>
+<section id="derivation">
+<h3><span class="section-number">5.3.1. </span>Derivation<a class="headerlink" href="#derivation" title="Link to this heading">#</a></h3>
+<p>To derive this result, let us first compute the derivative of the Pauli-Rotation gates <span class="math notranslate nohighlight">\(R_P(\theta) = \exp(-i\theta/2 P)\)</span>, where <span class="math notranslate nohighlight">\(P\in \{X,Y,Z \}\)</span>. Then we have</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\text{d}}{\text{d} \theta} R_P(\theta) = -\frac{i}{2} P R_P(\theta) = -\frac{i}{2} R_P(\theta) P.
+\]</div>
+<p>Let us first consider the simpler setting of a single parameter <span class="math notranslate nohighlight">\(\theta\)</span>, i.e.</p>
+<div class="math notranslate nohighlight">
+\[
+f(\theta) = \langle \psi | R^\dagger_P(\theta) \hat{O} R_P(\theta) |\psi\rangle,
+\]</div>
+<p>where <span class="math notranslate nohighlight">\(|\psi\rangle\)</span> could correspond to a quantum circuit without variable parameters. Then</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\frac{\partial f}{\partial \theta} &amp;= \langle \psi | \frac{\text{d} R^\dagger_P(\theta)}{\text{d} \theta} \hat{O} R_P(\theta) |\psi \rangle + \langle \psi | R^\dagger_P(\theta) \hat{O} \frac{\text{d} R_P(\theta)}{\text{d} \theta} |\psi \rangle \\
+&amp;= \frac{i}{2} \left[ \langle \psi | R^\dagger_P(\theta) P \hat{O} R_P(\theta) |\psi\rangle - \langle \psi | R^\dagger_P(\theta) \hat{O} P R_P(\theta) |\psi\rangle    \right] \\
+&amp; = \frac{i}{2} \left[ \langle \psi | R^\dagger_P(\theta) [P, \hat{O}] R_P(\theta) |\psi\rangle  \right],
+\end{aligned}
+\end{split}\]</div>
+<p>where <span class="math notranslate nohighlight">\([A,B] = AB - BA\)</span> is the commutator. We can then write this commutator as</p>
+<div class="math notranslate nohighlight">
+\[
+[P, \hat{O}] = -i \left[R^\dagger_P \left(\frac{\pi}{2}\right) \hat{O} R_P\left(\frac{\pi}{2}\right) - R^\dagger_P\left(-\frac{\pi}{2}\right) \hat{O} R_P\left(-\frac{\pi}{2}\right)  \right],
+\]</div>
+<p>which simply follows from <span class="math notranslate nohighlight">\(R_P(\pm\pi/2) = (1 \mp iP)/\sqrt{2}\)</span>, and <span class="math notranslate nohighlight">\(R^\dagger_P(\theta) = R_P(-\theta)\)</span>. Plugging this back in we get</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+\begin{aligned}
+\frac{\partial f}{\partial \theta} &amp;= \frac{1}{2} \Big[ \langle \psi | R^\dagger_P\left(\theta\right)R^\dagger_P\left(\frac{\pi}{2}\right) \hat{O} R_P\left(\frac{\pi}{2}\right)R_P\left(\theta\right) | \psi \rangle \\ &amp; \qquad\quad - \langle \psi | R^\dagger_P\left(\theta\right)R^\dagger_P\left(-\frac{\pi}{2}\right) \hat{O} R_P\left(-\frac{\pi}{2}\right)R_P\left(\theta\right) | \psi \rangle  \Big] \\
+&amp; = \frac{1}{2} \Big[  \langle \psi | R^\dagger_P\left(\theta+\frac{\pi}{2}\right) \hat{O} R_P\left(\theta + \frac{\pi}{2}\right) | \psi \rangle - \langle \psi | R^\dagger_P\left(\theta-\frac{\pi}{2}\right) \hat{O} R_P\left(\theta - \frac{\pi}{2}\right) | \psi \rangle \Big]\\
+&amp;= \frac{1}{2} \left[ f\left(\theta + \frac{\pi}{2} \right) - f\left(\theta - \frac{\pi}{2} \right) \right].
+\end{aligned}
+\end{split}\]</div>
+<p>While above we considered a single angle <span class="math notranslate nohighlight">\(\theta\)</span>, this generalises to any number of Pauli rotation gates in our circuit. Since the partial derivatives fixes all other angles they are not considered variables for that derivative. Therefore any gates that appear before the one of interest can be incorporated into the state <span class="math notranslate nohighlight">\(|\psi\rangle\)</span>, and any gates in the circuit after can be incorporated into the operator <span class="math notranslate nohighlight">\(\hat{O}\)</span>. This can then be applied for derivatives with respect to each of the angles separately. In the end, we have that for a general function <span class="math notranslate nohighlight">\(f(\vec{\theta})\)</span> of this form, depending on many angles only in Pauli rotation gates, then we get the result in Eq.<a class="reference internal" href="#equation-eq-parameter-shift-final">(5.2)</a>.</p>
+<div class="admonition-exercises-5-2 admonition">
+<p class="admonition-title">Exercises 5.2</p>
+<p><strong>1.</strong> For the commutator <span class="math notranslate nohighlight">\([P, \hat{O}] = P\hat{O} - \hat{O}P\)</span>, show that</p>
+<div class="math notranslate nohighlight">
+\[
+[P, \hat{O}] = -i \left[R^\dagger_P \left(\frac{\pi}{2}\right) \hat{O} R_P\left(\frac{\pi}{2}\right) - R^\dagger_P\left(-\frac{\pi}{2}\right) \hat{O} R_P\left(-\frac{\pi}{2}\right)  \right],
+\]</div>
+<p>with <span class="math notranslate nohighlight">\(P=X\)</span>, using <span class="math notranslate nohighlight">\(R_X(\theta) = \cos(\theta/2) - i \sin(\theta/2) X\)</span>.</p>
+<p><strong>2.</strong> (Code). Replace the finite difference approximation of the derivative in <a class="reference internal" href="../downloads/VQE-simulator-simplified.html"><span class="std std-doc">VQE-simulator-simplified.ipynb</span></a> with the simultaneous perturbation stochastic approximation and/or the parameter shift exact derivative. How does this change the learning and the final accuracy.</p>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./content/lectures"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="lecture4.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">4. </span>Variational quantum eigensolver (VQE)</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="lecture6.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">6. </span>Quantum machine learning</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#finite-difference-revisited">5.1. Finite difference revisited</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simultaneous-perturbation-stochastic-approximation">5.2. Simultaneous perturbation stochastic approximation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#parameter-shift">5.3. Parameter shift</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#derivation">5.3.1. Derivation</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dr Adam Gammon-Smith
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
