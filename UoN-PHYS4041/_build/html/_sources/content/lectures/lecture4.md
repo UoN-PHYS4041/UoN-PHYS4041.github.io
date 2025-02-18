@@ -257,6 +257,8 @@ How does this change affect the learning and the final accuracy?
 
 [VQE-simulator.ipynb](../downloads/VQE-simulator.ipynb) - Jupyter notebook for running VQE on the simulator.
 
+[HamiltonianParameters.txt](../downloads/HamiltonianParameters.txt) - Text file with the Hamiltonian parameters for the H-He$^+$ molecule. This is needed to run the VQE notebook.
+
 [VQE-simulator-simplified.ipynb](../downloads/VQE-simulator-simplified.ipynb) - Jupyter notebook for running VQE on the simulator using the built in pauli measurements.
 
 [VQE-IBM.ipynb](../downloads/VQE-IBM.ipynb) - Jupyter notebook for running VQE on the IBM devices.
