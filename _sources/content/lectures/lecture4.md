@@ -178,7 +178,13 @@ align: center
 ---
 ```
 
-where we have introduce a new two-qubit gate, called the CZ or controlled-Z gate. This is simply related to the CNOT gate by the following
+where we have introduce a new two-qubit gate, called the CZ or controlled-Z gate. The CZ gate is diagonal in the computational basis, and has trivial action except $\text{CZ}|11\rangle = -|11\rangle$. The matrix representation for this gate is
+
+$$
+    \text{CZ} = \begin{pmatrix} 1 & 0 & 0 & 0 \\ 0 & 1 & 0 & 0 \\ 0 & 0 & 1 & 0 \\ 0 & 0 & 0 & -1 \end{pmatrix}.
+$$
+
+The CZ gate is simply related to the CNOT gate by the following
 
 ```{figure} ../images/CZGate.png
 ---
