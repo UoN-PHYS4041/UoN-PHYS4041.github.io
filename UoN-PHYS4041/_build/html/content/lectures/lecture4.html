@@ -464,7 +464,12 @@ E = \min_{|\psi\rangle} \frac{\langle \psi | \hat{H} |\psi\rangle}{\langle \psi 
 <figure class="align-center" id="fig-vqe-ansatz">
 <a class="reference internal image-reference" href="../../_images/VQEAnsatz.png"><img alt="../../_images/VQEAnsatz.png" src="../../_images/VQEAnsatz.png" style="width: 75%;" /></a>
 </figure>
-<p>where we have introduce a new two-qubit gate, called the CZ or controlled-Z gate. This is simply related to the CNOT gate by the following</p>
+<p>where we have introduce a new two-qubit gate, called the CZ or controlled-Z gate. The CZ gate is diagonal in the computational basis, and has trivial action except <span class="math notranslate nohighlight">\(\text{CZ}|11\rangle = -|11\rangle\)</span>. The matrix representation for this gate is</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}
+    \text{CZ} = \begin{pmatrix} 1 &amp; 0 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 &amp; 0 \\ 0 &amp; 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 0 &amp; -1 \end{pmatrix}.
+\end{split}\]</div>
+<p>The CZ gate is simply related to the CNOT gate by the following</p>
 <figure class="align-center" id="fig-cz-gate">
 <a class="reference internal image-reference" href="../../_images/CZGate.png"><img alt="../../_images/CZGate.png" src="../../_images/CZGate.png" style="width: 40%;" /></a>
 </figure>
