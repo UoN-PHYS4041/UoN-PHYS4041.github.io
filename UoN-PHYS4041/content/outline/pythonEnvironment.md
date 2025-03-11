@@ -31,6 +31,8 @@ dependencies:
     - qiskit-ibm-runtime
     - qiskit[visulization]
     - pennylane-qiskit
+    - tensorflow==2.14.0
+    - silence_tensorflow
 ```
 
 To create the conda environment, open a terminal in the directory where you saved the `environment.yml` file. Then run the following command.
