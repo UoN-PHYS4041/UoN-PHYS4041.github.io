@@ -1,0 +1,1192 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Load and reduce the data &#8212; Introduction to Practical Quantum Computing - University of Nottingham (PHYS4041)</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'content/downloads/MNIST-classification-jax';</script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/logo.png" class="logo__image only-light" alt="Introduction to Practical Quantum Computing - University of Nottingham (PHYS4041) - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Introduction to Practical Quantum Computing - University of Nottingham (PHYS4041) - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../../intro.html">
+                    Introduction to Practical Quantum Computing - University of Nottingham (PHYS4041)
+                </a>
+            </li>
+        </ul>
+        <p aria-level="2" class="caption" role="heading"><span class="caption-text">Information about the course</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../outline/courseStructure.html">Course Structure</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../outline/pythonEnvironment.html">Setup Python and Pennylane</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../outline/projects.html">Assessment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../outline/AIStatement.html">Artificial Intelligance (AI) in this module</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Lectures</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../lectures/lecture1.html">1. Quantum mechanics of a qubit</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lectures/lecture2.html">2. Multiple qubits, entanglement, and IBMQ</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lectures/lecture3.html">3. Bloch sphere, tomography, and optimisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lectures/lecture4.html">4. Variational quantum eigensolver (VQE)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lectures/lecture5.html">5. Quantum gradients and optimisation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../lectures/lecture6.html">6. Quantum machine learning</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../../_sources/content/downloads/MNIST-classification-jax.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Load and reduce the data</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Load and reduce the data</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#set-up-the-quantum-neural-network">Set up the Quantum Neural Network</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#compile-and-train-the-model">Compile and train the model</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#repeat-for-2-layers">Repeat for 2 layers</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-the-results">Plot the results!</a></li>
+</ul>
+</li>
+</ul>
+
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">pennylane</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">qml</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">jax.numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jax</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">optax</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow_datasets</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tfds</span>
+
+<span class="c1"># np.set_printoptions(legacy=&quot;1.25&quot;)  # Fix annoying printing of numpy types</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">tensorflow</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">tf</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">ModuleNotFoundError</span><span class="g g-Whitespace">                       </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">import</span><span class="w"> </span><span class="nn">pennylane</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">qml</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span>
+
+<span class="ne">ModuleNotFoundError</span>: No module named &#39;pennylane&#39;
+</pre></div>
+</div>
+</div>
+</div>
+<section id="load-and-reduce-the-data">
+<h1>Load and reduce the data<a class="headerlink" href="#load-and-reduce-the-data" title="Link to this heading">#</a></h1>
+<p>Load the MNIST data and check number of training and test examples</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">data_train</span><span class="p">,</span> <span class="n">data_test</span> <span class="o">=</span> <span class="n">tfds</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s1">&#39;mnist&#39;</span><span class="p">,</span> <span class="n">split</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;train&#39;</span><span class="p">,</span> <span class="s1">&#39;test&#39;</span><span class="p">],</span> <span class="n">as_supervised</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># convert data_train to numpy array where first index specifies the image number</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">convert_to_numpy</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+    <span class="n">images</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">labels</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">image</span><span class="p">,</span> <span class="n">label</span> <span class="ow">in</span> <span class="n">tfds</span><span class="o">.</span><span class="n">as_numpy</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
+        <span class="n">images</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">image</span><span class="o">/</span><span class="mf">255.0</span><span class="p">)</span>  <span class="c1"># normalize to [0, 1]</span>
+        <span class="n">labels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">label</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">images</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">labels</span><span class="p">)</span>
+
+<span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">convert_to_numpy</span><span class="p">(</span><span class="n">data_train</span><span class="p">)</span>
+<span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">convert_to_numpy</span><span class="p">(</span><span class="n">data_test</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of original training examples:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_train</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of original test examples:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_test</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of original training examples: 60000
+Number of original test examples: 10000
+</pre></div>
+</div>
+</div>
+</div>
+<p>Create a function to filter out only 0 and 1</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">filter_01</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="n">keep</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">y</span> <span class="o">==</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">keep</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">keep</span><span class="p">]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">y</span> <span class="o">==</span> <span class="mi">0</span> 
+    <span class="n">y</span> <span class="o">=</span> <span class="n">y</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>  <span class="c1"># convert bool to int</span>
+    <span class="k">return</span> <span class="n">x</span><span class="p">,</span><span class="n">y</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span> <span class="o">=</span> <span class="n">filter_01</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+<span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">filter_01</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="n">y_test</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of filtered training examples:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_train</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Number of filtered test examples:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_test</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Number of filtered training examples: 12665
+Number of filtered test examples: 2115
+</pre></div>
+</div>
+</div>
+</div>
+<p>Plot the original images</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">x_train</span><span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="mi">0</span><span class="p">],</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Greys&#39;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;28x28 image of a </span><span class="si">{</span><span class="n">y_train</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="c1"># save to file as pdf</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;28x28_MNIST_0.pdf&#39;</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">,</span> <span class="n">pad_inches</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/5d6a384aa6fe9989f3f2a5d8f6b57f4af4e07477a8370bf5c50f8410438ea621.png" src="../../_images/5d6a384aa6fe9989f3f2a5d8f6b57f4af4e07477a8370bf5c50f8410438ea621.png" />
+</div>
+</div>
+<p>Reduce images to 9x9</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_train_small</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">x_train</span><span class="p">,</span> <span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="mi">9</span><span class="p">))</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+<span class="n">x_test_small</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="n">x_test</span><span class="p">,</span> <span class="p">(</span><span class="mi">9</span><span class="p">,</span><span class="mi">9</span><span class="p">))</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">x_train_small</span><span class="p">[</span><span class="mi">0</span><span class="p">,:,:,</span><span class="mi">0</span><span class="p">],</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Greys&#39;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;9x9 image of a </span><span class="si">{</span><span class="n">y_train</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="c1"># save to file as pdf</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;9x9_MNIST_0.pdf&#39;</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">,</span> <span class="n">pad_inches</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/8da010c1f5b9afb2ac1b43ae08a4cb187873938fe11de0791d9fcb735fcda503.png" src="../../_images/8da010c1f5b9afb2ac1b43ae08a4cb187873938fe11de0791d9fcb735fcda503.png" />
+</div>
+</div>
+<p>Further reduce images to 9x1</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x_train_small</span> <span class="o">=</span> <span class="n">x_train_small</span><span class="p">[:,</span><span class="mi">4</span><span class="p">,:,:]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">9</span><span class="p">))</span>  <span class="c1"># take only central slices</span>
+<span class="n">x_test_small</span> <span class="o">=</span> <span class="n">x_test_small</span><span class="p">[:,</span><span class="mi">4</span><span class="p">,:,:]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span><span class="mi">9</span><span class="p">))</span>  <span class="c1"># take only central slices</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;shape = </span><span class="si">{</span><span class="n">x_train_small</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">imshow</span><span class="p">(</span><span class="n">x_train_small</span><span class="p">[</span><span class="mi">0</span><span class="p">,:]</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="mi">1</span><span class="p">,</span><span class="o">-</span><span class="mi">1</span><span class="p">)),</span> <span class="n">vmin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span> <span class="n">vmax</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;Greys&#39;</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">gca</span><span class="p">()</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticks</span><span class="p">([])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_yticks</span><span class="p">([])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;9x1 image of a </span><span class="si">{</span><span class="n">y_train</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="c1"># save to file as pdf</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">savefig</span><span class="p">(</span><span class="s1">&#39;9x1_MNIST_0.pdf&#39;</span><span class="p">,</span> <span class="n">bbox_inches</span><span class="o">=</span><span class="s1">&#39;tight&#39;</span><span class="p">,</span> <span class="n">pad_inches</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>shape = (12665, 9)
+</pre></div>
+</div>
+<img alt="../../_images/93b95e0c365924c3babb4cdf6e1cbe965d43dc2edf116054b458cf2d7d71333c.png" src="../../_images/93b95e0c365924c3babb4cdf6e1cbe965d43dc2edf116054b458cf2d7d71333c.png" />
+</div>
+</div>
+<p>Redefine the classification values to match the Hinge loss</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y_train_hinge</span> <span class="o">=</span> <span class="mf">2.0</span><span class="o">*</span><span class="n">y_train</span><span class="o">-</span><span class="mf">1.0</span>
+<span class="n">y_test_hinge</span> <span class="o">=</span> <span class="mf">2.0</span><span class="o">*</span><span class="n">y_test</span><span class="o">-</span><span class="mf">1.0</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Define the hinge accuracy</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">hinge_accuracy</span><span class="p">(</span><span class="n">y_true</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">):</span>
+    <span class="n">y_true</span> <span class="o">=</span> <span class="n">y_true</span> <span class="o">&gt;</span> <span class="mf">0.0</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">y_pred</span> <span class="o">&gt;</span> <span class="mf">0.0</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">y_true</span> <span class="o">==</span> <span class="n">y_pred</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="nb">float</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="set-up-the-quantum-neural-network">
+<h1>Set up the Quantum Neural Network<a class="headerlink" href="#set-up-the-quantum-neural-network" title="Link to this heading">#</a></h1>
+<p>Create quantum circuit using pennylane qnode, then conver this to a Keras layer to make a Keras model</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_qubits</span> <span class="o">=</span> <span class="mi">9</span>
+<span class="n">n_layers</span> <span class="o">=</span> <span class="mi">1</span>
+
+<span class="n">num_weights</span> <span class="o">=</span> <span class="n">n_layers</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">3</span>  <span class="c1"># 3 parameters per U3 gate</span>
+
+<span class="n">dev</span> <span class="o">=</span> <span class="n">qml</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;default.qubit&quot;</span><span class="p">,</span> <span class="n">wires</span><span class="o">=</span><span class="n">n_qubits</span><span class="p">)</span>
+
+<span class="nd">@qml</span><span class="o">.</span><span class="n">qnode</span><span class="p">(</span><span class="n">dev</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">qnode</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">weights</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">inputs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">):</span>
+            <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">inputs</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">ii</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">):</span>
+            <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">inputs</span><span class="p">[:,</span><span class="n">ii</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">ii</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_layers</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="n">weights</span><span class="p">[</span><span class="n">jj</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">ii</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">weights</span><span class="p">[</span><span class="n">jj</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">ii</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="n">weights</span><span class="p">[</span><span class="n">jj</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">ii</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+            <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="n">weights</span><span class="p">[</span><span class="n">jj</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">ii</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">ii</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">weights</span><span class="p">[</span><span class="n">jj</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">ii</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">ii</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="n">weights</span><span class="p">[</span><span class="n">jj</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">ii</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">ii</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="c1">#qml.U3(*list(weights[jj,2*ii,:]), wires=0)</span>
+            <span class="c1">#qml.U3(*list(weights[jj,2*ii+1,:]), wires=ii+1)</span>
+            <span class="n">qml</span><span class="o">.</span><span class="n">CNOT</span><span class="p">(</span><span class="n">wires</span><span class="o">=</span><span class="p">[</span><span class="n">ii</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+            
+        <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="n">weights</span><span class="p">[</span><span class="n">jj</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">weights</span><span class="p">[</span><span class="n">jj</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="n">weights</span><span class="p">[</span><span class="n">jj</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="mi">2</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">qml</span><span class="o">.</span><span class="n">expval</span><span class="p">(</span><span class="n">qml</span><span class="o">.</span><span class="n">PauliZ</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+
+<span class="nd">@jax</span><span class="o">.</span><span class="n">jit</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">hinge_loss</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">qnode</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">targets</span> <span class="o">*</span> <span class="n">predictions</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">loss</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="compile-and-train-the-model">
+<h1>Compile and train the model<a class="headerlink" href="#compile-and-train-the-model" title="Link to this heading">#</a></h1>
+<p>Compile the model using the hinge loss and accuracy and the Adam optimiser</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">opt</span> <span class="o">=</span> <span class="n">optax</span><span class="o">.</span><span class="n">adam</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">update_step</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
+    <span class="n">loss_val</span><span class="p">,</span> <span class="n">grads</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">value_and_grad</span><span class="p">(</span><span class="n">hinge_loss</span><span class="p">)(</span><span class="n">params</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
+    <span class="n">updates</span><span class="p">,</span> <span class="n">opt_state</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">grads</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">)</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">optax</span><span class="o">.</span><span class="n">apply_updates</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">updates</span><span class="p">)</span>
+    <span class="n">acc_val</span> <span class="o">=</span> <span class="n">hinge_accuracy</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">qnode</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">params</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">params</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">,</span> <span class="n">loss_val</span><span class="p">,</span> <span class="n">acc_val</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">optimization</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">epochs</span><span class="p">,</span> <span class="n">print_training</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    
+    <span class="n">opt_state</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+
+    <span class="n">loss_history</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">accuracy_history</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+
+        <span class="n">params</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">,</span> <span class="n">loss_val</span><span class="p">,</span> <span class="n">acc_val</span> <span class="o">=</span> <span class="n">update_step</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
+
+        <span class="c1"># if i % 5 == 0:</span>
+        <span class="k">if</span> <span class="n">print_training</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Step: </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> Loss: </span><span class="si">{</span><span class="n">loss_val</span><span class="si">}</span><span class="s2">, Accuracy: </span><span class="si">{</span><span class="n">acc_val</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">loss_history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss_val</span><span class="p">)</span>
+        <span class="n">accuracy_history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">acc_val</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">params</span><span class="p">,</span> <span class="n">loss_history</span><span class="p">,</span> <span class="n">accuracy_history</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">EPOCHS</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">NUM_EXAMPLES</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>  <span class="c1"># set to -1 for all examples, or 512 for quick test</span>
+
+<span class="n">params</span> <span class="o">=</span> <span class="mf">0.01</span><span class="o">*</span><span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">n_layers</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">x_train_small</span><span class="p">[:</span><span class="n">NUM_EXAMPLES</span><span class="p">]</span>
+<span class="n">targets</span> <span class="o">=</span> <span class="n">y_train_hinge</span><span class="p">[:</span><span class="n">NUM_EXAMPLES</span><span class="p">]</span>
+
+<span class="n">params_1</span><span class="p">,</span> <span class="n">loss_history_1</span><span class="p">,</span> <span class="n">accuracy_history_1</span> <span class="o">=</span> <span class="n">optimization</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="n">EPOCHS</span><span class="p">,</span> <span class="n">print_training</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Step: 0 Loss: 1.0643863677978516, Accuracy: 0.4677037000656128
+Step: 1 Loss: 1.0545684099197388, Accuracy: 0.8512318134307861
+Step: 2 Loss: 0.8076576590538025, Accuracy: 0.43903976678848267
+Step: 3 Loss: 1.0825376510620117, Accuracy: 0.7478679418563843
+Step: 4 Loss: 0.8674781918525696, Accuracy: 0.8152242302894592
+Step: 5 Loss: 0.6729616522789001, Accuracy: 0.8662349581718445
+Step: 6 Loss: 0.5672754645347595, Accuracy: 0.9042166471481323
+</pre></div>
+</div>
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">20</span><span class="p">],</span> <span class="n">line</span> <span class="mi">8</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">data</span> <span class="o">=</span> <span class="n">x_train_small</span><span class="p">[:</span><span class="n">NUM_EXAMPLES</span><span class="p">]</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">targets</span> <span class="o">=</span> <span class="n">y_train_hinge</span><span class="p">[:</span><span class="n">NUM_EXAMPLES</span><span class="p">]</span>
+<span class="ne">----&gt; </span><span class="mi">8</span> <span class="n">params_1</span><span class="p">,</span> <span class="n">loss_history_1</span><span class="p">,</span> <span class="n">accuracy_history_1</span> <span class="o">=</span> <span class="n">optimization</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="n">EPOCHS</span><span class="p">,</span> <span class="n">print_training</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<span class="nn">Cell In[16], line 19,</span> in <span class="ni">optimization</span><span class="nt">(params, data, targets, epochs, print_training)</span>
+<span class="g g-Whitespace">     </span><span class="mi">15</span> <span class="n">accuracy_history</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="g g-Whitespace">     </span><span class="mi">17</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+<span class="ne">---&gt; </span><span class="mi">19</span>     <span class="n">params</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">,</span> <span class="n">loss_val</span><span class="p">,</span> <span class="n">acc_val</span> <span class="o">=</span> <span class="n">update_step</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">21</span>     <span class="c1"># if i % 5 == 0:</span>
+<span class="g g-Whitespace">     </span><span class="mi">22</span>     <span class="k">if</span> <span class="n">print_training</span><span class="p">:</span>
+
+<span class="nn">Cell In[16], line 7,</span> in <span class="ni">update_step</span><span class="nt">(opt, params, opt_state, data, targets)</span>
+<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="n">updates</span><span class="p">,</span> <span class="n">opt_state</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">grads</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="n">params</span> <span class="o">=</span> <span class="n">optax</span><span class="o">.</span><span class="n">apply_updates</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">updates</span><span class="p">)</span>
+<span class="ne">----&gt; </span><span class="mi">7</span> <span class="n">acc_val</span> <span class="o">=</span> <span class="n">hinge_accuracy</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">qnode</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">params</span><span class="p">))</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="k">return</span> <span class="n">params</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">,</span> <span class="n">loss_val</span><span class="p">,</span> <span class="n">acc_val</span>
+
+<span class="nn">File /opt/anaconda3/envs/phys4041/lib/python3.12/site-packages/pennylane/workflow/qnode.py:895,</span> in <span class="ni">QNode.__call__</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">892</span>     <span class="kn">from</span><span class="w"> </span><span class="nn">._capture_qnode</span><span class="w"> </span><span class="kn">import</span> <span class="n">capture_qnode</span>  <span class="c1"># pylint: disable=import-outside-toplevel</span>
+<span class="g g-Whitespace">    </span><span class="mi">894</span>     <span class="k">return</span> <span class="n">capture_qnode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">895</span> <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_impl_call</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File /opt/anaconda3/envs/phys4041/lib/python3.12/site-packages/pennylane/workflow/qnode.py:868,</span> in <span class="ni">QNode._impl_call</span><span class="nt">(self, *args, **kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">865</span> <span class="c1"># Calculate the classical jacobians if necessary</span>
+<span class="g g-Whitespace">    </span><span class="mi">866</span> <span class="bp">self</span><span class="o">.</span><span class="n">_transform_program</span><span class="o">.</span><span class="n">set_classical_component</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">868</span> <span class="n">res</span> <span class="o">=</span> <span class="n">execute</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">869</span>     <span class="p">(</span><span class="n">tape</span><span class="p">,),</span>
+<span class="g g-Whitespace">    </span><span class="mi">870</span>     <span class="n">device</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">871</span>     <span class="n">diff_method</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">diff_method</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">872</span>     <span class="n">interface</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">interface</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">873</span>     <span class="n">transform_program</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_transform_program</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">874</span>     <span class="n">gradient_kwargs</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">gradient_kwargs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">875</span>     <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">execute_kwargs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">876</span> <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">877</span> <span class="n">res</span> <span class="o">=</span> <span class="n">res</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">879</span> <span class="c1"># convert result to the interface in case the qfunc has no parameters</span>
+
+<span class="nn">File /opt/anaconda3/envs/phys4041/lib/python3.12/site-packages/pennylane/workflow/execution.py:238,</span> in <span class="ni">execute</span><span class="nt">(tapes, device, diff_method, interface, grad_on_execution, cache, cachesize, max_diff, device_vjp, postselect_mode, mcm_method, gradient_kwargs, transform_program, executor_backend)</span>
+<span class="g g-Whitespace">    </span><span class="mi">234</span> <span class="n">tapes</span><span class="p">,</span> <span class="n">outer_post_processing</span> <span class="o">=</span> <span class="n">outer_transform</span><span class="p">(</span><span class="n">tapes</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">236</span> <span class="k">assert</span> <span class="ow">not</span> <span class="n">outer_transform</span><span class="o">.</span><span class="n">is_informative</span><span class="p">,</span> <span class="s2">&quot;should only contain device preprocessing&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">238</span> <span class="n">results</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span><span class="n">tapes</span><span class="p">,</span> <span class="n">device</span><span class="p">,</span> <span class="n">config</span><span class="p">,</span> <span class="n">inner_transform</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">239</span> <span class="k">return</span> <span class="n">user_post_processing</span><span class="p">(</span><span class="n">outer_post_processing</span><span class="p">(</span><span class="n">results</span><span class="p">))</span>
+
+<span class="nn">File /opt/anaconda3/envs/phys4041/lib/python3.12/site-packages/pennylane/workflow/run.py:298,</span> in <span class="ni">run</span><span class="nt">(tapes, device, config, inner_transform_program)</span>
+<span class="g g-Whitespace">    </span><span class="mi">294</span> <span class="n">no_interface_boundary_required</span> <span class="o">=</span> <span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">295</span>     <span class="n">config</span><span class="o">.</span><span class="n">interface</span> <span class="o">==</span> <span class="n">Interface</span><span class="o">.</span><span class="n">NUMPY</span> <span class="ow">or</span> <span class="n">config</span><span class="o">.</span><span class="n">gradient_method</span> <span class="o">==</span> <span class="s2">&quot;backprop&quot;</span>
+<span class="g g-Whitespace">    </span><span class="mi">296</span> <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">297</span> <span class="k">if</span> <span class="n">no_interface_boundary_required</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">298</span>     <span class="n">results</span> <span class="o">=</span> <span class="n">inner_execute</span><span class="p">(</span><span class="n">tapes</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">299</span>     <span class="k">return</span> <span class="n">results</span>
+<span class="g g-Whitespace">    </span><span class="mi">301</span> <span class="c1"># TODO: Prune once support for tf-autograph is dropped</span>
+
+<span class="nn">File /opt/anaconda3/envs/phys4041/lib/python3.12/site-packages/pennylane/workflow/run.py:263,</span> in <span class="ni">_make_inner_execute.&lt;locals&gt;.inner_execute</span><span class="nt">(tapes)</span>
+<span class="g g-Whitespace">    </span><span class="mi">260</span> <span class="n">transformed_tapes</span><span class="p">,</span> <span class="n">transform_post_processing</span> <span class="o">=</span> <span class="n">inner_transform</span><span class="p">(</span><span class="n">tapes</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">262</span> <span class="k">if</span> <span class="n">transformed_tapes</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">263</span>     <span class="n">results</span> <span class="o">=</span> <span class="n">device</span><span class="o">.</span><span class="n">execute</span><span class="p">(</span><span class="n">transformed_tapes</span><span class="p">,</span> <span class="n">execution_config</span><span class="o">=</span><span class="n">execution_config</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">264</span> <span class="k">else</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">265</span>     <span class="n">results</span> <span class="o">=</span> <span class="p">()</span>
+
+<span class="nn">File /opt/anaconda3/envs/phys4041/lib/python3.12/site-packages/pennylane/devices/modifiers/simulator_tracking.py:28,</span> in <span class="ni">_track_execute.&lt;locals&gt;.execute</span><span class="nt">(self, circuits, execution_config)</span>
+<span class="g g-Whitespace">     </span><span class="mi">25</span> <span class="nd">@wraps</span><span class="p">(</span><span class="n">untracked_execute</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">26</span> <span class="k">def</span><span class="w"> </span><span class="nf">execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">circuits</span><span class="p">,</span> <span class="n">execution_config</span><span class="p">:</span> <span class="n">ExecutionConfig</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="ne">---&gt; </span><span class="mi">28</span>     <span class="n">results</span> <span class="o">=</span> <span class="n">untracked_execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">circuits</span><span class="p">,</span> <span class="n">execution_config</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">29</span>     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">circuits</span><span class="p">,</span> <span class="n">QuantumScript</span><span class="p">):</span>
+<span class="g g-Whitespace">     </span><span class="mi">30</span>         <span class="n">batch</span> <span class="o">=</span> <span class="p">(</span><span class="n">circuits</span><span class="p">,)</span>
+
+<span class="nn">File /opt/anaconda3/envs/phys4041/lib/python3.12/site-packages/pennylane/devices/modifiers/single_tape_support.py:30,</span> in <span class="ni">_make_execute.&lt;locals&gt;.execute</span><span class="nt">(self, circuits, execution_config)</span>
+<span class="g g-Whitespace">     </span><span class="mi">28</span>     <span class="n">is_single_circuit</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="g g-Whitespace">     </span><span class="mi">29</span>     <span class="n">circuits</span> <span class="o">=</span> <span class="p">(</span><span class="n">circuits</span><span class="p">,)</span>
+<span class="ne">---&gt; </span><span class="mi">30</span> <span class="n">results</span> <span class="o">=</span> <span class="n">batch_execute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">circuits</span><span class="p">,</span> <span class="n">execution_config</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">31</span> <span class="k">return</span> <span class="n">results</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">if</span> <span class="n">is_single_circuit</span> <span class="k">else</span> <span class="n">results</span>
+
+<span class="nn">File /opt/anaconda3/envs/phys4041/lib/python3.12/site-packages/pennylane/logging/decorators.py:61,</span> in <span class="ni">log_string_debug_func.&lt;locals&gt;.wrapper_entry</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">     </span><span class="mi">54</span>     <span class="n">s_caller</span> <span class="o">=</span> <span class="s2">&quot;::L&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">55</span>         <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getouterframes</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">currentframe</span><span class="p">(),</span> <span class="mi">2</span><span class="p">)[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">]]</span>
+<span class="g g-Whitespace">     </span><span class="mi">56</span>     <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">57</span>     <span class="n">lgr</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">58</span>         <span class="sa">f</span><span class="s2">&quot;Calling </span><span class="si">{</span><span class="n">f_string</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">s_caller</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">59</span>         <span class="o">**</span><span class="n">_debug_log_kwargs</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">60</span>     <span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">61</span> <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File /opt/anaconda3/envs/phys4041/lib/python3.12/site-packages/pennylane/devices/default_qubit.py:823,</span> in <span class="ni">DefaultQubit.execute</span><span class="nt">(self, circuits, execution_config)</span>
+<span class="g g-Whitespace">    </span><span class="mi">814</span>     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">815</span>         <span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">816</span>             <span class="s2">&quot;Jitting executions with many circuits may have substantial classical overhead.&quot;</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>    <span class="mi">819</span>         <span class="ne">UserWarning</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">820</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">822</span> <span class="k">if</span> <span class="n">max_workers</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="ne">--&gt; </span><span class="mi">823</span>     <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">824</span>         <span class="n">_simulate_wrapper</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">825</span>             <span class="n">c</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">826</span>             <span class="p">{</span>
+<span class="g g-Whitespace">    </span><span class="mi">827</span>                 <span class="s2">&quot;rng&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rng</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">828</span>                 <span class="s2">&quot;debugger&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_debugger</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">829</span>                 <span class="s2">&quot;interface&quot;</span><span class="p">:</span> <span class="n">interface</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">830</span>                 <span class="s2">&quot;state_cache&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_cache</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">831</span>                 <span class="s2">&quot;prng_key&quot;</span><span class="p">:</span> <span class="n">_key</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">832</span>                 <span class="s2">&quot;mcm_method&quot;</span><span class="p">:</span> <span class="n">execution_config</span><span class="o">.</span><span class="n">mcm_config</span><span class="o">.</span><span class="n">mcm_method</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">833</span>                 <span class="s2">&quot;postselect_mode&quot;</span><span class="p">:</span> <span class="n">execution_config</span><span class="o">.</span><span class="n">mcm_config</span><span class="o">.</span><span class="n">postselect_mode</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">834</span>             <span class="p">},</span>
+<span class="g g-Whitespace">    </span><span class="mi">835</span>         <span class="p">)</span>
+<span class="nn">    836         for c, _key</span> in <span class="ni">zip</span><span class="nt">(circuits, prng_keys)</span>
+<span class="g g-Whitespace">    </span><span class="mi">837</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">839</span> <span class="n">vanilla_circuits</span> <span class="o">=</span> <span class="n">convert_to_numpy_parameters</span><span class="p">(</span><span class="n">circuits</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">840</span> <span class="n">seeds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">31</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">vanilla_circuits</span><span class="p">))</span>
+
+<span class="nn">File /opt/anaconda3/envs/phys4041/lib/python3.12/site-packages/pennylane/devices/default_qubit.py:824,</span> in <span class="ni">&lt;genexpr&gt;</span><span class="nt">(.0)</span>
+<span class="g g-Whitespace">    </span><span class="mi">814</span>     <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">815</span>         <span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">816</span>             <span class="s2">&quot;Jitting executions with many circuits may have substantial classical overhead.&quot;</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>    <span class="mi">819</span>         <span class="ne">UserWarning</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">820</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">822</span> <span class="k">if</span> <span class="n">max_workers</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">823</span>     <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span>
+<span class="ne">--&gt; </span><span class="mi">824</span>         <span class="n">_simulate_wrapper</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">825</span>             <span class="n">c</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">826</span>             <span class="p">{</span>
+<span class="g g-Whitespace">    </span><span class="mi">827</span>                 <span class="s2">&quot;rng&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rng</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">828</span>                 <span class="s2">&quot;debugger&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_debugger</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">829</span>                 <span class="s2">&quot;interface&quot;</span><span class="p">:</span> <span class="n">interface</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">830</span>                 <span class="s2">&quot;state_cache&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_state_cache</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">831</span>                 <span class="s2">&quot;prng_key&quot;</span><span class="p">:</span> <span class="n">_key</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">832</span>                 <span class="s2">&quot;mcm_method&quot;</span><span class="p">:</span> <span class="n">execution_config</span><span class="o">.</span><span class="n">mcm_config</span><span class="o">.</span><span class="n">mcm_method</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">833</span>                 <span class="s2">&quot;postselect_mode&quot;</span><span class="p">:</span> <span class="n">execution_config</span><span class="o">.</span><span class="n">mcm_config</span><span class="o">.</span><span class="n">postselect_mode</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">834</span>             <span class="p">},</span>
+<span class="g g-Whitespace">    </span><span class="mi">835</span>         <span class="p">)</span>
+<span class="nn">    836         for c, _key</span> in <span class="ni">zip</span><span class="nt">(circuits, prng_keys)</span>
+<span class="g g-Whitespace">    </span><span class="mi">837</span>     <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">839</span> <span class="n">vanilla_circuits</span> <span class="o">=</span> <span class="n">convert_to_numpy_parameters</span><span class="p">(</span><span class="n">circuits</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+<span class="g g-Whitespace">    </span><span class="mi">840</span> <span class="n">seeds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_rng</span><span class="o">.</span><span class="n">integers</span><span class="p">(</span><span class="mi">2</span><span class="o">**</span><span class="mi">31</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">vanilla_circuits</span><span class="p">))</span>
+
+<span class="nn">File /opt/anaconda3/envs/phys4041/lib/python3.12/site-packages/pennylane/devices/default_qubit.py:1189,</span> in <span class="ni">_simulate_wrapper</span><span class="nt">(circuit, kwargs)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1188</span> <span class="k">def</span><span class="w"> </span><span class="nf">_simulate_wrapper</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">):</span>
+<span class="ne">-&gt; </span><span class="mi">1189</span>     <span class="k">return</span> <span class="n">simulate</span><span class="p">(</span><span class="n">circuit</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File /opt/anaconda3/envs/phys4041/lib/python3.12/site-packages/pennylane/logging/decorators.py:61,</span> in <span class="ni">log_string_debug_func.&lt;locals&gt;.wrapper_entry</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">     </span><span class="mi">54</span>     <span class="n">s_caller</span> <span class="o">=</span> <span class="s2">&quot;::L&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">55</span>         <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getouterframes</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">currentframe</span><span class="p">(),</span> <span class="mi">2</span><span class="p">)[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">]]</span>
+<span class="g g-Whitespace">     </span><span class="mi">56</span>     <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">57</span>     <span class="n">lgr</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">58</span>         <span class="sa">f</span><span class="s2">&quot;Calling </span><span class="si">{</span><span class="n">f_string</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">s_caller</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">59</span>         <span class="o">**</span><span class="n">_debug_log_kwargs</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">60</span>     <span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">61</span> <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File /opt/anaconda3/envs/phys4041/lib/python3.12/site-packages/pennylane/devices/qubit/simulate.py:370,</span> in <span class="ni">simulate</span><span class="nt">(circuit, debugger, state_cache, **execution_kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">367</span>     <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">369</span> <span class="n">ops_key</span><span class="p">,</span> <span class="n">meas_key</span> <span class="o">=</span> <span class="n">jax_random_split</span><span class="p">(</span><span class="n">prng_key</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">370</span> <span class="n">state</span><span class="p">,</span> <span class="n">is_state_batched</span> <span class="o">=</span> <span class="n">get_final_state</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">371</span>     <span class="n">circuit</span><span class="p">,</span> <span class="n">debugger</span><span class="o">=</span><span class="n">debugger</span><span class="p">,</span> <span class="n">prng_key</span><span class="o">=</span><span class="n">ops_key</span><span class="p">,</span> <span class="o">**</span><span class="n">execution_kwargs</span>
+<span class="g g-Whitespace">    </span><span class="mi">372</span> <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">373</span> <span class="k">if</span> <span class="n">state_cache</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">374</span>     <span class="n">state_cache</span><span class="p">[</span><span class="n">circuit</span><span class="o">.</span><span class="n">hash</span><span class="p">]</span> <span class="o">=</span> <span class="n">state</span>
+
+<span class="nn">File /opt/anaconda3/envs/phys4041/lib/python3.12/site-packages/pennylane/logging/decorators.py:61,</span> in <span class="ni">log_string_debug_func.&lt;locals&gt;.wrapper_entry</span><span class="nt">(*args, **kwargs)</span>
+<span class="g g-Whitespace">     </span><span class="mi">54</span>     <span class="n">s_caller</span> <span class="o">=</span> <span class="s2">&quot;::L&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">55</span>         <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">i</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getouterframes</span><span class="p">(</span><span class="n">inspect</span><span class="o">.</span><span class="n">currentframe</span><span class="p">(),</span> <span class="mi">2</span><span class="p">)[</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">:</span><span class="mi">3</span><span class="p">]]</span>
+<span class="g g-Whitespace">     </span><span class="mi">56</span>     <span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">57</span>     <span class="n">lgr</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span>
+<span class="g g-Whitespace">     </span><span class="mi">58</span>         <span class="sa">f</span><span class="s2">&quot;Calling </span><span class="si">{</span><span class="n">f_string</span><span class="si">}</span><span class="s2"> from </span><span class="si">{</span><span class="n">s_caller</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">59</span>         <span class="o">**</span><span class="n">_debug_log_kwargs</span><span class="p">,</span>
+<span class="g g-Whitespace">     </span><span class="mi">60</span>     <span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">61</span> <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File /opt/anaconda3/envs/phys4041/lib/python3.12/site-packages/pennylane/devices/qubit/simulate.py:201,</span> in <span class="ni">get_final_state</span><span class="nt">(circuit, debugger, **execution_kwargs)</span>
+<span class="g g-Whitespace">    </span><span class="mi">199</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">MidMeasureMP</span><span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">200</span>     <span class="n">prng_key</span><span class="p">,</span> <span class="n">key</span> <span class="o">=</span> <span class="n">jax_random_split</span><span class="p">(</span><span class="n">prng_key</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">201</span> <span class="n">state</span> <span class="o">=</span> <span class="n">apply_operation</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">202</span>     <span class="n">op</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">203</span>     <span class="n">state</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">204</span>     <span class="n">is_state_batched</span><span class="o">=</span><span class="n">is_state_batched</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">205</span>     <span class="n">debugger</span><span class="o">=</span><span class="n">debugger</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">206</span>     <span class="n">prng_key</span><span class="o">=</span><span class="n">key</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">207</span>     <span class="n">tape_shots</span><span class="o">=</span><span class="n">circuit</span><span class="o">.</span><span class="n">shots</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">208</span>     <span class="o">**</span><span class="n">execution_kwargs</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">209</span> <span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">210</span> <span class="c1"># Handle postselection on mid-circuit measurements</span>
+<span class="g g-Whitespace">    </span><span class="mi">211</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">qml</span><span class="o">.</span><span class="n">Projector</span><span class="p">):</span>
+
+<span class="nn">File /opt/anaconda3/envs/phys4041/lib/python3.12/functools.py:912,</span> in <span class="ni">singledispatch.&lt;locals&gt;.wrapper</span><span class="nt">(*args, **kw)</span>
+<span class="g g-Whitespace">    </span><span class="mi">908</span> <span class="k">if</span> <span class="ow">not</span> <span class="n">args</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">909</span>     <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">funcname</span><span class="si">}</span><span class="s1"> requires at least &#39;</span>
+<span class="g g-Whitespace">    </span><span class="mi">910</span>                     <span class="s1">&#39;1 positional argument&#39;</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">912</span> <span class="k">return</span> <span class="n">dispatch</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="vm">__class__</span><span class="p">)(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kw</span><span class="p">)</span>
+
+<span class="nn">File /opt/anaconda3/envs/phys4041/lib/python3.12/site-packages/pennylane/devices/qubit/apply_operation.py:237,</span> in <span class="ni">apply_operation</span><span class="nt">(op, state, is_state_batched, debugger, **_)</span>
+<span class="g g-Whitespace">    </span><span class="mi">171</span> <span class="nd">@singledispatch</span>
+<span class="g g-Whitespace">    </span><span class="mi">172</span> <span class="k">def</span><span class="w"> </span><span class="nf">apply_operation</span><span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">173</span>     <span class="n">op</span><span class="p">:</span> <span class="n">Operator</span><span class="p">,</span>
+   <span class="p">(</span><span class="o">...</span><span class="p">)</span>    <span class="mi">177</span>     <span class="o">**</span><span class="n">_</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">178</span> <span class="p">):</span>
+<span class="g g-Whitespace">    </span><span class="mi">179</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Apply and operator to a given state.</span>
+<span class="g g-Whitespace">    </span><span class="mi">180</span><span class="sd"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">181</span><span class="sd">     Args:</span>
+<span class="sd">   (...)    235 </span>
+<span class="g g-Whitespace">    </span><span class="mi">236</span><span class="sd">     &quot;&quot;&quot;</span>
+<span class="ne">--&gt; </span><span class="mi">237</span>     <span class="k">return</span> <span class="n">_apply_operation_default</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">is_state_batched</span><span class="p">,</span> <span class="n">debugger</span><span class="p">)</span>
+
+<span class="nn">File /opt/anaconda3/envs/phys4041/lib/python3.12/site-packages/pennylane/devices/qubit/apply_operation.py:263,</span> in <span class="ni">_apply_operation_default</span><span class="nt">(op, state, is_state_batched, debugger)</span>
+<span class="g g-Whitespace">    </span><span class="mi">258</span>     <span class="k">return</span> <span class="n">apply_operation_csr_matrix</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">is_state_batched</span><span class="o">=</span><span class="n">is_state_batched</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">259</span> <span class="k">if</span> <span class="p">(</span>
+<span class="g g-Whitespace">    </span><span class="mi">260</span>     <span class="nb">len</span><span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">wires</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">EINSUM_OP_WIRECOUNT_PERF_THRESHOLD</span>
+<span class="g g-Whitespace">    </span><span class="mi">261</span>     <span class="ow">and</span> <span class="n">math</span><span class="o">.</span><span class="n">ndim</span><span class="p">(</span><span class="n">state</span><span class="p">)</span> <span class="o">&lt;</span> <span class="n">EINSUM_STATE_WIRECOUNT_PERF_THRESHOLD</span>
+<span class="g g-Whitespace">    </span><span class="mi">262</span> <span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">op</span><span class="o">.</span><span class="n">batch_size</span> <span class="ow">and</span> <span class="n">is_state_batched</span><span class="p">):</span>
+<span class="ne">--&gt; </span><span class="mi">263</span>     <span class="k">return</span> <span class="n">apply_operation_einsum</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">is_state_batched</span><span class="o">=</span><span class="n">is_state_batched</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">264</span> <span class="k">return</span> <span class="n">apply_operation_tensordot</span><span class="p">(</span><span class="n">op</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="n">is_state_batched</span><span class="o">=</span><span class="n">is_state_batched</span><span class="p">)</span>
+
+<span class="nn">File /opt/anaconda3/envs/phys4041/lib/python3.12/site-packages/pennylane/devices/qubit/apply_operation.py:112,</span> in <span class="ni">apply_operation_einsum</span><span class="nt">(op, state, is_state_batched)</span>
+<span class="g g-Whitespace">    </span><span class="mi">109</span>         <span class="n">op</span><span class="o">.</span><span class="n">_batch_size</span> <span class="o">=</span> <span class="n">batch_size</span>  <span class="c1"># pylint:disable=protected-access</span>
+<span class="g g-Whitespace">    </span><span class="mi">110</span> <span class="n">reshaped_mat</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">mat</span><span class="p">,</span> <span class="n">new_mat_shape</span><span class="p">)</span>
+<span class="ne">--&gt; </span><span class="mi">112</span> <span class="k">return</span> <span class="n">math</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="n">einsum_indices</span><span class="p">,</span> <span class="n">reshaped_mat</span><span class="p">,</span> <span class="n">state</span><span class="p">)</span>
+
+<span class="nn">File /opt/anaconda3/envs/phys4041/lib/python3.12/site-packages/pennylane/math/multi_dispatch.py:591,</span> in <span class="ni">einsum</span><span class="nt">(indices, like, optimize, *operands)</span>
+<span class="g g-Whitespace">    </span><span class="mi">588</span> <span class="n">operands</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">coerce</span><span class="p">(</span><span class="n">operands</span><span class="p">,</span> <span class="n">like</span><span class="o">=</span><span class="n">like</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">589</span> <span class="k">if</span> <span class="n">optimize</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">like</span> <span class="o">==</span> <span class="s2">&quot;torch&quot;</span><span class="p">:</span>
+<span class="g g-Whitespace">    </span><span class="mi">590</span>     <span class="c1"># torch einsum doesn&#39;t support the optimize keyword argument</span>
+<span class="ne">--&gt; </span><span class="mi">591</span>     <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">einsum</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="o">*</span><span class="n">operands</span><span class="p">,</span> <span class="n">like</span><span class="o">=</span><span class="n">like</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">592</span> <span class="k">if</span> <span class="n">like</span> <span class="o">==</span> <span class="s2">&quot;tensorflow&quot;</span><span class="p">:</span>  <span class="c1"># pragma: no cover (TensorFlow tests were disabled during deprecation)</span>
+<span class="g g-Whitespace">    </span><span class="mi">593</span>     <span class="c1"># Unpacking and casting necessary for higher order derivatives,</span>
+<span class="g g-Whitespace">    </span><span class="mi">594</span>     <span class="c1"># and avoiding implicit fp32 down-conversions.</span>
+<span class="g g-Whitespace">    </span><span class="mi">595</span>     <span class="n">op1</span><span class="p">,</span> <span class="n">op2</span> <span class="o">=</span> <span class="n">operands</span>
+
+<span class="nn">File /opt/anaconda3/envs/phys4041/lib/python3.12/site-packages/autoray/autoray.py:81,</span> in <span class="ni">do</span><span class="nt">(fn, like, *args, **kwargs)</span>
+<span class="g g-Whitespace">     </span><span class="mi">79</span> <span class="n">backend</span> <span class="o">=</span> <span class="n">_choose_backend</span><span class="p">(</span><span class="n">fn</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">like</span><span class="o">=</span><span class="n">like</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">80</span> <span class="n">func</span> <span class="o">=</span> <span class="n">get_lib_fn</span><span class="p">(</span><span class="n">backend</span><span class="p">,</span> <span class="n">fn</span><span class="p">)</span>
+<span class="ne">---&gt; </span><span class="mi">81</span> <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+
+<span class="nn">File /opt/anaconda3/envs/phys4041/lib/python3.12/site-packages/jax/_src/numpy/einsum.py:316,</span> in <span class="ni">einsum</span><span class="nt">(subscripts, out, optimize, precision, preferred_element_type, _dot_general, out_sharding, *operands)</span>
+<span class="g g-Whitespace">    </span><span class="mi">314</span>   <span class="n">jit_einsum</span> <span class="o">=</span> <span class="n">named_call</span><span class="p">(</span><span class="n">jit_einsum</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">spec</span><span class="p">)</span>
+<span class="g g-Whitespace">    </span><span class="mi">315</span> <span class="n">operand_arrays</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">util</span><span class="o">.</span><span class="n">ensure_arraylike_tuple</span><span class="p">(</span><span class="s2">&quot;einsum&quot;</span><span class="p">,</span> <span class="n">operands</span><span class="p">))</span>
+<span class="ne">--&gt; </span><span class="mi">316</span> <span class="k">return</span> <span class="n">jit_einsum</span><span class="p">(</span><span class="n">operand_arrays</span><span class="p">,</span> <span class="n">contractions</span><span class="p">,</span> <span class="n">precision</span><span class="p">,</span>
+<span class="g g-Whitespace">    </span><span class="mi">317</span>                   <span class="n">preferred_element_type</span><span class="p">,</span> <span class="n">_dot_general</span><span class="p">,</span> <span class="n">out_sharding</span><span class="p">)</span>
+
+<span class="nn">File /opt/anaconda3/envs/phys4041/lib/python3.12/contextlib.py:81,</span> in <span class="ni">ContextDecorator.__call__.&lt;locals&gt;.inner</span><span class="nt">(*args, **kwds)</span>
+<span class="g g-Whitespace">     </span><span class="mi">78</span> <span class="nd">@wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+<span class="g g-Whitespace">     </span><span class="mi">79</span> <span class="k">def</span><span class="w"> </span><span class="nf">inner</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">):</span>
+<span class="g g-Whitespace">     </span><span class="mi">80</span>     <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_recreate_cm</span><span class="p">():</span>
+<span class="ne">---&gt; </span><span class="mi">81</span>         <span class="k">return</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwds</span><span class="p">)</span>
+
+<span class="ne">KeyboardInterrupt</span>: 
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="repeat-for-2-layers">
+<h1>Repeat for 2 layers<a class="headerlink" href="#repeat-for-2-layers" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">n_qubits</span> <span class="o">=</span> <span class="mi">9</span>
+<span class="n">n_layers</span> <span class="o">=</span> <span class="mi">2</span>
+
+<span class="n">num_weights</span> <span class="o">=</span> <span class="n">n_layers</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="mi">3</span>  <span class="c1"># 3 parameters per U3 gate</span>
+
+<span class="n">dev</span> <span class="o">=</span> <span class="n">qml</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;default.qubit&quot;</span><span class="p">,</span> <span class="n">wires</span><span class="o">=</span><span class="n">n_qubits</span><span class="p">)</span>
+
+<span class="nd">@qml</span><span class="o">.</span><span class="n">qnode</span><span class="p">(</span><span class="n">dev</span><span class="p">)</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">qnode</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">weights</span><span class="p">):</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">inputs</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">):</span>
+            <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">inputs</span><span class="p">[</span><span class="n">ii</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">ii</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_qubits</span><span class="p">):</span>
+            <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="n">inputs</span><span class="p">[:,</span><span class="n">ii</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">ii</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">jj</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_layers</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">ii</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">-</span><span class="mi">1</span><span class="p">):</span>
+            <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="n">weights</span><span class="p">[</span><span class="n">jj</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">ii</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">weights</span><span class="p">[</span><span class="n">jj</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">ii</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+            <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="n">weights</span><span class="p">[</span><span class="n">jj</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">ii</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+            <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="n">weights</span><span class="p">[</span><span class="n">jj</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">ii</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">ii</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">weights</span><span class="p">[</span><span class="n">jj</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">ii</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">ii</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="n">weights</span><span class="p">[</span><span class="n">jj</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="n">ii</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="n">ii</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+
+            <span class="c1">#qml.U3(*list(weights[jj,2*ii,:]), wires=0)</span>
+            <span class="c1">#qml.U3(*list(weights[jj,2*ii+1,:]), wires=ii+1)</span>
+            <span class="n">qml</span><span class="o">.</span><span class="n">CNOT</span><span class="p">(</span><span class="n">wires</span><span class="o">=</span><span class="p">[</span><span class="n">ii</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span><span class="mi">0</span><span class="p">])</span>
+            
+        <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="n">weights</span><span class="p">[</span><span class="n">jj</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="mi">0</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">qml</span><span class="o">.</span><span class="n">RY</span><span class="p">(</span><span class="n">weights</span><span class="p">[</span><span class="n">jj</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="mi">1</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">qml</span><span class="o">.</span><span class="n">RZ</span><span class="p">(</span><span class="n">weights</span><span class="p">[</span><span class="n">jj</span><span class="p">,</span><span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">-</span><span class="mi">1</span><span class="p">),</span><span class="mi">2</span><span class="p">],</span> <span class="n">wires</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">qml</span><span class="o">.</span><span class="n">expval</span><span class="p">(</span><span class="n">qml</span><span class="o">.</span><span class="n">PauliZ</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+
+<span class="nd">@jax</span><span class="o">.</span><span class="n">jit</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">hinge_loss</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
+    <span class="n">predictions</span> <span class="o">=</span> <span class="n">qnode</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
+    <span class="n">loss</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">maximum</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span> <span class="o">-</span> <span class="n">targets</span> <span class="o">*</span> <span class="n">predictions</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">loss</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">opt</span> <span class="o">=</span> <span class="n">optax</span><span class="o">.</span><span class="n">adam</span><span class="p">(</span><span class="n">learning_rate</span><span class="o">=</span><span class="mf">0.3</span><span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">update_step</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">targets</span><span class="p">):</span>
+    <span class="n">loss_val</span><span class="p">,</span> <span class="n">grads</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">value_and_grad</span><span class="p">(</span><span class="n">hinge_loss</span><span class="p">)(</span><span class="n">params</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
+    <span class="n">updates</span><span class="p">,</span> <span class="n">opt_state</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">grads</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">)</span>
+    <span class="n">params</span> <span class="o">=</span> <span class="n">optax</span><span class="o">.</span><span class="n">apply_updates</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">updates</span><span class="p">)</span>
+    <span class="n">acc_val</span> <span class="o">=</span> <span class="n">hinge_accuracy</span><span class="p">(</span><span class="n">targets</span><span class="p">,</span> <span class="n">qnode</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">params</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">params</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">,</span> <span class="n">loss_val</span><span class="p">,</span> <span class="n">acc_val</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">optimization</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">epochs</span><span class="p">,</span> <span class="n">print_training</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    
+    <span class="n">opt_state</span> <span class="o">=</span> <span class="n">opt</span><span class="o">.</span><span class="n">init</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+
+    <span class="n">loss_history</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">accuracy_history</span> <span class="o">=</span> <span class="p">[]</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">epochs</span><span class="p">):</span>
+
+        <span class="n">params</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">,</span> <span class="n">loss_val</span><span class="p">,</span> <span class="n">acc_val</span> <span class="o">=</span> <span class="n">update_step</span><span class="p">(</span><span class="n">opt</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">opt_state</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">targets</span><span class="p">)</span>
+
+        <span class="c1"># if i % 5 == 0:</span>
+        <span class="k">if</span> <span class="n">print_training</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Step: </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> Loss: </span><span class="si">{</span><span class="n">loss_val</span><span class="si">}</span><span class="s2">, Accuracy: </span><span class="si">{</span><span class="n">acc_val</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="n">loss_history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">loss_val</span><span class="p">)</span>
+        <span class="n">accuracy_history</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">acc_val</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">params</span><span class="p">,</span> <span class="n">loss_history</span><span class="p">,</span> <span class="n">accuracy_history</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">EPOCHS</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">NUM_EXAMPLES</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>  <span class="c1"># set to -1 for all examples, or 512 for quick test</span>
+
+<span class="n">params</span> <span class="o">=</span> <span class="mf">0.01</span><span class="o">*</span><span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">n_layers</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="p">(</span><span class="n">n_qubits</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">data</span> <span class="o">=</span> <span class="n">x_train_small</span><span class="p">[:</span><span class="n">NUM_EXAMPLES</span><span class="p">]</span>
+<span class="n">targets</span> <span class="o">=</span> <span class="n">y_train_hinge</span><span class="p">[:</span><span class="n">NUM_EXAMPLES</span><span class="p">]</span>
+
+<span class="n">params_2</span><span class="p">,</span> <span class="n">loss_history_2</span><span class="p">,</span> <span class="n">accuracy_history_2</span> <span class="o">=</span> <span class="n">optimization</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">targets</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="n">EPOCHS</span><span class="p">,</span> <span class="n">print_training</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Step: 0 Loss: 1.0582531690597534, Accuracy: 0.21875
+Step: 1 Loss: 1.1390742063522339, Accuracy: 0.818359375
+Step: 2 Loss: 0.9026400446891785, Accuracy: 0.794921875
+Step: 3 Loss: 0.8864438533782959, Accuracy: 0.654296875
+Step: 4 Loss: 0.9374447464942932, Accuracy: 0.791015625
+Step: 5 Loss: 0.9321302175521851, Accuracy: 0.837890625
+Step: 6 Loss: 0.8254160284996033, Accuracy: 0.900390625
+Step: 7 Loss: 0.6187426447868347, Accuracy: 0.869140625
+Step: 8 Loss: 0.7768644690513611, Accuracy: 0.681640625
+Step: 9 Loss: 0.7953040599822998, Accuracy: 0.794921875
+Step: 10 Loss: 0.8100504279136658, Accuracy: 0.859375
+Step: 11 Loss: 0.5914633870124817, Accuracy: 0.861328125
+Step: 12 Loss: 0.5407335162162781, Accuracy: 0.849609375
+Step: 13 Loss: 0.5315637588500977, Accuracy: 0.85546875
+Step: 14 Loss: 0.5243369340896606, Accuracy: 0.857421875
+Step: 15 Loss: 0.4906851053237915, Accuracy: 0.859375
+Step: 16 Loss: 0.48807045817375183, Accuracy: 0.8671875
+Step: 17 Loss: 0.48667111992836, Accuracy: 0.87890625
+Step: 18 Loss: 0.45440876483917236, Accuracy: 0.896484375
+Step: 19 Loss: 0.37639766931533813, Accuracy: 0.947265625
+</pre></div>
+</div>
+</div>
+</div>
+<section id="plot-the-results">
+<h2>Plot the results!<a class="headerlink" href="#plot-the-results" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot the hinge accuracy for the qnn history for both 1 and 2 layer on the same axes</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">21</span><span class="p">),</span> <span class="n">accuracy_history_1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;1 layer QNN&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">21</span><span class="p">),</span> <span class="n">accuracy_history_2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;2 layer QNN&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Epoch&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Hinge Accuracy&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="c1"># modify x_ticks to also include 20</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="c1"># save as pdf with tight layout and no padding</span>
+<span class="c1">#plt.savefig(&quot;qnn_hinge_accuracy.pdf&quot;, bbox_inches=&quot;tight&quot;, pad_inches=0)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/c905ddf4f8c684ed54b8aa1e91a2f18b5002b3e72559e906de7051882288c46c.png" src="../../_images/c905ddf4f8c684ed54b8aa1e91a2f18b5002b3e72559e906de7051882288c46c.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># plot the hinge accuracy for the loss for both 1 and 2 layer on the same axes</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">21</span><span class="p">),</span> <span class="n">loss_history_1</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;1 layer QNN&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">21</span><span class="p">),</span> <span class="n">loss_history_2</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;2 layer QNN&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Epoch&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Hinge Loss&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="c1"># modify x_ticks to also include 20</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">21</span><span class="p">,</span> <span class="mi">2</span><span class="p">))</span>
+<span class="c1"># save as pdf with tight layout and no padding</span>
+<span class="c1">#plt.savefig(&quot;qnn_hinge_loss.pdf&quot;, bbox_inches=&quot;tight&quot;, pad_inches=0)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../../_images/e297aa063fcdb9899c3b35e3324193a7d3e07e85dd01308df64eb30a620caa0b.png" src="../../_images/e297aa063fcdb9899c3b35e3324193a7d3e07e85dd01308df64eb30a620caa0b.png" />
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./content/downloads"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">Load and reduce the data</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#set-up-the-quantum-neural-network">Set up the Quantum Neural Network</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#compile-and-train-the-model">Compile and train the model</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#repeat-for-2-layers">Repeat for 2 layers</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-the-results">Plot the results!</a></li>
+</ul>
+</li>
+</ul>
+
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Dr Adam Gammon-Smith
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

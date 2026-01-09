@@ -211,6 +211,6 @@ $$
 
 with $P=X$, using $R_X(\theta) = \cos(\theta/2) - i \sin(\theta/2) X$. 
 
-**2.** (Code). Replace the finite difference approximation of the derivative in [VQE-simulator-simplified.ipynb](../downloads/VQE-simulator-simplified.ipynb) with the simultaneous perturbation stochastic approximation and/or the parameter shift exact derivative. How does this change the learning and the final accuracy.
+**2.** (Code). Replace the finite difference approximation of the derivative in [VQE.ipynb](../downloads/VQE.ipynb) with the simultaneous perturbation stochastic approximation and/or the parameter shift exact derivative. How does this change the learning and the final accuracy.
 
 ````

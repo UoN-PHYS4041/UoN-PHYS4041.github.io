@@ -16,33 +16,30 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!-- 
-    this give us a css class that will be invisible only if js is disabled 
-  -->
-  <noscript>
-    <style>
-      .pst-js-only { display: none !important; }
-
-    </style>
-  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
-  <!-- So that users can add custom icons -->
-  <script src="../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
@@ -67,7 +64,6 @@
     <link rel="prev" title="Course Structure" href="courseStructure.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -83,8 +79,19 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <dialog id="pst-search-dialog">
-    
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
 <form class="bd-search d-flex align-items-center"
       action="../../search.html"
       method="get">
@@ -92,6 +99,7 @@
   <input type="search"
          class="form-control"
          name="q"
+         id="search-input"
          placeholder="Search this book..."
          aria-label="Search this book..."
          autocomplete="off"
@@ -99,8 +107,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form>
-  </dialog>
+</form></div>
+  </div>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -116,8 +124,7 @@
       
       
       
-      <dialog id="pst-primary-sidebar-modal"></dialog>
-      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+      <div class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -147,17 +154,21 @@
     
     
     <img src="../../_static/logo.png" class="logo__image only-light" alt="Introduction to Practical Quantum Computing - University of Nottingham (PHYS4041) - Home"/>
-    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="Introduction to Practical Quantum Computing - University of Nottingham (PHYS4041) - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Introduction to Practical Quantum Computing - University of Nottingham (PHYS4041) - Home"/>`);</script>
   
   
 </a></div>
         <div class="sidebar-primary-item">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
- <i class="fa-solid fa-magnifying-glass"></i>
- <span class="search-button__default-text">Search</span>
- <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-</button></div>
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
@@ -173,6 +184,7 @@
 <li class="toctree-l1"><a class="reference internal" href="courseStructure.html">Course Structure</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Setup Python and Pennylane</a></li>
 <li class="toctree-l1"><a class="reference internal" href="projects.html">Assessment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="AIStatement.html">Artificial Intelligance (AI) in this module</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Lectures</span></p>
 <ul class="nav bd-sidenav">
@@ -289,16 +301,24 @@
 
 
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button>
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
 
 
-<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-</button>
+  </button>
+`);
+</script>
 <button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
@@ -324,8 +344,6 @@
                 <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-conda">Installing Conda</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-conda-environment">Creating a Conda environment</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-ibm-account">Setting up IBM account</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-a-real-ibm-quantum-computer">Using a real IBM quantum computer</a></li>
 </ul>
             </nav>
         </div>
@@ -354,7 +372,7 @@
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">conda-forge</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">defaults</span>
 <span class="nt">dependencies</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python=3.10</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">python=3.12</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pip</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">numpy</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ipykernel</span>
@@ -365,8 +383,13 @@
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">qiskit-ibm-runtime</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">qiskit[visulization]</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">pennylane-qiskit</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tensorflow==2.14.0</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">silence_tensorflow</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">torch</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">torchvision</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jax~=0.6.0</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">jaxlib~=0.6.0</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">optax</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tensorflow</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tensorflow-datasets</span>
 </pre></div>
 </div>
 <p>To create the conda environment, open a terminal in the directory where you saved the <code class="docutils literal notranslate"><span class="pre">environment.yml</span></code> file. Then run the following command.</p>
@@ -378,51 +401,63 @@
 </pre></div>
 </div>
 <p>This environment can also be used for running Jupyter notebooks.</p>
-</section>
-<section id="setting-up-ibm-account">
-<h2>Setting up IBM account<a class="headerlink" href="#setting-up-ibm-account" title="Link to this heading">#</a></h2>
-<p>In this course we will be writing code that could be run on the IBM quantum computers. We will be mostly using simulators that run on your personal computer. There will be no requirement to run on the actual devices. However, if you would like to run on the IBM quantum computers, we need to do a bit of setup.</p>
-<p>First, you need to set up an account on the IBM Quantum Experience. You can do this by going to the <a class="reference external" href="https://quantum-computing.ibm.com/">IBM Quantum Experience website</a>. You will need to create an account, and then you will be able to access the quantum computers and simulators. This free account will give a very limited amount of runtime on the quantum computers (10 minutes per month), so use this sparingly.</p>
-<p>Once you have an IBM quantum account, we need to save your credentials on your computer so that Pennylane can access the IBM quantum computers. This is done via a personal access token, as can be seen in <a class="reference internal" href="#fig-ibmquantum"><span class="std std-numref">Fig. 1</span></a>. You can save this token to your computer by running the following python code.</p>
-<figure class="align-center" id="fig-ibmquantum">
-<a class="reference internal image-reference" href="../../_images/IBMQuantumInitialization.png"><img alt="../../_images/IBMQuantumInitialization.png" src="../../_images/IBMQuantumInitialization.png" style="width: 75%;" /></a>
-<figcaption>
-<p><span class="caption-number">Fig. 1 </span><span class="caption-text">IBM Quantum Experience website. At the top of the page is your personal access token, along with python code to save it to your computer.</span><a class="headerlink" href="#fig-ibmquantum" title="Link to this image">#</a></p>
-</figcaption>
-</figure>
-<p>You can save this token to your computer by running the following python code.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit_ibm_runtime</span> <span class="kn">import</span> <span class="n">QiskitRuntimeService</span>
+<!-- ## Setting up IBM account
 
-<span class="n">QiskitRuntimeService</span><span class="o">.</span><span class="n">save_account</span><span class="p">(</span>  
-    <span class="n">channel</span><span class="o">=</span><span class="s1">&#39;ibm_quantum&#39;</span><span class="p">,</span> 
-    <span class="n">instance</span><span class="o">=</span><span class="s1">&#39;ibm-q/open/main&#39;</span><span class="p">,</span> 
-    <span class="n">token</span><span class="o">=</span><span class="s1">&#39;###########&#39;</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>where you need to inlcude your personal token. You will only need to do this once, and then Pennylane will be able to access the IBM quantum computers.</p>
-</section>
-<section id="using-a-real-ibm-quantum-computer">
-<h2>Using a real IBM quantum computer<a class="headerlink" href="#using-a-real-ibm-quantum-computer" title="Link to this heading">#</a></h2>
-<p>In order to use a real IBM quantum device, we need to setup up a <code class="docutils literal notranslate"><span class="pre">backend</span></code> and a <code class="docutils literal notranslate"><span class="pre">device</span></code> in Pennylane. This is done by running the following code.</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">qiskit_ibm_runtime</span> <span class="kn">import</span> <span class="n">QiskitRuntimeService</span>
+In this course we will be writing code that could be run on the IBM quantum computers. We will be mostly using simulators that run on your personal computer. There will be no requirement to run on the actual devices. However, if you would like to run on the IBM quantum computers, we need to do a bit of setup.
 
-<span class="n">service</span> <span class="o">=</span> <span class="n">QiskitRuntimeService</span><span class="p">(</span><span class="n">channel</span><span class="o">=</span><span class="s2">&quot;ibm_quantum&quot;</span><span class="p">,</span> <span class="n">instance</span><span class="o">=</span><span class="s2">&quot;ibm-q/open/main&quot;</span><span class="p">)</span>
-<span class="n">backend</span> <span class="o">=</span> <span class="n">service</span><span class="o">.</span><span class="n">backend</span><span class="p">(</span><span class="s2">&quot;ibm_brisbane&quot;</span><span class="p">)</span>
+First, you need to set up an account on the IBM Quantum Experience. You can do this by going to the [IBM Quantum Experience website](https://quantum-computing.ibm.com/). You will need to create an account, and then you will be able to access the quantum computers and simulators. This free account will give a very limited amount of runtime on the quantum computers (10 minutes per month), so use this sparingly.
 
-<span class="n">dev</span> <span class="o">=</span> <span class="n">qml</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s1">&#39;qiskit.remote&#39;</span><span class="p">,</span> <span class="n">wires</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">backend</span><span class="o">=</span><span class="n">backend</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>This will use your previously saved access token to access the IBM servers. <code class="docutils literal notranslate"><span class="pre">ibm_brisbane</span></code> is one of the IBM quantum computers. You should use the <a class="reference external" href="https://quantum-computing.ibm.com/">IBM Quantum Experience website</a> to find out which devices you currently have access to, and how busy they currently are.</p>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>In this course, there is no requirement to use the real quantum computers, particularly because this tends to be a very slow process (minutes to hours) as you are sharing the quantum computer with many other users. Instead we will mostly use the simulators that run on your personal computer. For this you can set up the <code class="docutils literal notranslate"><span class="pre">device</span></code> as follows</p>
-<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">pennylane</span> <span class="k">as</span> <span class="nn">qml</span>
-<span class="n">dev</span> <span class="o">=</span> <span class="n">qml</span><span class="o">.</span><span class="n">device</span><span class="p">(</span><span class="s2">&quot;default.qubit&quot;</span><span class="p">,</span> <span class="n">wires</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-</pre></div>
-</div>
-<p>Even if you want to run on a real device, use this simulated device first to test your code, as it will be much faster. You can then simply change your device and leave the rest of your code the same to run on the real device.</p>
-</div>
-</section>
+Once you have an IBM quantum account, we need to save your credentials on your computer so that Pennylane can access the IBM quantum computers. This is done via a personal access token, as can be seen in {numref}`fig:IBMQuantum`. You can save this token to your computer by running the following python code.
+
+```{figure} ../images/IBMQuantumInitialization.png
+---
+name: fig:IBMQuantum
+width: 75%
+align: center
+---
+
+IBM Quantum Experience website. At the top of the page is your personal access token, along with python code to save it to your computer.
+``` 
+
+You can save this token to your computer by running the following python code.
+
+```python
+from qiskit_ibm_runtime import QiskitRuntimeService
+
+QiskitRuntimeService.save_account(  
+    channel='ibm_quantum', 
+    instance='ibm-q/open/main', 
+    token='###########')
+```
+
+where you need to inlcude your personal token. You will only need to do this once, and then Pennylane will be able to access the IBM quantum computers.
+
+
+## Using a real IBM quantum computer
+
+In order to use a real IBM quantum device, we need to setup up a `backend` and a `device` in Pennylane. This is done by running the following code.
+
+```python
+from qiskit_ibm_runtime import QiskitRuntimeService
+
+service = QiskitRuntimeService(channel="ibm_quantum", instance="ibm-q/open/main")
+backend = service.backend("ibm_brisbane")
+
+dev = qml.device('qiskit.remote', wires=2, backend=backend)
+```
+
+This will use your previously saved access token to access the IBM servers. `ibm_brisbane` is one of the IBM quantum computers. You should use the [IBM Quantum Experience website](https://quantum-computing.ibm.com/) to find out which devices you currently have access to, and how busy they currently are.
+
+````{note}
+In this course, there is no requirement to use the real quantum computers, particularly because this tends to be a very slow process (minutes to hours) as you are sharing the quantum computer with many other users. Instead we will mostly use the simulators that run on your personal computer. For this you can set up the `device` as follows
+
+```python
+import pennylane as qml
+dev = qml.device("default.qubit", wires=2)
+```
+
+Even if you want to run on a real device, use this simulated device first to test your code, as it will be much faster. You can then simply change your device and leave the rest of your code the same to run on the real device.
+```` --></section>
 </section>
 
     <script type="text/x-thebe-config">
@@ -480,8 +515,7 @@
             
             
               
-                <dialog id="pst-secondary-sidebar-modal"></dialog>
-                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -492,8 +526,6 @@
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installing-conda">Installing Conda</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-conda-environment">Creating a Conda environment</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#setting-up-ibm-account">Setting up IBM account</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#using-a-real-ibm-quantum-computer">Using a real IBM quantum computer</a></li>
 </ul>
   </nav></div>
 
@@ -542,8 +574,8 @@ By Dr Adam Gammon-Smith
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
   </footer>

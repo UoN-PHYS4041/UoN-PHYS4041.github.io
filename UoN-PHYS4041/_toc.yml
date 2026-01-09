@@ -9,6 +9,7 @@ parts:
   - file: content/outline/courseStructure
   - file: content/outline/pythonEnvironment
   - file: content/outline/projects
+  - file: content/outline/AIStatement
 - caption: Lectures
   numbered: true
   chapters:

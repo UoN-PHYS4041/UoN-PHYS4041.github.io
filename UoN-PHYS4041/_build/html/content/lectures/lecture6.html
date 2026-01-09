@@ -16,33 +16,30 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
-  <!-- 
-    this give us a css class that will be invisible only if js is disabled 
-  -->
-  <noscript>
-    <style>
-      .pst-js-only { display: none !important; }
-
-    </style>
-  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=26a4bc78f4c0ddb94549" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
 
-    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=fa44fd50" />
-    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=a3416100" />
+  
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../../_static/styles/sphinx-book-theme.css?v=eba8b062" />
     <link rel="stylesheet" type="text/css" href="../../_static/togglebutton.css?v=13237357" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.4510f1fc1dee50b3e5859aac5469c37c29e427902b24a333a5f9fcb2f0b3ac41.css" />
+    <link rel="stylesheet" type="text/css" href="../../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-thebe.css?v=4fa983c6" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
-  <!-- So that users can add custom icons -->
-  <script src="../../_static/scripts/fontawesome.js?digest=26a4bc78f4c0ddb94549"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
     <script src="../../_static/documentation_options.js?v=9eb32ce0"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
@@ -68,7 +65,6 @@
     <link rel="prev" title="5. Quantum gradients and optimisation" href="lecture5.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
-  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -84,8 +80,19 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <dialog id="pst-search-dialog">
-    
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
 <form class="bd-search d-flex align-items-center"
       action="../../search.html"
       method="get">
@@ -93,6 +100,7 @@
   <input type="search"
          class="form-control"
          name="q"
+         id="search-input"
          placeholder="Search this book..."
          aria-label="Search this book..."
          autocomplete="off"
@@ -100,8 +108,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form>
-  </dialog>
+</form></div>
+  </div>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -117,8 +125,7 @@
       
       
       
-      <dialog id="pst-primary-sidebar-modal"></dialog>
-      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+      <div class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -148,17 +155,21 @@
     
     
     <img src="../../_static/logo.png" class="logo__image only-light" alt="Introduction to Practical Quantum Computing - University of Nottingham (PHYS4041) - Home"/>
-    <img src="../../_static/logo.png" class="logo__image only-dark pst-js-only" alt="Introduction to Practical Quantum Computing - University of Nottingham (PHYS4041) - Home"/>
+    <script>document.write(`<img src="../../_static/logo.png" class="logo__image only-dark" alt="Introduction to Practical Quantum Computing - University of Nottingham (PHYS4041) - Home"/>`);</script>
   
   
 </a></div>
         <div class="sidebar-primary-item">
 
-<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
- <i class="fa-solid fa-magnifying-glass"></i>
- <span class="search-button__default-text">Search</span>
- <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-</button></div>
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
         <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
     <div class="bd-toc-item navbar-nav active">
         
@@ -174,6 +185,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../outline/courseStructure.html">Course Structure</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../outline/pythonEnvironment.html">Setup Python and Pennylane</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../outline/projects.html">Assessment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../outline/AIStatement.html">Artificial Intelligance (AI) in this module</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Lectures</span></p>
 <ul class="current nav bd-sidenav">
@@ -290,16 +302,24 @@
 
 
 
-<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
-  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
-  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
-  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
-</button>
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
 
 
-<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass fa-lg"></i>
-</button>
+  </button>
+`);
+</script>
 <button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <span class="fa-solid fa-list"></span>
 </button>
@@ -357,14 +377,16 @@
 <h2><span class="section-number">6.1. </span>Supervised learning: classification of MNIST<a class="headerlink" href="#supervised-learning-classification-of-mnist" title="Link to this heading">#</a></h2>
 <p>Before moving to our quantum approach to solving the MNIST classification problem, let us first recap on what this problem is. The MNIST handwritten digit dataset consists of 70,000, gray-scale <span class="math notranslate nohighlight">\(28 \times 28\)</span> pixel images of handwritten digits (0-9), each with a label, which corresponds to the digit that the image represents. The task is to classify the images and to assign the correct digit to the image, which is a type of supervised learning task since the images are labelled. To simplify the problem, we can reduce the dataset to consider only a pair of digits (say, 3 and 6), in which case we have a binary classification problem. This task can be achieved with human levels of accuracy using a simple feed-forward neural network.</p>
 <figure class="align-center" id="fig-mnist-digits">
-<a class="reference internal image-reference" href="../../_images/MNISTDigits.png"><img alt="../../_images/MNISTDigits.png" src="../../_images/MNISTDigits.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../../_images/MNISTDigits.png"><img alt="../../_images/MNISTDigits.png" src="../../_images/MNISTDigits.png" style="width: 100%;" />
+</a>
 <figcaption>
 <p><span class="caption-number">Fig. 6.1 </span><span class="caption-text">Examples from the MNIST handwritten digit dataset with the corresponding classification label..</span><a class="headerlink" href="#fig-mnist-digits" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>Similarly, there is a second dataset called fashionMNIST, which has exactly the same format, but where the images correspond to 10 different items of clothing. Again the task is to classify the images according to the 10 categories, and can similarly be reduced to a binary classification task between pairs of categories.</p>
 <figure class="align-center" id="fig-fashion-mnist">
-<a class="reference internal image-reference" href="../../_images/FashionMNIST.png"><img alt="../../_images/FashionMNIST.png" src="../../_images/FashionMNIST.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../../_images/FashionMNIST.png"><img alt="../../_images/FashionMNIST.png" src="../../_images/FashionMNIST.png" style="width: 100%;" />
+</a>
 <figcaption>
 <p><span class="caption-number">Fig. 6.2 </span><span class="caption-text">Examples from the fashion MNIST dataset with the corresponding classification label.</span><a class="headerlink" href="#fig-fashion-mnist" title="Link to this image">#</a></p>
 </figcaption>
@@ -388,7 +410,8 @@
 <p>where <span class="math notranslate nohighlight">\(|i\rangle\)</span> is the basis state which is the binary representation of <span class="math notranslate nohighlight">\(i\)</span>. In this representation we can arbitrarily choose how to label the pixels (and different choices may lead to different results). The measure the images, we simply measure the probability of measuring each of the bitstrings, and then <span class="math notranslate nohighlight">\(y_i = \sqrt{p(|i\rangle)}\)</span>.</p>
 <p>This encoding has the benefit of requiring far fewer qubits than basis encoding, which makes it more feasible on near-term devices. However, this approach has two downsides. The first is that while we have reduced the number of qubits, in order to create this state generally requires a circuit that scales exponentially with the number of qubits. This is not a surprise, since exponential in qubits means linear in the number of qubits. We don’t get anything for free, we have traded qubit number for circuit depth. The second downside is that we have had to normalise our pixel values, which was not the case in basis encoding. While we can still reproduce our images, we have actually thrown away some information about the overall scale of the pixel values, or in other words, the contrast of the image. Many images with different contrast will have exactly the same quantum state representation. Furthermore, if we have an image with a lot of black, then the apparent contrast of the normalised imaged will be much lower, as shown in <a class="reference internal" href="#fig-amplitude-encoding"><span class="std std-numref">Fig. 6.3</span></a>. First, we note the different colour scale in these figures. Second, the darker image appears relatively more washed out when normalised. Since we will be directly comparing this images, this could cause issues for classification and is not a favourable property.</p>
 <figure class="align-center" id="fig-amplitude-encoding">
-<a class="reference internal image-reference" href="../../_images/AmplitudeEncoding.png"><img alt="../../_images/AmplitudeEncoding.png" src="../../_images/AmplitudeEncoding.png" style="width: 100%;" /></a>
+<a class="reference internal image-reference" href="../../_images/AmplitudeEncoding.png"><img alt="../../_images/AmplitudeEncoding.png" src="../../_images/AmplitudeEncoding.png" style="width: 100%;" />
+</a>
 <figcaption>
 <p><span class="caption-number">Fig. 6.3 </span><span class="caption-text">The effects of normalising the images for the amplitude encoding on two example images for fashionMNIST.</span><a class="headerlink" href="#fig-amplitude-encoding" title="Link to this image">#</a></p>
 </figcaption>
@@ -429,7 +452,8 @@
 <span id="sec-quantum-nn"></span><h2><span class="section-number">6.3. </span>Quantum neural network<a class="headerlink" href="#quantum-neural-network" title="Link to this heading">#</a></h2>
 <p>We now have a quantum version of our dataset using one of the above encoding methods. Next we want to introduce a quantum circuit analogue of the neural network in order to classify the data. This is simply a parametrised quantum circuit that we apply to our quantum data, followed by a measurement that we interpret as a classification label. As an example, let us consider a simple case where we have a binary classification problem with data on four qubits, we could then use a circuit of the form</p>
 <figure class="align-center" id="fig-quantum-nn">
-<a class="reference internal image-reference" href="../../_images/QuantumNN.png"><img alt="../../_images/QuantumNN.png" src="../../_images/QuantumNN.png" style="width: 75%;" /></a>
+<a class="reference internal image-reference" href="../../_images/QuantumNN.png"><img alt="../../_images/QuantumNN.png" src="../../_images/QuantumNN.png" style="width: 75%;" />
+</a>
 </figure>
 <p>Here we follow the circuit for encoding the image as a quantum state with a circuit that has 6 parameters <span class="math notranslate nohighlight">\(\theta_i\)</span>, and a measurement on the first qubit. We can classify the image based on which of the measurement outcomes, <span class="math notranslate nohighlight">\(|0\rangle\)</span> or <span class="math notranslate nohighlight">\(|1\rangle\)</span> has the largest probability. Our goal is then to optimise the angles <span class="math notranslate nohighlight">\(\theta_i\)</span>, so that the classification is as accurate as possible over the entire dataset, just as in standard machine learning.</p>
 <p>We can even use the same cost functions. If we take <span class="math notranslate nohighlight">\(p(|0\rangle)\)</span> as the output, then this is a value in the interval <span class="math notranslate nohighlight">\((0, 1)\)</span>. By mapping our binary classification possibilities to <span class="math notranslate nohighlight">\(0\)</span> and <span class="math notranslate nohighlight">\(1\)</span>. For example, for a given image labelled <span class="math notranslate nohighlight">\(i\)</span>, let us write the measured probability for that image as <span class="math notranslate nohighlight">\(x_i\)</span> and let <span class="math notranslate nohighlight">\(y_i\)</span> be the actual label for that image, then the mean squared error loss function for a batch of images would be</p>
@@ -444,14 +468,16 @@
 <h2><span class="section-number">6.4. </span>MNIST classification example<a class="headerlink" href="#mnist-classification-example" title="Link to this heading">#</a></h2>
 <p>As a concrete example, let us consider the task of classifying the digits 0 and 1 from the MNIST handwritten digits dataset. We will use the simplest basis encoding for this example. However, we cannot use as many qubits as pixels since it is far too many to simulate. Instead we will first scale the images down to 9 by 9 and then take only the central column of the image. In this way we reduce the number of qubits needed form 784 to 9. In <a class="reference internal" href="#fig-mnist-reduced"><span class="std std-numref">Fig. 6.4</span></a> we show an example of the image reduction for a 0 digit.</p>
 <figure class="align-center" id="fig-mnist-reduced">
-<a class="reference internal image-reference" href="../../_images/MNISTReduced.png"><img alt="../../_images/MNISTReduced.png" src="../../_images/MNISTReduced.png" style="width: 65%;" /></a>
+<a class="reference internal image-reference" href="../../_images/MNISTReduced.png"><img alt="../../_images/MNISTReduced.png" src="../../_images/MNISTReduced.png" style="width: 65%;" />
+</a>
 <figcaption>
 <p><span class="caption-number">Fig. 6.4 </span><span class="caption-text">Reduction of the MNIST digits before basis encoding.</span><a class="headerlink" href="#fig-mnist-reduced" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>For the quantum circuit we will use a variation of the circuit before that uses general rotation gates, namely</p>
 <figure class="align-center" id="fig-mnist-example-circuit">
-<a class="reference internal image-reference" href="../../_images/MNISTExampleCircuit.png"><img alt="../../_images/MNISTExampleCircuit.png" src="../../_images/MNISTExampleCircuit.png" style="width: 70%;" /></a>
+<a class="reference internal image-reference" href="../../_images/MNISTExampleCircuit.png"><img alt="../../_images/MNISTExampleCircuit.png" src="../../_images/MNISTExampleCircuit.png" style="width: 70%;" />
+</a>
 </figure>
 <p>where this is a simplified circuit on only 4 qubits. The actual circuit will use 9 qubits. The initial <span class="math notranslate nohighlight">\(R_Y\)</span> gates implement the basis encoding of our image. We can also increase the length of the circuit adding more layers of rotations and CNOTs. The gates labelled <span class="math notranslate nohighlight">\(U\)</span> are general single qubit gates that implicitly depend on three parameters each. From the circuit we will compute the expectation value of <span class="math notranslate nohighlight">\(Z\)</span> on the first qubit, i.e., <span class="math notranslate nohighlight">\(\langle Z_1 \rangle\)</span>. Therefore, we also need to map the classification labels <span class="math notranslate nohighlight">\(0 \mapsto -1\)</span>, <span class="math notranslate nohighlight">\(1 \mapsto 1\)</span>.</p>
 <p>For the loss functions (and accuracy) we use the hinge loss</p>
@@ -461,7 +487,8 @@
 \]</div>
 <p>where <span class="math notranslate nohighlight">\(y_i\)</span> are the predicted labels in the batch of size <span class="math notranslate nohighlight">\(N\)</span> and <span class="math notranslate nohighlight">\(x_i\)</span> are the true classification labels. This function returns <span class="math notranslate nohighlight">\(0\)</span> if <span class="math notranslate nohighlight">\(x_i\)</span> and <span class="math notranslate nohighlight">\(y_i\)</span> have the same sign (corresponding to correct classification), and is greater than zero if the signs don’t match.</p>
 <figure class="align-center" id="fig-mnist-classification">
-<a class="reference internal image-reference" href="../../_images/MNISTClassification.png"><img alt="../../_images/MNISTClassification.png" src="../../_images/MNISTClassification.png" style="width: 95%;" /></a>
+<a class="reference internal image-reference" href="../../_images/MNISTClassification.svg"><img alt="../../_images/MNISTClassification.svg" src="../../_images/MNISTClassification.svg" style="width: 95%;" />
+</a>
 <figcaption>
 <p><span class="caption-number">Fig. 6.5 </span><span class="caption-text">Hinge loss and accuracy over 20 epochs of training a quantum neural network to classify reduced <span class="math notranslate nohighlight">\(0\)</span> and <span class="math notranslate nohighlight">\(1\)</span> MNIST digits.</span><a class="headerlink" href="#fig-mnist-classification" title="Link to this image">#</a></p>
 </figcaption>
@@ -469,7 +496,7 @@
 <p>In pennylane we are able to convert the circuit into a Keras layer, which we can then use like any other Keras layer. In particular, we can construct a Keras model with the pixel values as input and the value of the <span class="math notranslate nohighlight">\(Z\)</span> expectation value as output. We can then train this using the hinge loss and the Adam optimiser. In <a class="reference internal" href="#fig-mnist-classification"><span class="std std-numref">Fig. 6.5</span></a> we show the loss function and the accuracy over 20 epochs of training. The code that produces these results can be found on Moodle. We also show results with quantum circuits with one full set of rotations and CNOTS (which we call 1 layer), and with two full sets, one after another (which we call 2 layers). We find that the extra circuit depth and increased number of parameters leads to a much greater accuracy of the model (<span class="math notranslate nohighlight">\(\sim\)</span> 85% vs <span class="math notranslate nohighlight">\(\sim\)</span> 96%). Furthermore, the extra parameters appear to make the model converge more quickly to the final accuracy and has less fluctation during training.</p>
 <div class="admonition-exercises-6-2 admonition">
 <p class="admonition-title">Exercises 6.2</p>
-<p><strong>1.</strong> (Code) Modify the <a class="reference internal" href="../downloads/MNIST-classification.html"><span class="std std-doc">MNIST-classification.ipynb</span></a> code the classify digits 3 and 6 instead of 0 and 1. Note this may take a long time to train so you might want to run using Google colab.</p>
+<p><strong>1.</strong> (Code) Modify the <a class="reference internal" href="../downloads/MNIST-classification-jax.html"><span class="std std-doc">MNIST-classification-jax.ipynb</span></a> code the classify digits 3 and 6 instead of 0 and 1. Note this may take a long time to train so you might want to run using Google colab.</p>
 </div>
 </section>
 <hr class="docutils" />
@@ -539,8 +566,7 @@
             
             
               
-                <dialog id="pst-secondary-sidebar-modal"></dialog>
-                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -607,8 +633,8 @@ By Dr Adam Gammon-Smith
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=26a4bc78f4c0ddb94549"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=26a4bc78f4c0ddb94549"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
   </footer>

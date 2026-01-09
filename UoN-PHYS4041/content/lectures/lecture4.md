@@ -247,7 +247,7 @@ align: center
 ---
 ```
 
-**3.** (Code) Modify the VQE example code [VQE-simulator.ipynb](../downloads/VQE-simulator.ipynb) to use the following ansatz circuit
+**3.** (Code) Modify the VQE example code [VQE.ipynb](../downloads/VQE-simulator.ipynb) to use the following ansatz circuit
 
 ```{figure} ../images/VQE_alternative.png
 ---
@@ -261,13 +261,10 @@ How does this change affect the learning and the final accuracy?
 
 ````{admonition} Code downloads
 
-[VQE-simulator.ipynb](../downloads/VQE-simulator.ipynb) - Jupyter notebook for running VQE on the simulator.
+[VQE.ipynb](../downloads/VQE.ipynb) - Jupyter notebook for running VQE on the simulator.
 
 [HamiltonianParameters.txt](../downloads/HamiltonianParameters.txt) - Text file with the Hamiltonian parameters for the H-He$^+$ molecule. This is needed to run the VQE notebook.
 
-[VQE-simulator-simplified.ipynb](../downloads/VQE-simulator-simplified.ipynb) - Jupyter notebook for running VQE on the simulator using the built in pauli measurements.
-
-[VQE-IBM.ipynb](../downloads/VQE-IBM.ipynb) - Jupyter notebook for running VQE on the IBM devices.
 
 ````
 

@@ -181,7 +181,7 @@ where $y_i$ are the predicted labels in the batch of size $N$ and $x_i$ are the 
 
 
 
-```{figure} ../images/MNISTClassification.png
+```{figure} ../images/MNISTClassification.svg
 ---
 name: fig:mnist_classification
 width: 95%
@@ -196,7 +196,7 @@ In pennylane we are able to convert the circuit into a Keras layer, which we can
 
 ````{admonition} Exercises 6.2 
 
-**1.** (Code) Modify the [MNIST-classification.ipynb](../downloads/MNIST-classification.ipynb) code the classify digits 3 and 6 instead of 0 and 1. Note this may take a long time to train so you might want to run using Google colab.
+**1.** (Code) Modify the [MNIST-classification-jax.ipynb](../downloads/MNIST-classification-jax.ipynb) code the classify digits 3 and 6 instead of 0 and 1. Note this may take a long time to train so you might want to run using Google colab.
 
 ````
 

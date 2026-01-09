@@ -3,7 +3,7 @@
 The form of assessment for this module is
 * Project and paper (as a group): 70%
 * Presentation and discussion (individual): 30%
-* **PAPER DEADLINE 4pm May 13th, 2025 (submit via Moodle)**
+* **PAPER DEADLINE 4pm May 12th, 2026 (submit via Moodle)**
 * **Presentation date TBD after papers submitted** 
 
 The project should be written up in a two-column letter style, similar to Physical Review Letters, and should be a maximum of 3 pages long. The project will be written as a group, with each member of the group submitting a copy of the project, along with a statement of contribution. Ideally the statement of contribution should say "All group members contributed equally". If this is not the case, then the statement should detail the contributions of each group member.
