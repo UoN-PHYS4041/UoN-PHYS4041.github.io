@@ -221,8 +221,6 @@ that is, without the square root. Does the optimisation still work?
 
 [BlochSphere-tomography.ipynb](../downloads/BlochSphere-tomography.ipynb) - Jupyter notebook for the tomography of a qubit state and plotting on the Bloch sphere.
 
-[BlochSphere-tomography-IBM.ipynb](../downloads/BlochSphere-tomography-IBM.ipynb) - Jupyter notebook for the tomography of a qubit state and plotting on the Bloch sphere, which can be run on a real IBM device.
-
 [RotationOptimisation.ipynb](../downloads/RotationOptimisation.ipynb) - Jupyter notebook with code for optimising a rotation gate.
 
 ````

@@ -20,7 +20,7 @@ channels:
   - conda-forge
   - defaults
 dependencies:
-  - python=3.10
+  - python=3.12
   - pip
   - numpy
   - ipykernel
@@ -31,8 +31,13 @@ dependencies:
     - qiskit-ibm-runtime
     - qiskit[visulization]
     - pennylane-qiskit
-    - tensorflow==2.14.0
-    - silence_tensorflow
+    - torch
+    - torchvision
+    - jax~=0.6.0
+    - jaxlib~=0.6.0
+    - optax
+    - tensorflow
+    - tensorflow-datasets
 ```
 
 To create the conda environment, open a terminal in the directory where you saved the `environment.yml` file. Then run the following command.
@@ -50,7 +55,7 @@ conda activate phys4041
 This environment can also be used for running Jupyter notebooks.
 
 
-## Setting up IBM account
+<!-- ## Setting up IBM account
 
 In this course we will be writing code that could be run on the IBM quantum computers. We will be mostly using simulators that run on your personal computer. There will be no requirement to run on the actual devices. However, if you would like to run on the IBM quantum computers, we need to do a bit of setup.
 
@@ -106,4 +111,4 @@ dev = qml.device("default.qubit", wires=2)
 ```
 
 Even if you want to run on a real device, use this simulated device first to test your code, as it will be much faster. You can then simply change your device and leave the rest of your code the same to run on the real device.
-````
+```` -->

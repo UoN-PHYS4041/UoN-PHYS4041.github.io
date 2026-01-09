@@ -255,6 +255,10 @@ Write down the three-qubit state this quantum circuit diagram represents. This s
 
 We are now in a position to simulate our first quantum circuit and to also run it on a real quantum computer. To do so we will be using a python package called [pennylane](https://pennylane.ai) {cite}`pennylane`. We will then run our code on one of IBM's quantum computers, for which there is free access through IBM's quantum experience and [qiskit](https://www.ibm.com/quantum/qiskit) {cite}`Qiskit`, which we can connect to pennylane. In this section we will go through how to use pennylane to program and run the Bell state circuit we discussed in the previous section.
 
+```{note}
+In the past IBM provided free access to some of their smaller quantum computers. However, as of recently, free access has been removed. You now require at least a pay-as-you-go account, which includes a monthly minimum nubmer of credits. Therefore, for this course we will be using simulators that run on your personal computer. In these lecture notes we will still show results previously obtained on real IBM quantum computers, and demonstrate how easily the code you write can be run on a real device if you have acess.
+```
+
 To start, let us install pennylane using your favourite python installation or virtual environment. This is most easily done using pip:
 
 ```python
@@ -354,6 +358,10 @@ align: center
 Histogram of the measurement outcomes for the quantum circuit run on the IBM quantum computer. On the x-axis are the different basis states that were measured. The y-axis shows the inferred probability of measuring each of the basis states.
 ``` 
 
+```{note}
+The following now requires a paid IBM quantum experience account. You are not expected to run the following. It is included to show how easily the code can be adapted to run on a real quantum computer.
+```
+
 We can also run our quantum circuit on a real quantum computer provided by IBM. To do this, we first need to set up an IBM quantum experience account and to save our account in python using qiskit. See https://auth.quantum-computing.ibm.com for more details on how to sign up and how to save your account in python using a token. You will then need to install the pennylane package for interacting with qiskit, which will allow us to use IBM's devices. To install qiskit and the pennylane add-on we can use pip
 ```python
  >> pip install qiskit
@@ -394,12 +402,7 @@ This is the GHZ circuit from Exercises 2.2 but including measurements. Check tha
 
 Here are links to download Jupyter notebooks for the code from this lecture:
 
-* [BellState-simulator](../downloads/BellState-simulator.ipynb) - running the Bell state circuit on a simulator.
-* [BellState-IBMQ](../downloads/BellState-IBMQ.ipynb) - running the Bell state circuit on a real IBM quantum computer.
-
-Here is the notebook to setup and save your IBM credentials:
-
-* [IBM_setup](../downloads/IBM_setup.ipynb) - setting up and saving your IBM credentials.
+* [BellState](../downloads/BellState.ipynb) - running the Bell state circuit on a simulator.
 
 You can also use this [environment yaml file](../downloads/environment.yml) to setup a conda environment to run these notebooks, and all the code in this course.
 
