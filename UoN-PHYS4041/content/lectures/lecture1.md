@@ -19,7 +19,7 @@ $$
     |\psi\rangle = \alpha|0\rangle + \beta |1 \rangle,
 $$
 
-where $\alpha, \beta \in \mathbb{C}$ and $|\alpha|^2 = |\beta|^2 = 1$.
+where $\alpha, \beta \in \mathbb{C}$ and $|\alpha|^2 + |\beta|^2 = 1$.
 
 The state of the qubit lives in the vector space $\mathbb{C}^2$ which is equipped with the standard inner product (making it an inner product space, and actually a Hilbert space). The inner product can be defined by 
 
