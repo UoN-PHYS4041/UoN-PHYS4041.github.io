@@ -25,11 +25,11 @@ dependencies:
   - numpy
   - ipykernel
   - matplotlib
-  - pennylane
   - pip:
     - qiskit
     - qiskit-ibm-runtime
     - qiskit[visulization]
+    - pennylane~=0.43.2
     - pennylane-qiskit
     - torch
     - torchvision
