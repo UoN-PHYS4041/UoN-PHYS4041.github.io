@@ -43,6 +43,12 @@ project:
         - file: notebooks/03-rotation-optimisation.ipynb
         - file: notebooks/04-vqe.ipynb
         - file: notebooks/05-mnist-qnn.ipynb
+    - title: Project starters
+      children:
+        - file: notebooks/projects/project1-vqe-starter.ipynb
+        - file: notebooks/projects/project2-qml-starter.ipynb
+        - file: notebooks/projects/project3-qnn-architectures-starter.ipynb
+        - file: notebooks/projects/project4-noise-mitigation-starter.ipynb
 site:
   template: book-theme
   title: "PHYS4041: Introduction to Practical Quantum Computing"

@@ -165,3 +165,6 @@ _build/
 .DS_Store
 .venv/
 notebooks/data/MNIST/
+notebooks/**/results/
+notebooks/**/MNIST/
+notebooks/**/FashionMNIST/
