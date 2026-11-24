@@ -2,7 +2,7 @@
 
 Welcome to the Introduction to Practical Quantum Computing course at the University of Nottingham. This postgraduate course is designed to give a general introduction to quantum computing, with an emphasis on being able to run quantum circuits on existing and near-term quantum computers.
 
-The course is aimed at students on the MSc Machine Learning in Science programme at the University of Nottingham for which it is PHYS4041. Students taking this module are expected to have a limited level of prior programming experience in python, and a basic understanding of linear algebra. No prior knowledge of quantum mechanics will be assumed.
+The course is aimed at students on the MSc Machine Learning in Science programme at the University of Nottingham, for which it is PHYS4041, and is also offered to students on the Quantum Science and Technology programme. Students taking this module are expected to have a limited level of prior programming experience in python, and a basic understanding of linear algebra. No prior knowledge of quantum mechanics will be assumed.
 
 ## Joining the course
 

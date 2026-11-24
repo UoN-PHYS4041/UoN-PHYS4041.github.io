@@ -45,7 +45,6 @@ Your paper is what is marked; your code and notebooks are not marked directly. C
 
 ### Requirements for all projects
 
-- **Your group's assignment.** When groups are formed, each group will be given its own specific settings, for example the range of bond lengths, the pair of digits, or the quantum device and qubits to use. Your results should be for *your* settings.
 - **Real hardware (bonus).** Free access to real quantum computers is available (see [Running on real quantum computers](hardwareAccess.md)). Running some of your circuits on real hardware is **not required**, but it is encouraged and will be credited as going beyond the main tasks. It also makes for a richer discussion in your paper. If you do, record the backend name and job IDs, and plan ahead, since queues can be long.
 - **Code.** Keep your code in a shared git repository (e.g. a private GitHub repository) and commit regularly, so that the history shows how the project developed. Submit a link to the repository with your paper. Long simulations can be run on the HPC (see [Setting up Python and Qiskit](pythonEnvironment.md)).
 - **Use of AI.** See [the AI statement](AIStatement.md). Any use of AI tools for code must be acknowledged. In your individual presentation you will be asked to walk through and explain parts of your group's code, and to predict what would happen if it were changed, so make sure you understand all of it.
@@ -58,7 +57,7 @@ In this project you will implement and test the variational quantum eigensolver 
 **Starter notebook:** [Project 1 starter](../../notebooks/projects/project1-vqe-starter.ipynb)
 
 **Main tasks**
-1. *Circuit design.* Use VQE to compute the potential energy curve $E(R)$ of HeH$^+$ over your assigned range of $R$, and determine the equilibrium bond length. Investigate how the depth and structure of the ansatz affect the accuracy, compared with exact diagonalisation.
+1. *Circuit design.* Use VQE to compute the potential energy curve $E(R)$ of HeH$^+$ over a range of $R$, and determine the equilibrium bond length. Investigate how the depth and structure of the ansatz affect the accuracy, compared with exact diagonalisation.
 2. *Measurement and uncertainty.* Put error bars on your energies. How many shots are needed to reach chemical accuracy ($1.6\times10^{-3}$ Hartree)? How many different measurement settings does the Hamiltonian need?
 3. *Optimisation and gradients.* Implement the three gradient methods and compare how much it costs each of them to reach a given accuracy. Investigate the effect of the initial parameters, including local minima.
 4. *Noise.* Evaluate your optimised circuits on a noisy fake backend across your range of $R$. How does noise change the potential energy curve and the equilibrium bond length?
@@ -77,7 +76,7 @@ In this project you will perform and test quantum machine learning on a classifi
 **Starter notebook:** [Project 2 starter](../../notebooks/projects/project2-qml-starter.ipynb)
 
 **Main tasks**
-1. *Circuit design.* Perform binary classification on your assigned pair of classes. Implement at least one encoding of the images besides the one from the lecture (e.g. a different reduction of the image, amplitude encoding or FRQI), and investigate the depth and structure of the trainable circuit.
+1. *Circuit design.* Perform binary classification on a pair of classes of your choice (other than 0 and 1). Implement at least one encoding of the images besides the one from the lecture (e.g. a different reduction of the image, amplitude encoding or FRQI), and investigate the depth and structure of the trainable circuit.
 2. *Measurement and uncertainty.* Put error bars on your accuracies. How does training and testing with a finite number of shots, rather than exact expectation values, affect the results? How many shots are needed?
 3. *Optimisation and gradients.* Compare the gradient methods at equal cost in circuit evaluations. Compare the training and test accuracy, and discuss which pairs of classes are hard and why.
 4. *Noise.* Evaluate your trained classifier on a noisy fake backend. How much does noise reduce the accuracy, and which circuits are most robust?
@@ -117,7 +116,7 @@ Today's quantum computers are noisy, and understanding and reducing the effects 
 **Starter notebook:** [Project 4 starter](../../notebooks/projects/project4-noise-mitigation-starter.ipynb)
 
 **Main tasks**
-1. *Circuit design.* Prepare GHZ states $\frac{1}{\sqrt2}(|0\cdots0\rangle + |1\cdots1\rangle)$ of increasing numbers of qubits on your assigned qubits. Investigate how the circuit and its transpilation onto the device (layout, native gates, depth) affect the results.
+1. *Circuit design.* Prepare GHZ states $\frac{1}{\sqrt2}(|0\cdots0\rangle + |1\cdots1\rangle)$ of increasing numbers of qubits on a chain of qubits of a (fake) device. Investigate how the circuit and its transpilation onto the device (layout, native gates, depth) affect the results.
 2. *Measurement and uncertainty.* Use measurements in different bases to estimate the GHZ state fidelity, with error bars, as a function of the number of qubits. Characterise the readout errors of your qubits, implement readout error mitigation, and quantify the improvement.
 3. *Optimisation and gradients.* Optimise a parametrised circuit on the noisy simulator, e.g. the parametrised GHZ preparation in the starter notebook, maximising the fidelity measured with your own estimator. Compare the gradient methods: which is most robust to noise and shot noise at a given cost?
 4. *Noise.* Implement zero-noise extrapolation {cite}`Temme2017`{cite}`GiurgicaTiron2020` yourselves: amplify the noise by "folding" gates (e.g. replacing CNOT with CNOT·CNOT·CNOT), then extrapolate your measured observables back to zero noise. Relate your results to the device's reported error rates ($T_1$, $T_2$, gate and readout errors).

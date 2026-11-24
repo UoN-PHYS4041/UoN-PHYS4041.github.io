@@ -11,6 +11,7 @@ Source for the course website at <https://uon-phys4041.github.io>. It's built wi
 | `content/images/` | Figures used in the notes |
 | `content/downloads/` | Static downloads (LaTeX template) |
 | `notebooks/` | Course code, developed here. Rendered as site pages **and** downloadable |
+| `notebooks/projects/` | Starter notebooks for the four projects |
 | `notebooks/data/` | Data files the notebooks need |
 | `pyproject.toml`, `uv.lock` | Python environment. Plain `uv sync` installs the course packages; the `dev` group (`--all-groups`) adds the build tools |
 | `.github/workflows/deploy.yml` | CI: builds on every push and deploys on `main` |

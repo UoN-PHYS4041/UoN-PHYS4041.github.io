@@ -18,6 +18,7 @@ project:
     - _build/**
     - .venv/**
     - README.md
+    - STATUS.md
     - notebooks/data/MNIST/**
   toc:
     - file: intro.md

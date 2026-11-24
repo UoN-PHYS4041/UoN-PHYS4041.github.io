@@ -105,7 +105,7 @@ where $\theta \in [0, \pi]$ and $\phi \in [0,2\pi)$.
 The angles $\theta$ and $\phi$ can be re-interpreted as parametrising the surface of a unit sphere, known as the Bloch sphere, as shown in {numref}`fig:bloch_sphere`. The $|0\rangle$ basis state is at the north pole of this Bloch sphere and the $|1\rangle$ is at the south pole. This picture will be useful for interpreting quantum states and the action of quantum gates.
 
 
-````{admonition} Exercises 1.1.
+````{admonition} Exercises 1.1
 
 **1.** Show that the X-basis, $\{|+\rangle, |-\rangle \}$, and the Y-basis, $\{|R\rangle, |L\rangle \}$, are orthonormal bases using both the column vector notation and Dirac bra-ket notation.
 

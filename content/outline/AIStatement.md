@@ -17,5 +17,5 @@ While we do not restrict the use of AI tools to aid your learning, we encourage 
 
 ## AI for writing code
 
-When it comes to writing code for your final project, generative AI tools may be used as an aid. However, any use of AI tools must be properly acknowledged in your submission. As explained above, we would highly recommend limiting your use of AI tools to ensure you fully understand the code you are writing. In the presentation aspect of your assessment, you may be asked questions about the code you submit, so it is important that you understand it fully.
+When it comes to writing code for your final project, generative AI tools may be used as an aid. However, any use of AI tools must be properly acknowledged in your submission. As explained above, we would highly recommend limiting your use of AI tools to ensure you fully understand the code you are writing. In your individual presentation you will be asked to walk through and explain parts of your group's code, and to predict what would happen if it were changed, so it is important that you understand it fully.
 
