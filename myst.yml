@@ -6,7 +6,6 @@ project:
   subject: University of Nottingham
   authors:
     - name: Adam Gammon-Smith
-  github: https://github.com/UoN-PHYS4041/UoN-PHYS4041.github.io
   license: MIT
   bibliography:
     - references.bib
@@ -46,8 +45,8 @@ project:
         - file: notebooks/05-mnist-qnn.ipynb
 site:
   template: book-theme
-  title: PHYS4041 Quantum Computing
+  title: "PHYS4041: Introduction to Practical Quantum Computing"
   options:
-    logo: logo.png
+    logo_text: "PHYS4041: Introduction to Practical Quantum Computing"
     favicon: logo.png
     folders: true
