@@ -1,0 +1,32 @@
+[project]
+name = "phys4041"
+version = "2026.1"
+description = "PHYS4041 Introduction to Practical Quantum Computing (University of Nottingham): course website and code"
+readme = "README.md"
+requires-python = ">=3.12,<3.14"
+dependencies = [
+    "qiskit[visualization]>=2",
+    "qiskit-aer>=0.18.4",
+    "qiskit-ibm-runtime>=0.52.1",
+    "numpy>=2.5.5",
+    "matplotlib>=3.11.2",
+    "scipy>=1.18.1",
+    "torch>=2.15.0",
+    "torchvision>=0.29.2",
+    "ipykernel>=7.4.0",
+    "jupyterlab>=4.6.6",
+    "qiskit-quantuminspire>=0.18.6",
+    "quantuminspire>=4.2.0",
+]
+
+[dependency-groups]
+dev = [
+    "ghp-import>=2.1.0",
+    "jupyter-book>=2",
+]
+
+[tool.uv]
+package = false
+# Students: plain `uv sync` installs only the course packages.
+# Maintainer: `uv sync --all-groups` also installs the website build tools.
+default-groups = []

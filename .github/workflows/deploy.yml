@@ -1,0 +1,51 @@
+# Builds the Jupyter Book 2 site.
+#  - push to dev / pull request -> build only (catches errors before merging)
+#  - push to main               -> build AND deploy to GitHub Pages
+# One-off setup: repo Settings -> Pages -> Source = "GitHub Actions".
+name: Build and deploy site
+
+on:
+  push:
+    branches: [main, dev]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - uses: astral-sh/setup-uv@v6
+      - name: Install build tools (dev group only; course packages not needed)
+        run: uv sync --only-dev
+      - name: Build HTML
+        # Org site (<org>.github.io) is served from the root, so no BASE_URL needed.
+        run: uv run jupyter book build --html
+      - uses: actions/upload-pages-artifact@v3
+        if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+        with:
+          path: ./_build/html
+
+  deploy:
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4

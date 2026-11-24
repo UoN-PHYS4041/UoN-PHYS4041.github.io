@@ -1,0 +1,53 @@
+# Jupyter Book 2 (MyST) configuration. See https://jupyterbook.org and https://mystmd.org/guide
+version: 1
+project:
+  id: 7e9d6a2c-4041-4b7a-9c1e-phys4041uon
+  title: Introduction to Practical Quantum Computing (PHYS4041)
+  subject: University of Nottingham
+  authors:
+    - name: Adam Gammon-Smith
+  github: https://github.com/UoN-PHYS4041/UoN-PHYS4041.github.io
+  license: MIT
+  bibliography:
+    - references.bib
+  # Headings/titles are numbered only in the lectures (see each lecture's frontmatter).
+  numbering:
+    headings: false
+    title: false
+  # Notebooks are committed with their outputs and are NOT re-executed at build time.
+  exclude:
+    - _build/**
+    - .venv/**
+    - README.md
+    - notebooks/data/MNIST/**
+  toc:
+    - file: intro.md
+    - title: Information about the course
+      children:
+        - file: content/outline/courseStructure.md
+        - file: content/outline/pythonEnvironment.md
+        - file: content/outline/hardwareAccess.md
+        - file: content/outline/projects.md
+        - file: content/outline/AIStatement.md
+    - title: Lectures
+      children:
+        - file: content/lectures/lecture1.md
+        - file: content/lectures/lecture2.md
+        - file: content/lectures/lecture3.md
+        - file: content/lectures/lecture4.md
+        - file: content/lectures/lecture5.md
+        - file: content/lectures/lecture6.md
+    - title: Code examples
+      children:
+        - file: notebooks/01-bell-state.ipynb
+        - file: notebooks/02-bloch-tomography.ipynb
+        - file: notebooks/03-rotation-optimisation.ipynb
+        - file: notebooks/04-vqe.ipynb
+        - file: notebooks/05-mnist-qnn.ipynb
+site:
+  template: book-theme
+  title: PHYS4041 Quantum Computing
+  options:
+    logo: logo.png
+    favicon: logo.png
+    folders: true
